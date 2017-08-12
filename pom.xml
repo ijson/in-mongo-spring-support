@@ -2,23 +2,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+
+    <parent>
+        <groupId>com.ijson.common</groupId>
+        <artifactId>ijson-parent-pom</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
     <groupId>com.ijson</groupId>
     <artifactId>in-mongo-spring-support</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>in-mongo-spring-support</name>
     <url>http://www.ijson.com</url>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <encoding>UTF-8</encoding>
-        <jdk.version>1.8</jdk.version>
-        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-        <mongo-java-driver.version>3.2.2</mongo-java-driver.version>
-        <morphia.version>1.1.1</morphia.version>
-    </properties>
 
     <licenses>
         <license>
@@ -48,13 +46,11 @@
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
-            <version>${mongo-java-driver.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.mongodb.morphia</groupId>
             <artifactId>morphia</artifactId>
-            <version>${morphia.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.mongodb</groupId>
@@ -66,7 +62,18 @@
         <dependency>
             <groupId>com.ijson</groupId>
             <artifactId>in-rest-proxy</artifactId>
-            <version>1.0.2-SNAPSHOT</version>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -104,8 +111,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <source>${jdk.version}</source>
-                    <target>${jdk.version}</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <encoding>UTF-8</encoding>
                     <skip>true</skip>
                 </configuration>

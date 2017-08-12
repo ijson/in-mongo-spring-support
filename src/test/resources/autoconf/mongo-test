@@ -1,0 +1,9 @@
+#mongo.servers = mongodb://test:C80E9E8C92B849BEFA7008DE8CFB4FD4@vlnx112045001.x.firstshare.cn:27017/test
+mongo.servers = mongodb://localhost
+mongo.dbName = test
+mongo.mapPackage = com.github.mongo.support.bean
+mongo.connectTimeout = 5000
+mongo.socketTimeout = 10000
+encrypt.pwd=true
+
+process.server.id=1
