@@ -1,7 +1,6 @@
 package com.ijson.mongo.support;
 
 
-import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
@@ -10,11 +9,10 @@ import com.google.common.reflect.Reflection;
 import com.ijson.rest.proxy.config.ConfigFactory;
 import com.ijson.rest.proxy.config.ExtMap;
 import com.mongodb.*;
+import lombok.extern.slf4j.Slf4j;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.mapping.MapperOptions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -25,10 +23,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
+@Slf4j
 public class MongoDataStoreFactoryBean implements InitializingBean, DisposableBean, FactoryBean<DatastoreExt> {
 
-    private final Logger log = LoggerFactory.getLogger(MongoDataStoreFactoryBean.class);
     private String configName;
     private String mapName;
     private String mongoServer;
@@ -143,7 +140,6 @@ public class MongoDataStoreFactoryBean implements InitializingBean, DisposableBe
         private final String db;
         private MongoClient mongo;
         private Datastore delegate;
-        private String hosts;
 
         MyHandler(String db) {
             this.db = db;
@@ -162,7 +158,6 @@ public class MongoDataStoreFactoryBean implements InitializingBean, DisposableBe
             if (uri == null) {
                 uri = new MongoClientURI(mongoServer, builder);
             }
-            hosts = Joiner.on(',').join(uri.getHosts());
             Morphia morphia = new Morphia();
             MapperOptions options = morphia.mapPackage(mapName, ignoreInvalidClasses).getMapper().getOptions();
             options.setStoreEmpties(storeEmpties);
@@ -186,11 +181,7 @@ public class MongoDataStoreFactoryBean implements InitializingBean, DisposableBe
         }
 
         private Object handle(Method method, Object[] args) throws Exception {
-            try {
-                return method.invoke(delegate, args);
-            } catch (Exception e) {
-                throw e;
-            }
+            return method.invoke(delegate, args);
         }
 
         @Override

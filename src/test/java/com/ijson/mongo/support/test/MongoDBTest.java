@@ -19,19 +19,9 @@ public class MongoDBTest {
     @Resource(name = "mongoDatastore")
     private DatastoreExt datastore;
 
-
-    @Test
-    public void testUserTwoOperate2() throws Exception {
-        for (int i = 0; i < 200; i++) {
-            User user = new User("twoeftrr22222" + i);
-            datastore.save(user);
-            //Thread.sleep(1000L);
-        }
-    }
-
     @Test
     public void addUser() {
-        for (int i = 100; i < 200; i++) {
+        for (int i = 300; i < 500; i++) {
             User user = new User("cuiyongxu22-" + i);
             datastore.save(user);
         }
