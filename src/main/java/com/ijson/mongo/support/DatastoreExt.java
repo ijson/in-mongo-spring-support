@@ -13,4 +13,6 @@ public interface DatastoreExt extends AdvancedDatastore {
    * @return datastore对象
    */
   DatastoreExt use(String dbName);
+
+
 }

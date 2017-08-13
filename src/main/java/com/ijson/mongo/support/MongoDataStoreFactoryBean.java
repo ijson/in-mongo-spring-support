@@ -181,7 +181,15 @@ public class MongoDataStoreFactoryBean implements InitializingBean, DisposableBe
                 String name = (String) args[0];
                 return getOrCreate(name);
             } else {
-                return null;//上报异常
+                return handle(method, args);
+            }
+        }
+
+        private Object handle(Method method, Object[] args) throws Exception {
+            try {
+                return method.invoke(delegate, args);
+            } catch (Exception e) {
+                throw e;
             }
         }
 
