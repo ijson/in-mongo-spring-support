@@ -6,8 +6,8 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.common.net.UrlEscapers;
 import com.google.common.reflect.Reflection;
-import com.ijson.rest.proxy.config.ConfigFactory;
-import com.ijson.rest.proxy.config.ExtMap;
+import com.ijson.config.ConfigFactory;
+import com.ijson.config.api.IConfig;
 import com.mongodb.*;
 import lombok.extern.slf4j.Slf4j;
 import org.mongodb.morphia.Datastore;
@@ -57,18 +57,18 @@ public class MongoDataStoreFactoryBean implements InitializingBean, DisposableBe
         return Reflection.newProxy(DatastoreExt.class, handler);
     }
 
-    private void loadConfig(ExtMap<String, Object> config) {
-        String dbName = config.getString("mongo.dbName");
-        mapName = config.getString("mongo.mapPackage");
+    private void loadConfig(IConfig config) {
+        String dbName = config.get("mongo.dbName");
+        mapName = config.get("mongo.mapPackage");
         ignoreInvalidClasses = config.getBool("mongo.ignoreInvalidClasses");
         storeEmpties = config.getBool("mongo.storeEmpties");
         storeNulls = config.getBool("mongo.storeNulls");
-        String readPreference = config.getString("mongo.readPreference", "primary");
+        String readPreference = config.get("mongo.readPreference", "primary");
         Integer maxWaitTime = config.getInt("mongo.maxWaitTime", 120000);
         Integer maxConnectionsPerHost = config.getInt("mongo.maxConnectionsPerHost", 100);
         Integer connectTimeout = config.getInt("mongo.connectTimeout", 5000);
         Integer socketTimeout = config.getInt("mongo.socketTimeout", 60000);
-        String mongoServer = config.getString("mongo.servers");
+        String mongoServer = config.get("mongo.servers");
         Preconditions.checkNotNull(mongoServer, "The servers configuration is incorrect!");
 
 
@@ -110,7 +110,8 @@ public class MongoDataStoreFactoryBean implements InitializingBean, DisposableBe
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        loadConfig(ConfigFactory.getConfig(configName));
+        ConfigFactory.getConfig(configName, this::loadConfig);
+
     }
 
     @Override
