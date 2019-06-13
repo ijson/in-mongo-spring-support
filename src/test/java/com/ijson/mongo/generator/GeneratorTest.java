@@ -3,8 +3,10 @@ package com.ijson.mongo.generator;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.ijson.mongo.generator.entity.User;
+import com.ijson.mongo.generator.entity.WorkflowOutlineEntity;
 import com.ijson.mongo.generator.manager.CodeGeneratorManager;
 import com.ijson.mongo.generator.manager.LoadManagerFactory;
+import com.ijson.mongo.generator.model.GenConfig;
 import com.ijson.mongo.generator.model.ParamsVo;
 import org.junit.Test;
 
@@ -22,10 +24,9 @@ public class GeneratorTest {
         CodeGeneratorManager codeGeneratorManager = LoadManagerFactory.getInstance().getCodeGeneratorManager();
 
         ParamsVo vo = new ParamsVo();
-        vo.setEntities(Lists.newArrayList(User.class));
+        vo.setEntities(Lists.newArrayList(User.class, WorkflowOutlineEntity.class));
 
-        Map<String,Object> config = Maps.newHashMap();
-        codeGeneratorManager.execute(vo, config);
+        codeGeneratorManager.execute(vo, GenConfig.builder().packager("com.ijson.mongo.dao").build());
 
     }
 }

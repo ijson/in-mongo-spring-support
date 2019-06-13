@@ -1,9 +1,11 @@
 package com.ijson.mongo.generator.model;
 
+import com.google.common.collect.Lists;
 import com.ijson.mongo.support.BaseEntity;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * desc:
@@ -14,5 +16,7 @@ import java.util.List;
 public class ParamsVo {
 
     private List<Class<? extends BaseEntity>> entities;
+
+    private List<ObjectInfo> objectInfos = Lists.newArrayList();
 
 }

@@ -1,6 +1,7 @@
 package com.ijson.mongo.generator.template;
 
 
+import com.ijson.mongo.generator.model.GenConfig;
 import com.ijson.mongo.generator.model.ParamsVo;
 
 import java.util.Map;
@@ -13,5 +14,5 @@ public interface TemplateHanlder {
      * @param config config
      * @param vo 方法参数
      */
-     void execute(ParamsVo vo, Map<String, Object> config);
+     void execute(ParamsVo vo, GenConfig config);
 }
