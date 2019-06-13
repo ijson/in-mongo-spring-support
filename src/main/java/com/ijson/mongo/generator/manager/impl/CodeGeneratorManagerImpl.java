@@ -1,6 +1,7 @@
 package com.ijson.mongo.generator.manager.impl;
 
 import com.ijson.mongo.generator.manager.CodeGeneratorManager;
+import com.ijson.mongo.generator.model.ParamsVo;
 import com.ijson.mongo.generator.template.TemplateHanlder;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,10 +17,9 @@ public class CodeGeneratorManagerImpl implements CodeGeneratorManager {
      * @param vo     方法参数
      * @param config 配置文件
      */
-    public void execute(ParamsVo<TableEntity> vo, Map<String, String> config) {
-        String prefix = "src/main/";
-        vo.setParams("prefix", prefix);
-        if (!Validator.isEmpty(hanlders)) {
+    public void execute(ParamsVo vo, Map<String, Object> config) {
+
+        if (hanlders != null && !hanlders.isEmpty()) {
             for (TemplateHanlder hanlder : hanlders) {
                 hanlder.execute(vo, config);
             }

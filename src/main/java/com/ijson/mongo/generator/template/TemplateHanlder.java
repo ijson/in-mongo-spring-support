@@ -1,8 +1,7 @@
 package com.ijson.mongo.generator.template;
 
 
-import com.ijson.platform.api.model.ParamsVo;
-import com.ijson.platform.generator.model.TableEntity;
+import com.ijson.mongo.generator.model.ParamsVo;
 
 import java.util.Map;
 
@@ -14,5 +13,5 @@ public interface TemplateHanlder {
      * @param config config
      * @param vo 方法参数
      */
-     void execute(ParamsVo<TableEntity> vo, Map<String, String> config);
+     void execute(ParamsVo vo, Map<String, Object> config);
 }
