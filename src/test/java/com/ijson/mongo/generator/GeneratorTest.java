@@ -26,7 +26,11 @@ public class GeneratorTest {
         ParamsVo vo = new ParamsVo();
         vo.setEntities(Lists.newArrayList(User.class, WorkflowOutlineEntity.class));
 
-        codeGeneratorManager.execute(vo, GenConfig.builder().packager("com.ijson.mongo.dao").build());
+        codeGeneratorManager.execute(vo, GenConfig.builder()
+                .packager("com.ijson.mongo")
+                .genPath("/Users/cuiyongxu/Desktop")
+                .projectName("in-demo")
+                .build());
 
     }
 }

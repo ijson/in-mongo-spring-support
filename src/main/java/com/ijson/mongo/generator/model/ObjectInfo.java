@@ -22,8 +22,6 @@ public class ObjectInfo {
 
     private String simpleName;
 
-    private String packager;
-
     private List<ObjectFiled> fileds;
 
 }

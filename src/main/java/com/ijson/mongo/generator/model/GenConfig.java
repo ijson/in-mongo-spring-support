@@ -19,4 +19,6 @@ public class GenConfig {
     private String packager;
 
     private String genPath;
+
+    private String projectName;
 }
