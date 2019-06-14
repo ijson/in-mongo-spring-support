@@ -1,11 +1,10 @@
 package com.ijson.mongo.generator.model;
 
 import com.google.common.collect.Lists;
-import com.ijson.mongo.support.BaseEntity;
+import com.ijson.mongo.support.model.BaseEntity;
 import lombok.Data;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * desc:

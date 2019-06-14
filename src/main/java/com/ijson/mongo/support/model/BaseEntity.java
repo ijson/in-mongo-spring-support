@@ -1,4 +1,4 @@
-package com.ijson.mongo.support;
+package com.ijson.mongo.support.model;
 
 import lombok.Data;
 import org.mongodb.morphia.annotations.Id;

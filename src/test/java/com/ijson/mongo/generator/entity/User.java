@@ -1,6 +1,6 @@
 package com.ijson.mongo.generator.entity;
 
-import com.ijson.mongo.support.BaseEntity;
+import com.ijson.mongo.support.model.BaseEntity;
 import lombok.Data;
 
 /**

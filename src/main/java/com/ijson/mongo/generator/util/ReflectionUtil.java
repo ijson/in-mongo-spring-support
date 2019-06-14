@@ -3,7 +3,7 @@ package com.ijson.mongo.generator.util;
 import com.google.common.collect.Lists;
 import com.ijson.mongo.generator.model.ObjectFiled;
 import com.ijson.mongo.generator.model.ObjectInfo;
-import com.ijson.mongo.support.BaseEntity;
+import com.ijson.mongo.support.model.BaseEntity;
 
 import java.lang.reflect.Field;
 import java.util.List;

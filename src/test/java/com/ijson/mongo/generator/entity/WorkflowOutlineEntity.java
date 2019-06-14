@@ -1,7 +1,7 @@
 package com.ijson.mongo.generator.entity;
 
 import com.google.common.collect.Lists;
-import com.ijson.mongo.support.BaseEntity;
+import com.ijson.mongo.support.model.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.mongodb.morphia.annotations.*;
