@@ -6,6 +6,7 @@ import com.ijson.mongo.generator.model.ObjectInfo;
 import com.ijson.mongo.generator.model.ParamsVo;
 import com.ijson.mongo.generator.util.FileOperate;
 import com.ijson.mongo.generator.util.ParseUtils;
+import com.ijson.mongo.generator.util.TemplateUtil;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -36,10 +37,7 @@ public class TemplateDaoBuilder implements TemplateHanlder {
                 maps.put("packager", config.getPackager());
                 FileOperate.getInstance().newCreateFile(
                         daoPath + objectInfo.getSimpleName() + "Dao.java",
-                        ParseUtils.render(
-                                FileOperate.getInstance().getTemplete("dao.templete"),
-                                maps
-                        )
+                        TemplateUtil.getTemplate("dao.templete",maps)
 
                 );
             }

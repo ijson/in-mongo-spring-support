@@ -1,19 +1,21 @@
-package {{packager}}.dao;
+package ${packager}.dao;
 
-import {{packager}}.dao.entity.{{name}}Entity;
-import {{packager}}.dao.query.{{name}}Query;
+import ${packager}.dao.entity.${name}Entity;
+import ${packager}.dao.query.${name}Query;
 import com.ijson.mongo.support.model.Page;
 import com.ijson.mongo.support.model.PageResult;
 
-public interface {{name}}Dao {
+public interface ${name}Dao {
 
-    {{name}}Entity createOrUpdate({{name}}Entity entity);
+    ${name}Entity createOrUpdate(${name}Entity entity);
 
-    {{name}}Entity find(String id);
+    ${name}Entity find(String id);
 
-    {{name}}Entity enable(String id, boolean enable);
+    ${name}Entity enable(String id, boolean enable, String userId);
 
-    PageResult<{{name}}Entity> find({{name}}Query query, Page page);
+    PageResult<${name}Entity> find(${name}Query query, Page page);
+
+    ${name}Entity delete(String id, String userId);
 
     void delete(String id);
 }
