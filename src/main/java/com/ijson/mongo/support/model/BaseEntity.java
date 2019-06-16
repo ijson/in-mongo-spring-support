@@ -10,6 +10,4 @@ import org.mongodb.morphia.annotations.Id;
  */
 @Data
 public class BaseEntity {
-    @Id
-    private String id;
 }

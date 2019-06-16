@@ -7,6 +7,6 @@ import java.util.List;
 
 @Data
 public class PageResult<E> {
-    private int total;
+    private long total;
     private List<E> dataList = Lists.newArrayList();
 }

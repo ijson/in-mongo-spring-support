@@ -2,6 +2,7 @@ package com.ijson.mongo.generator.entity;
 
 import com.ijson.mongo.support.model.BaseEntity;
 import lombok.Data;
+import org.mongodb.morphia.annotations.Id;
 
 /**
  * desc:
@@ -10,6 +11,8 @@ import lombok.Data;
  */
 @Data
 public class User extends BaseEntity{
+
+    private String id;
 
     private String name;
 
