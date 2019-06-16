@@ -1,31 +1,13 @@
 package ${packager}.dao.impl;
 
+import com.google.common.base.Strings;
 import ${packager}.dao.${name}Dao;
 import ${packager}.dao.entity.${name}Entity;
 import ${packager}.dao.query.${name}Query;
-import ${packager}.exception.BPMBusinessExceptionCode;
-import ${packager}.exception.BPMWorkflowNotFoundException;
-import ${packager}.remote.model.workflow.Page;
-import ${packager}.utils.ObjectId;
-import com.facishare.rest.api.model.paas.PageResult;
-import com.google.common.base.Strings;
-import com.mongodb.WriteConcern;
-import org.mongodb.morphia.query.Query;
-import org.mongodb.morphia.query.UpdateOperations;
-
-import java.util.List;
-import java.util.Objects;
-package com.facishare.bpm.dao.impl;
-
-import com.facishare.bpm.dao.IDao;
-import com.facishare.bpm.dao.entity.WorkflowOutlineEntity;
-import com.facishare.bpm.dao.query.WorkflowOutlineQuery;
-import com.facishare.bpm.exception.BPMBusinessExceptionCode;
-import com.facishare.bpm.exception.BPMWorkflowNotFoundException;
-import com.facishare.bpm.remote.model.workflow.Page;
-import com.facishare.bpm.utils.ObjectId;
-import com.facishare.rest.api.model.paas.PageResult;
-import com.google.common.base.Strings;
+import com.ijson.mongo.generator.util;
+import com.ijson.mongo.support.AbstractDao;
+import com.ijson.mongo.support.model.Page;
+import com.ijson.mongo.support.model.PageResult;
 import com.mongodb.WriteConcern;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
@@ -33,89 +15,65 @@ import org.mongodb.morphia.query.UpdateOperations;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * desc:
- * version: 6.6
- * Created by cuiyongxu on 2019/6/14 11:41 AM
- */
-public class IDaoImpl extends AbstractDao<WorkflowOutlineEntity> implements IDao {
+public class ${name}DaoImpl extends AbstractDao<${name}Entity> implements ${name}Dao {
 
 
     @Override
-    public WorkflowOutlineEntity createOrUpdate(WorkflowOutlineEntity entity) {
+    public ${name}Entity createOrUpdate(${name}Entity entity) {
         if (!Strings.isNullOrEmpty(entity.getId())) {
             entity = findAndModify(entity);
         } else {
             entity.setId(ObjectId.getId());
-            entity.setHasInstance(false);
-            entity.setCount(0);
             datastore.save(entity);
             return entity;
         }
         return entity;
     }
 
-    private WorkflowOutlineEntity findAndModify(WorkflowOutlineEntity workflowOutline) {
-        Query<WorkflowOutlineEntity> query = createQuery();
-        query.field(WorkflowOutlineEntity.Fields.id).equal(workflowOutline.getId());
-        query.field(WorkflowOutlineEntity.Fields.tenantId).equal(workflowOutline.getTenantId());
+    private ${name}Entity findAndModify(${name}Entity entity) {
+        Query<WorkflowOutline> query = createQuery();
+        query.field(WorkflowOutline.Fields.id).equal(workflowOutline.getId());
+        query.field(WorkflowOutline.Fields.tenantId).equal(workflowOutline.getTenantId());
         UpdateOperations operations = createUpdateOperations();
-        operations.set(WorkflowOutlineEntity.Fields.workflowId, workflowOutline.getWorkflowId());
-        operations.set(WorkflowOutlineEntity.Fields.name, workflowOutline.getName());
-        operations.set(WorkflowOutlineEntity.Fields.description, workflowOutline.getDescription());
-        operations.set(WorkflowOutlineEntity.Fields.rangeEmployeeIds, workflowOutline.getRangeEmployeeIds());
-        operations.set(WorkflowOutlineEntity.Fields.rangeCircleIds, workflowOutline.getRangeCircleIds());
-        operations.set(WorkflowOutlineEntity.Fields.rangeGroupIds, workflowOutline.getRangeGroupIds());
-        operations.set(WorkflowOutlineEntity.Fields.rangeRoleIds, workflowOutline.getRangeRoleIds());
-        operations.set(WorkflowOutlineEntity.Fields.workflowJson, workflowOutline.getWorkflowJson());
-        operations.set(WorkflowOutlineEntity.Fields.extensionJson, workflowOutline.getExtensionJson());
-        operations.set(WorkflowOutlineEntity.Fields.lastModifiedBy, workflowOutline.getLastModifiedBy());
-        operations.set(WorkflowOutlineEntity.Fields.lastModifiedTime, workflowOutline.getLastModifiedTime());
-        operations.set(WorkflowOutlineEntity.Fields.externalFlow, workflowOutline.getExternalFlow());
-        operations.set(WorkflowOutlineEntity.Fields.singleInstanceFlow, workflowOutline.getSingleInstanceFlow());
-
-        if (!Strings.isNullOrEmpty(workflowOutline.getRuleJson())) {
-            operations.set(WorkflowOutlineEntity.Fields.ruleJson, workflowOutline.getRuleJson());
-        } else {
-            operations.unset(WorkflowOutlineEntity.Fields.ruleJson);
-        }
+        operations.set(WorkflowOutline.Fields.workflowId, workflowOutline.getWorkflowId());
+        operations.set(WorkflowOutline.Fields.name, workflowOutline.getName());
+        operations.set(WorkflowOutline.Fields.description, workflowOutline.getDescription());
+        operations.set(WorkflowOutline.Fields.rangeEmployeeIds, workflowOutline.getRangeEmployeeIds());
+        operations.set(WorkflowOutline.Fields.rangeCircleIds, workflowOutline.getRangeCircleIds());
+        operations.set(WorkflowOutline.Fields.rangeGroupIds, workflowOutline.getRangeGroupIds());
         return datastore.findAndModify(query, operations);
     }
 
     @Override
-    public WorkflowOutlineEntity find(String id) {
-        Query<WorkflowOutlineEntity> query = datastore.createQuery(WorkflowOutlineEntity.class);
-        query.field(WorkflowOutlineEntity.Fields.id).equal(id);
-        WorkflowOutlineEntity entity = query.get();
-        if (!Objects.isNull(entity) && !entity.isDeleted()) {
+    public ${name}Entity find(String id) {
+        Query<WorkflowOutline> query = datastore.createQuery(WorkflowOutline.class);
+        query.field(WorkflowOutline.Fields.id).equal(id);
+        WorkflowOutline entity = query.get();
+        if (!Objects.isNull(entity)) {
             return entity;
         } else {
-            throw new BPMWorkflowNotFoundException(BPMBusinessExceptionCode.PAAS_FLOW_BPM_DEFINE_NOT_FOUND);
+            throw new RuntimeException("数据不存在或已删除");
         }
     }
 
     @Override
-    public WorkflowOutlineEntity enable(String id, boolean enable, String userId) {
-        Query<WorkflowOutlineEntity> query = datastore.createQuery(WorkflowOutlineEntity.class);
-        query.field(WorkflowOutlineEntity.Fields.id).equal(id);
-        UpdateOperations<WorkflowOutlineEntity> updateOperations = datastore.createUpdateOperations(WorkflowOutlineEntity.class);
-        updateOperations.set(WorkflowOutlineEntity.Fields.enable, enable);
-        updateOperations.set(WorkflowOutlineEntity.Fields.lastModifiedBy, userId);
+    public ${name}Entity enable(String id, boolean enable, String userId) {
+        Query<WorkflowOutline> query = datastore.createQuery(WorkflowOutline.class);
+        query.field(WorkflowOutline.Fields.id).equal(id);
+        UpdateOperations<WorkflowOutline> updateOperations = datastore.createUpdateOperations(WorkflowOutline.class);
+        updateOperations.set(WorkflowOutline.Fields.enable, enable);
+        updateOperations.set(WorkflowOutline.Fields.lastModifiedBy, userId);
         return datastore.findAndModify(query, updateOperations);
     }
 
     @Override
-    public PageResult<WorkflowOutlineEntity> find(WorkflowOutlineQuery iquery, Page page) {
-        Query<WorkflowOutlineEntity> query = datastore.createQuery(WorkflowOutlineEntity.class);
+    public PageResult<${name}Entity> find(${name}Query iquery, Page page) {
+        Query<WorkflowOutline> query = datastore.createQuery(WorkflowOutline.class);
         if (!Strings.isNullOrEmpty(iquery.getId())) {
-            query.field(WorkflowOutlineEntity.Fields.id).equal(iquery.getId());
-        }
-        if (iquery.getEnable() != null) {
-            boolean enable = iquery.getEnable();
-            query.field(WorkflowOutlineEntity.Fields.enable).equal(enable);
+            query.field(WorkflowOutline.Fields.id).equal(iquery.getId());
         }
 
-        query.field(WorkflowOutlineEntity.Fields.isDeleted).equal(false);
+        query.field(WorkflowOutline.Fields.isDeleted).equal(false);
         if (page.getOrderBy() != null) {
             query.order("-" + page.getOrderBy());//添加排序
         }
@@ -124,142 +82,27 @@ public class IDaoImpl extends AbstractDao<WorkflowOutlineEntity> implements IDao
         }
 
         long totalNum = query.countAll();
-        List<WorkflowOutlineEntity> entities = query.asList();
+        List<WorkflowOutline> entities = query.asList();
 
-        PageResult<WorkflowOutlineEntity> ret = new PageResult<>();
+        PageResult<WorkflowOutline> ret = new PageResult<>();
         ret.setDataList(entities);
         ret.setTotal(totalNum);
         return ret;
     }
 
     @Override
-    public WorkflowOutlineEntity delete(String id, String userId) {
-        Query<WorkflowOutlineEntity> query = datastore.createQuery(WorkflowOutlineEntity.class);
-        query.field(WorkflowOutlineEntity.Fields.userId).equal(userId);
-        query.field(WorkflowOutlineEntity.Fields.id).equal(id);
-        UpdateOperations<WorkflowOutlineEntity> updateOperations = datastore.createUpdateOperations(WorkflowOutlineEntity.class);
-        updateOperations.set(WorkflowOutlineEntity.Fields.lastModifiedBy, userId);
-        updateOperations.set(WorkflowOutlineEntity.Fields.isDeleted, true);
+    public ${name}Entity delete(String id, String userId) {
+        Query<WorkflowOutline> query = datastore.createQuery(WorkflowOutline.class);
+        query.field(WorkflowOutline.Fields.userId).equal(userId);
+        query.field(WorkflowOutline.Fields.id).equal(id);
+        UpdateOperations<WorkflowOutline> updateOperations = datastore.createUpdateOperations(WorkflowOutline.class);
+        updateOperations.set(WorkflowOutline.Fields.lastModifiedBy, userId);
+        updateOperations.set(WorkflowOutline.Fields.isDeleted, true);
         return datastore.findAndModify(query, updateOperations);
     }
 
     @Override
     public void delete(String id) {
-        datastore.delete(datastore.createQuery(WorkflowOutlineEntity.class).field(WorkflowOutlineEntity.Fields.id).equal(id), WriteConcern.UNACKNOWLEDGED);
-    }
-}
-/**
- * desc:
- * version: 6.6
- * Created by cuiyongxu on 2019/6/14 11:41 AM
- */
-public class IDaoImpl extends AbstractDao<WorkflowOutlineEntity> implements IDao {
-
-
-    @Override
-    public WorkflowOutlineEntity createOrUpdate(WorkflowOutlineEntity entity) {
-        if (!Strings.isNullOrEmpty(entity.getId())) {
-            entity = findAndModify(entity);
-        } else {
-            entity.setId(ObjectId.getId());
-            entity.setHasInstance(false);
-            entity.setCount(0);
-            datastore.save(entity);
-            return entity;
-        }
-        return entity;
-    }
-
-    private WorkflowOutlineEntity findAndModify(WorkflowOutlineEntity workflowOutline) {
-        Query<WorkflowOutlineEntity> query = createQuery();
-        query.field(WorkflowOutlineEntity.Fields.id).equal(workflowOutline.getId());
-        query.field(WorkflowOutlineEntity.Fields.tenantId).equal(workflowOutline.getTenantId());
-        UpdateOperations operations = createUpdateOperations();
-        operations.set(WorkflowOutlineEntity.Fields.workflowId, workflowOutline.getWorkflowId());
-        operations.set(WorkflowOutlineEntity.Fields.name, workflowOutline.getName());
-        operations.set(WorkflowOutlineEntity.Fields.description, workflowOutline.getDescription());
-        operations.set(WorkflowOutlineEntity.Fields.rangeEmployeeIds, workflowOutline.getRangeEmployeeIds());
-        operations.set(WorkflowOutlineEntity.Fields.rangeCircleIds, workflowOutline.getRangeCircleIds());
-        operations.set(WorkflowOutlineEntity.Fields.rangeGroupIds, workflowOutline.getRangeGroupIds());
-        operations.set(WorkflowOutlineEntity.Fields.rangeRoleIds, workflowOutline.getRangeRoleIds());
-        operations.set(WorkflowOutlineEntity.Fields.workflowJson, workflowOutline.getWorkflowJson());
-        operations.set(WorkflowOutlineEntity.Fields.extensionJson, workflowOutline.getExtensionJson());
-        operations.set(WorkflowOutlineEntity.Fields.lastModifiedBy, workflowOutline.getLastModifiedBy());
-        operations.set(WorkflowOutlineEntity.Fields.lastModifiedTime, workflowOutline.getLastModifiedTime());
-        operations.set(WorkflowOutlineEntity.Fields.externalFlow, workflowOutline.getExternalFlow());
-        operations.set(WorkflowOutlineEntity.Fields.singleInstanceFlow, workflowOutline.getSingleInstanceFlow());
-
-        if (!Strings.isNullOrEmpty(workflowOutline.getRuleJson())) {
-            operations.set(WorkflowOutlineEntity.Fields.ruleJson, workflowOutline.getRuleJson());
-        } else {
-            operations.unset(WorkflowOutlineEntity.Fields.ruleJson);
-        }
-        return datastore.findAndModify(query, operations);
-    }
-
-    @Override
-    public WorkflowOutlineEntity find(String id) {
-        Query<WorkflowOutlineEntity> query = datastore.createQuery(WorkflowOutlineEntity.class);
-        query.field(WorkflowOutlineEntity.Fields.id).equal(id);
-        WorkflowOutlineEntity entity = query.get();
-        if (!Objects.isNull(entity) && !entity.isDeleted()) {
-            return entity;
-        } else {
-            throw new BPMWorkflowNotFoundException(BPMBusinessExceptionCode.PAAS_FLOW_BPM_DEFINE_NOT_FOUND);
-        }
-    }
-
-    @Override
-    public WorkflowOutlineEntity enable(String id, boolean enable, String userId) {
-        Query<WorkflowOutlineEntity> query = datastore.createQuery(WorkflowOutlineEntity.class);
-        query.field(WorkflowOutlineEntity.Fields.id).equal(id);
-        UpdateOperations<WorkflowOutlineEntity> updateOperations = datastore.createUpdateOperations(WorkflowOutlineEntity.class);
-        updateOperations.set(WorkflowOutlineEntity.Fields.enable, enable);
-        updateOperations.set(WorkflowOutlineEntity.Fields.lastModifiedBy, userId);
-        return datastore.findAndModify(query, updateOperations);
-    }
-
-    @Override
-    public PageResult<WorkflowOutlineEntity> find(WorkflowOutlineQuery iquery, Page page) {
-        Query<WorkflowOutlineEntity> query = datastore.createQuery(WorkflowOutlineEntity.class);
-        if (!Strings.isNullOrEmpty(iquery.getId())) {
-            query.field(WorkflowOutlineEntity.Fields.id).equal(iquery.getId());
-        }
-        if (iquery.getEnable() != null) {
-            boolean enable = iquery.getEnable();
-            query.field(WorkflowOutlineEntity.Fields.enable).equal(enable);
-        }
-
-        query.field(WorkflowOutlineEntity.Fields.isDeleted).equal(false);
-        if (page.getOrderBy() != null) {
-            query.order("-" + page.getOrderBy());//添加排序
-        }
-        if (page.getPageNumber() > 0) {
-            query.offset((page.getPageNumber() - 1) * page.getPageSize()).limit(page.getPageSize());
-        }
-
-        long totalNum = query.countAll();
-        List<WorkflowOutlineEntity> entities = query.asList();
-
-        PageResult<WorkflowOutlineEntity> ret = new PageResult<>();
-        ret.setDataList(entities);
-        ret.setTotal(totalNum);
-        return ret;
-    }
-
-    @Override
-    public WorkflowOutlineEntity delete(String id, String userId) {
-        Query<WorkflowOutlineEntity> query = datastore.createQuery(WorkflowOutlineEntity.class);
-        query.field(WorkflowOutlineEntity.Fields.userId).equal(userId);
-        query.field(WorkflowOutlineEntity.Fields.id).equal(id);
-        UpdateOperations<WorkflowOutlineEntity> updateOperations = datastore.createUpdateOperations(WorkflowOutlineEntity.class);
-        updateOperations.set(WorkflowOutlineEntity.Fields.lastModifiedBy, userId);
-        updateOperations.set(WorkflowOutlineEntity.Fields.isDeleted, true);
-        return datastore.findAndModify(query, updateOperations);
-    }
-
-    @Override
-    public void delete(String id) {
-        datastore.delete(datastore.createQuery(WorkflowOutlineEntity.class).field(WorkflowOutlineEntity.Fields.id).equal(id), WriteConcern.UNACKNOWLEDGED);
+        datastore.delete(datastore.createQuery(WorkflowOutline.class).field(WorkflowOutline.Fields.id).equal(id), WriteConcern.UNACKNOWLEDGED);
     }
 }

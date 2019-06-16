@@ -36,8 +36,8 @@ public class LoadManagerFactory {
             List<TemplateHanlder> hanlders = Lists.newArrayList();
             hanlders.add(new TemplateDaoImplBuilder());//daoimpl
             hanlders.add(new TemplateDaoBuilder());//dao
-            hanlders.add(new TemlateEntityBuilder());//entity
-            hanlders.add(new TemlateQueryBuilder());//query
+            hanlders.add(new TemplateEntityBuilder());//entity
+            hanlders.add(new TemplateQueryBuilder());//query
             codegener.setHanlders(hanlders);
             codeGeneratorManager = codegener;
         }

@@ -1,6 +1,5 @@
 package com.ijson.mongo.generator.template;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.ijson.mongo.generator.model.GenConfig;
 import com.ijson.mongo.generator.model.ObjectInfo;
@@ -17,14 +16,14 @@ import java.util.Map;
  * version: 6.6
  * Created by cuiyongxu on 2019/6/15 7:07 PM
  */
-public class TemlateEntityBuilder implements TemplateHanlder {
+public class TemplateEntityBuilder implements TemplateHanlder {
     public void execute(ParamsVo vo, GenConfig config) {
         String prefix = "src/main/";
         List<ObjectInfo> objectInfos = vo.getObjectInfos();
-        createdDao(prefix, objectInfos, config);
+        createdEntity(prefix, objectInfos, config);
     }
 
-    private void createdDao(String prefix, List<ObjectInfo> objectInfos, GenConfig config) {
+    private void createdEntity(String prefix, List<ObjectInfo> objectInfos, GenConfig config) {
         String projectName = config.getProjectName();
         String daoPath = config.getGenPath() + "/" + projectName + "/" + prefix + "java/" + config.getPackager().replace(".", "/") + "/entity/";
         FileOperate.getInstance().newCreateFolder(daoPath);

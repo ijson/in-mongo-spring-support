@@ -1,6 +1,5 @@
-package com.ijson.mongo.generator.entity;
+package com.ijson.mongo.dao.entity;
 
-import com.google.common.collect.Lists;
 import com.ijson.mongo.support.model.BaseEntity;
 import lombok.Data;
 import lombok.ToString;

@@ -1,12 +1,9 @@
-package com.ijson.mongo.generator.entity;
+package com.ijson.mongo.dao.entity;
 
-import com.google.common.collect.Lists;
 import com.ijson.mongo.support.model.BaseEntity;
 import lombok.Data;
 import lombok.ToString;
 import org.mongodb.morphia.annotations.*;
-
-import java.util.List;
 
 @Data
 @Entity(value = "User", noClassnameStored = true)

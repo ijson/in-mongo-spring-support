@@ -1,8 +1,6 @@
 package com.ijson.mongo.generator;
 
 import com.google.common.collect.Lists;
-import com.ijson.mongo.generator.entity.User;
-import com.ijson.mongo.generator.entity.WorkflowOutline;
 import com.ijson.mongo.generator.manager.CodeGeneratorManager;
 import com.ijson.mongo.generator.manager.LoadManagerFactory;
 import com.ijson.mongo.generator.model.GenConfig;
@@ -21,7 +19,7 @@ public class GeneratorTest {
         CodeGeneratorManager codeGeneratorManager = LoadManagerFactory.getInstance().getCodeGeneratorManager();
 
         ParamsVo vo = new ParamsVo();
-        vo.setEntities(Lists.newArrayList(User.class, WorkflowOutline.class));
+        vo.setEntities(Lists.newArrayList( WorkflowOutline.class));
 
         codeGeneratorManager.execute(vo, GenConfig.builder()
                 .packager("com.ijson.mongo")
