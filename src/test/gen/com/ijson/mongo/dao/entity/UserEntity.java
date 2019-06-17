@@ -1,4 +1,4 @@
-package ${packager}.dao.entity;
+package com.ijson.mongo.dao.entity;
 
 import com.google.common.collect.Lists;
 import com.ijson.mongo.support.model.BaseEntity;
@@ -10,17 +10,20 @@ import com.ijson.mongo.generator.util.ObjectId;
 import java.util.List;
 
 @Data
-@Entity(value = "${name}", noClassnameStored = true)
+@Entity(value = "User", noClassnameStored = true)
 @ToString(callSuper = true)
-public class ${name}Entity extends BaseEntity{
+public class UserEntity extends BaseEntity{
 
 
-    <%
-    for(col in columns){
-        print("\t@Property(Fields."+col.name+")\n    ");
-        print("private "+col.simpleType+" "+col.name+";\n\n");
-    }
-    %>
+	@Property(Fields.id)
+    private String id;
+
+	@Property(Fields.username)
+    private String username;
+
+	@Property(Fields.password)
+    private String password;
+
 
     @Property(Fields.lastModifiedBy)
     private String lastModifiedBy;
@@ -39,16 +42,9 @@ public class ${name}Entity extends BaseEntity{
 
 
     public interface Fields {
-        <%
-            for(col in columns){
-                if("id"==col.name){
-                    print("\t\tString id = \"_id\";\n");
-                }else{
-                    print("\t\tString "+col.name+"=\""+col.name+"\";\n");
-                }
-            }
-
-        %>
+		String id = "_id";
+		String username="username";
+		String password="password";
         String createdBy = "createdBy";
         String createTime = "createTime";
         String enable = "enable";
@@ -56,3 +52,4 @@ public class ${name}Entity extends BaseEntity{
         String lastModifiedBy ="lastModifiedBy";
     }
 }
+

@@ -25,7 +25,7 @@ public class TemplateQueryBuilder implements TemplateHanlder {
 
     private void createdQuery(String prefix, List<ObjectInfo> objectInfos, GenConfig config) {
         String projectName = config.getProjectName();
-        String daoPath = config.getGenPath() + "/" + projectName + "/" + prefix + "java/" + config.getPackager().replace(".", "/") + "/query/";
+        String daoPath = config.getGenPath() + "/" + projectName + "/" + prefix + "java/" + config.getPackager().replace(".", "/") + "/dao/query/";
         FileOperate.getInstance().newCreateFolder(daoPath);
         getTemplateStr(objectInfos, daoPath, config);
     }

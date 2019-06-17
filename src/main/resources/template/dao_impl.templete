@@ -4,7 +4,7 @@ import com.google.common.base.Strings;
 import ${packager}.dao.${name}Dao;
 import ${packager}.dao.entity.${name}Entity;
 import ${packager}.dao.query.${name}Query;
-import com.ijson.mongo.generator.util;
+import com.ijson.mongo.generator.util.ObjectId;
 import com.ijson.mongo.support.AbstractDao;
 import com.ijson.mongo.support.model.Page;
 import com.ijson.mongo.support.model.PageResult;
@@ -74,7 +74,7 @@ public class ${name}DaoImpl extends AbstractDao<${name}Entity> implements ${name
             query.field(${name}Entity.Fields.id).equal(iquery.getId());
         }
 
-        query.field(${name}Entity.Fields.isDeleted).equal(false);
+        query.field(${name}Entity.Fields.deleted).equal(false);
         if (page.getOrderBy() != null) {
             query.order("-" + page.getOrderBy());//添加排序
         }
@@ -94,11 +94,11 @@ public class ${name}DaoImpl extends AbstractDao<${name}Entity> implements ${name
     @Override
     public ${name}Entity delete(String id, String userId) {
         Query<${name}Entity> query = datastore.createQuery(${name}Entity.class);
-        query.field(${name}Entity.Fields.userId).equal(userId);
+        query.field(${name}Entity.Fields.createdBy).equal(userId);
         query.field(${name}Entity.Fields.id).equal(id);
         UpdateOperations<${name}Entity> updateOperations = datastore.createUpdateOperations(${name}Entity.class);
         updateOperations.set(${name}Entity.Fields.lastModifiedBy, userId);
-        updateOperations.set(${name}Entity.Fields.isDeleted, true);
+        updateOperations.set(${name}Entity.Fields.deleted, true);
         return datastore.findAndModify(query, updateOperations);
     }
 

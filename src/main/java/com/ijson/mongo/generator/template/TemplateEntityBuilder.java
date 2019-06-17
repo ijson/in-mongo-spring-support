@@ -25,7 +25,7 @@ public class TemplateEntityBuilder implements TemplateHanlder {
 
     private void createdEntity(String prefix, List<ObjectInfo> objectInfos, GenConfig config) {
         String projectName = config.getProjectName();
-        String daoPath = config.getGenPath() + "/" + projectName + "/" + prefix + "java/" + config.getPackager().replace(".", "/") + "/entity/";
+        String daoPath = config.getGenPath() + "/" + projectName + "/" + prefix + "java/" + config.getPackager().replace(".", "/") + "/dao/entity/";
         FileOperate.getInstance().newCreateFolder(daoPath);
         getTemplateStr(objectInfos, daoPath, config);
     }

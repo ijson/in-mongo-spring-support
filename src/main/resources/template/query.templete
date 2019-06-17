@@ -1,4 +1,4 @@
-package ${packager}.query;
+package ${packager}.dao.query;
 
 import lombok.Data;
 import java.util.List;
@@ -8,7 +8,7 @@ public class ${name}Query {
 
      <%
         for(col in columns){
-           print("private "+col.simpleType+" "+col.name+";\n\n");
+           print("\tprivate "+col.simpleType+" "+col.name+";\n\n");
         }
      %>
 }

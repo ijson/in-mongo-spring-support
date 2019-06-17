@@ -11,7 +11,7 @@ import org.mongodb.morphia.annotations.Id;
  */
 public class User extends BaseEntity{
     @Id
-    private ObjectId id;
+    private String id;
     private String username;
     private String password;
 

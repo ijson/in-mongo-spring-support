@@ -1,15 +1,16 @@
 package com.ijson.mongo.dao.query;
 
 import lombok.Data;
+import java.util.List;
 
 @Data
 public class UserQuery {
 
-private String id;
+	private String id;
 
-private String name;
+	private String username;
 
-private Integer age;
+	private String password;
 
 }
 
