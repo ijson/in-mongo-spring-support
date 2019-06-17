@@ -1,5 +1,6 @@
 package com.ijson.mongo.support.test.bean;
 
+import com.ijson.mongo.support.model.BaseEntity;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
@@ -8,15 +9,10 @@ import org.mongodb.morphia.annotations.Id;
 /**
  * Created by cuiyongxu on 17/8/1.
  */
-@Entity(value = "user", noClassnameStored = true)
-@Data
-public class User {
+public class User extends BaseEntity{
     @Id
     private ObjectId id;
     private String username;
     private String password;
 
-    public User(String username) {
-        this.username = username;
-    }
 }

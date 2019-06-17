@@ -1,5 +1,6 @@
 package com.ijson.mongo.generator.model;
 
+import com.ijson.mongo.generator.util.TemplateUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +21,8 @@ public class ObjectFiled {
     private String name;
 
     private String simpleName;
+    //首字母大写
+    private String toSimpleName;
 
     private String type;
 

@@ -1,8 +1,8 @@
 package com.ijson.mongo.util;
 
-import com.ijson.mongo.generator.entity.User;
 import com.ijson.mongo.generator.model.ObjectInfo;
 import com.ijson.mongo.generator.util.ReflectionUtil;
+import com.ijson.mongo.support.test.bean.User;
 import org.junit.Test;
 
 /**
@@ -14,7 +14,7 @@ public class ReflectionUtilTest {
 
     @Test
     public void gen(){
-        ObjectInfo objectType  = ReflectionUtil.getEntityType(User.class);
+        //ObjectInfo objectType  = ReflectionUtil.getEntityType(User.class);
 
         System.out.println(1);
     }

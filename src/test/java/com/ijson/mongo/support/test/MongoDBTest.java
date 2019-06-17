@@ -22,8 +22,8 @@ public class MongoDBTest {
     @Test
     public void addUser() {
         for (int i = 300; i < 500; i++) {
-            User user = new User("cuiyongxu22-" + i);
-            datastore.save(user);
+            //User user = new User("cuiyongxu22-" + i);
+            //datastore.save(user);
         }
     }
 

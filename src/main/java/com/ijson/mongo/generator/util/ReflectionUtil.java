@@ -33,6 +33,7 @@ public class ReflectionUtil {
                         .simpleType(field.getType().getSimpleName())
                         .typeClazz(getTypeClazz(field.getType().getName()))
                         .simpleName(getSimpleName(field.getName()))
+                        .toSimpleName(TemplateUtil.toUpperCaseFirstOne(getSimpleName(field.getName())))
                         .build());
 
             }
