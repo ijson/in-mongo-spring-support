@@ -45,7 +45,6 @@ import java.util.logging.Logger;
  *
  * <p>Instances of this class are immutable.</p>
  *
- * @mongodb.driver.manual core/object-id ObjectId
  */
 public final class ObjectId implements Comparable<ObjectId>, Serializable {
 
