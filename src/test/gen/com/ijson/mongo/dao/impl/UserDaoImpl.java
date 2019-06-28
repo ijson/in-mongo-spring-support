@@ -11,10 +11,13 @@ import com.ijson.mongo.support.model.PageResult;
 import com.mongodb.WriteConcern;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
+import org.springframework.stereotype.Component;
+
 
 import java.util.List;
 import java.util.Objects;
 
+@Component
 public class UserDaoImpl extends AbstractDao<UserEntity> implements UserDao {
 
 
