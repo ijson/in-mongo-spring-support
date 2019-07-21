@@ -16,7 +16,7 @@
 
 package com.ijson.mongo.generator.util;
 
-import org.bson.diagnostics.Loggers;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
 import java.net.NetworkInterface;
@@ -26,31 +26,28 @@ import java.security.SecureRandom;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * <p>A globally unique identifier for objects.</p>
- *
+ * <p>
  * <p>Consists of 12 bytes, divided as follows:</p>
  * <table border="1">
- *     <caption>ObjectID layout</caption>
- *     <tr>
- *         <td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td>
- *     </tr>
- *     <tr>
- *         <td colspan="4">time</td><td colspan="3">machine</td> <td colspan="2">pid</td><td colspan="3">inc</td>
- *     </tr>
+ * <caption>ObjectID layout</caption>
+ * <tr>
+ * <td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td>
+ * </tr>
+ * <tr>
+ * <td colspan="4">time</td><td colspan="3">machine</td> <td colspan="2">pid</td><td colspan="3">inc</td>
+ * </tr>
  * </table>
- *
+ * <p>
  * <p>Instances of this class are immutable.</p>
- *
  */
+@Slf4j
 public final class ObjectId implements Comparable<ObjectId>, Serializable {
 
     private static final long serialVersionUID = 3670079982654483072L;
 
-    static final Logger LOGGER = Loggers.getLogger("ObjectId");
 
     private static final int LOW_ORDER_THREE_BYTES = 0x00ffffff;
 
@@ -58,9 +55,9 @@ public final class ObjectId implements Comparable<ObjectId>, Serializable {
     private static final short PROCESS_IDENTIFIER;
     private static final AtomicInteger NEXT_COUNTER = new AtomicInteger(new SecureRandom().nextInt());
 
-    private static final char[] HEX_CHARS = new char[] {
-      '0', '1', '2', '3', '4', '5', '6', '7',
-      '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+    private static final char[] HEX_CHARS = new char[]{
+            '0', '1', '2', '3', '4', '5', '6', '7',
+            '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
     private final int timestamp;
     private final int machineIdentifier;
@@ -143,9 +140,9 @@ public final class ObjectId implements Comparable<ObjectId>, Serializable {
      * match the <a href="http://docs.mongodb.org/manual/reference/object-id/">ObjectId specification</a>, which requires four values, not
      * three. This major release of the Java driver conforms to the specification, but still supports clients that are relying on the
      * behavior of the previous major release by providing this explicit factory method that takes three parameters instead of four.</p>
-     *
+     * <p>
      * <p>Ordinary users of the driver will not need this method.  It's only for those that have written there own BSON decoders.</p>
-     *
+     * <p>
      * <p>NOTE: This will not break any application that use ObjectIds.  The 12-byte representation will be round-trippable from old to new
      * driver releases.</p>
      *
@@ -357,13 +354,13 @@ public final class ObjectId implements Comparable<ObjectId>, Serializable {
      * @return a string representation of the ObjectId in hexadecimal format
      */
     public String toHexString() {
-      char[] chars = new char[24];
-      int i = 0;
-      for (byte b : toByteArray()) {
-        chars[i++] = HEX_CHARS[b >> 4 & 0xF];
-        chars[i++] = HEX_CHARS[b & 0xF];
-      }
-      return new String(chars);
+        char[] chars = new char[24];
+        int i = 0;
+        for (byte b : toByteArray()) {
+            chars[i++] = HEX_CHARS[b >> 4 & 0xF];
+            chars[i++] = HEX_CHARS[b & 0xF];
+        }
+        return new String(chars);
     }
 
     @Override
@@ -428,8 +425,8 @@ public final class ObjectId implements Comparable<ObjectId>, Serializable {
     /**
      * Gets the time of this ID, in seconds.
      *
-     * @deprecated Use #getTimestamp instead
      * @return the time component of this ID in seconds
+     * @deprecated Use #getTimestamp instead
      */
     @Deprecated
     public int getTimeSecond() {
@@ -439,8 +436,8 @@ public final class ObjectId implements Comparable<ObjectId>, Serializable {
     /**
      * Gets the time of this instance, in milliseconds.
      *
-     * @deprecated Use #getDate instead
      * @return the time component of this ID in milliseconds
+     * @deprecated Use #getDate instead
      */
     @Deprecated
     public long getTime() {
@@ -491,7 +488,7 @@ public final class ObjectId implements Comparable<ObjectId>, Serializable {
         } catch (Throwable t) {
             // exception sometimes happens with IBM JVM, use random
             machinePiece = (new SecureRandom().nextInt());
-            LOGGER.log(Level.WARNING, "Failed to get machine identifier from network interface, using random number instead", t);
+            log.warn("Failed to get machine identifier from network interface, using random number instead", t);
         }
         machinePiece = machinePiece & LOW_ORDER_THREE_BYTES;
         return machinePiece;
@@ -511,7 +508,7 @@ public final class ObjectId implements Comparable<ObjectId>, Serializable {
 
         } catch (Throwable t) {
             processId = (short) new SecureRandom().nextInt();
-            LOGGER.log(Level.WARNING, "Failed to get process identifier from JMX, using random number instead", t);
+            log.warn("Failed to get process identifier from JMX, using random number instead", t);
         }
 
         return processId;
