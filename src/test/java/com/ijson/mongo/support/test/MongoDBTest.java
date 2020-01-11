@@ -30,7 +30,7 @@ public class MongoDBTest {
         pojoList.add(new Pojo("function", "0", null));
         pojoList.add(new Pojo("send_qixin", "0", null));
         pojoList.add(new Pojo("send_email", "0", null));
-        User user = new User("cuiyongxu", "33", pojoList);
+        User user = new User("cuiyowwwwwwngxu", "33", pojoList);
         datastore.save(user);
     }
 
