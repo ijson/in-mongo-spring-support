@@ -6,6 +6,7 @@ import java.util.List;
 @Data
 public class ${name}Query {
 
+    private String id;
      <%
         for(col in columns){
            print("\tprivate "+col.simpleType+" "+col.name+";\n\n");
