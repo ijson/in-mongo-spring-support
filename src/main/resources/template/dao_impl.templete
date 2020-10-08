@@ -59,6 +59,22 @@ public class ${name}DaoImpl extends AbstractDao<${name}Entity> implements ${name
         }
     }
 
+
+    @Override
+    public ${name}Entity find(String id, Boolean enable) {
+        Query<${name}Entity> query = datastore.createQuery(${name}Entity.class);
+        query.field(${name}Entity.Fields.id).equal(id);
+        if(Objects.nonNull(enable)){
+            query.field(${name}Entity.Fields.enable).equal(enable);
+        }
+        ${name}Entity entity = query.get();
+        if (!Objects.isNull(entity)) {
+            return entity;
+        } else {
+            throw new RuntimeException("数据不存在或已删除");
+        }
+    }
+
     @Override
     public ${name}Entity enable(String id, boolean enable, String userId) {
         Query<${name}Entity> query = datastore.createQuery(${name}Entity.class);
