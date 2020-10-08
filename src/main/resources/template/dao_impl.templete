@@ -82,6 +82,7 @@ public class ${name}DaoImpl extends AbstractDao<${name}Entity> implements ${name
         UpdateOperations<${name}Entity> updateOperations = datastore.createUpdateOperations(${name}Entity.class);
         updateOperations.set(${name}Entity.Fields.enable, enable);
         updateOperations.set(${name}Entity.Fields.lastModifiedBy, userId);
+        updateOperations.set(${name}Entity.Fields.lastModifiedTime, System.currentTimeMillis());
         return datastore.findAndModify(query, updateOperations);
     }
 
@@ -112,10 +113,10 @@ public class ${name}DaoImpl extends AbstractDao<${name}Entity> implements ${name
     @Override
     public ${name}Entity delete(String id, String userId) {
         Query<${name}Entity> query = datastore.createQuery(${name}Entity.class);
-        query.field(${name}Entity.Fields.createdBy).equal(userId);
         query.field(${name}Entity.Fields.id).equal(id);
         UpdateOperations<${name}Entity> updateOperations = datastore.createUpdateOperations(${name}Entity.class);
         updateOperations.set(${name}Entity.Fields.lastModifiedBy, userId);
+        updateOperations.set(${name}Entity.Fields.lastModifiedTime, System.currentTimeMillis());
         updateOperations.set(${name}Entity.Fields.deleted, true);
         return datastore.findAndModify(query, updateOperations);
     }
