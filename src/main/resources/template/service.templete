@@ -1,0 +1,26 @@
+package ${packager}.service;
+
+import ${packager}.dao.entity.${name}Entity;
+import ${packager}.model.AuthContext;
+import ${packager}.query.${name}Query;
+import com.ijson.mongo.support.model.Page;
+import com.ijson.mongo.support.model.PageResult;
+
+public interface ${name}Service {
+
+    ${name}Entity findInternalById(String id);
+
+    ${name}Entity findById(String id);
+
+    void deleteById(AuthContext context, String id);
+
+    void edit(AuthContext context, ${name}Entity entity);
+
+    void enable(AuthContext context, String id, boolean enable);
+
+    void deleteInternalById(AuthContext context, String id);
+
+    ${name}Entity create(AuthContext context, ${name}Entity entity);
+
+    PageResult<${name}Entity> find(${name}Query query, Page page);
+}
