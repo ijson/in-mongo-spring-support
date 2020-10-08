@@ -17,6 +17,7 @@ import java.util.Map;
  * Created by cuiyongxu on 2019/6/15 7:07 PM
  */
 public class TemplateQueryBuilder implements TemplateHanlder {
+    @Override
     public void execute(ParamsVo vo, GenConfig config) {
         String prefix = "src/main/";
         List<ObjectInfo> objectInfos = vo.getObjectInfos();

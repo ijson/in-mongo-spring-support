@@ -14,6 +14,8 @@ import java.util.List;
 @ToString(callSuper = true)
 public class ${name}Entity extends BaseEntity{
 
+    @Id
+    private String id;
 
     <%
     for(col in columns){
@@ -24,6 +26,9 @@ public class ${name}Entity extends BaseEntity{
 
     @Property(Fields.lastModifiedBy)
     private String lastModifiedBy;
+
+    @Property(Fields.lastModifiedTime)
+    private long lastModifiedTime;
 
     @Property(Fields.deleted)
     private Boolean deleted;
@@ -38,7 +43,24 @@ public class ${name}Entity extends BaseEntity{
     private long createTime;
 
 
+
+    public void init(AuthContext context) {
+        this.lastModifiedBy = context.getId();
+        this.enable = true;
+        this.deleted = false;
+        this.createdBy = context.getId();
+        this.createTime = System.currentTimeMillis();
+        this.lastModifiedTime = System.currentTimeMillis();
+    }
+
+
+    public void edit(AuthContext context) {
+        this.lastModifiedBy = context.getId();
+        this.lastModifiedTime = System.currentTimeMillis();
+    }
+
     public interface Fields {
+        String id = "_id";
         <%
             for(col in columns){
                 if("id"==col.name){
