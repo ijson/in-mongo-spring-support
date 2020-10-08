@@ -40,6 +40,7 @@ public class LoadManagerFactory {
             hanlders.add(new TemplateQueryBuilder());//query
             hanlders.add(new TemplateInfoBuilder());//info
             hanlders.add(new TemplateServiceBuilder());//service
+            hanlders.add(new TemplateServiceImplBuilder());//serviceImpl
             codegener.setHanlders(hanlders);
             codeGeneratorManager = codegener;
         }

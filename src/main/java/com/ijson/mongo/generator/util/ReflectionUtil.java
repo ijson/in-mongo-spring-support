@@ -18,6 +18,7 @@ public class ReflectionUtil {
     public static ObjectInfo getEntityType(Class<? extends BaseEntity> clazz) {
         ObjectInfo objectInfo = ObjectInfo.builder()
                 .name(clazz.getName())
+                .lowerFirstName(TemplateUtil.toLowerCaseFirstOne(clazz.getSimpleName()))
                 .simpleName(clazz.getSimpleName())
                 .build();
         try {

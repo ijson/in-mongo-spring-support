@@ -1,0 +1,60 @@
+package ${packager}.service.impl;
+
+import ${packager}.dao.${name}Dao;
+import ${packager}.dao.entity.${name}Entity;
+import ${packager}.model.AuthContext;
+import ${packager}.query.${name}Query;
+import ${packager}.service.${name}Service;
+import com.ijson.mongo.support.model.Page;
+import com.ijson.mongo.support.model.PageResult;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ${name}ServiceImpl implements ${name}Service {
+
+    @Autowired
+    private ${name}Dao ${lowerFirstName}Dao;
+
+    @Override
+    public ${name}Entity findInternalById(String id) {
+        return ${lowerFirstName}Dao.find(id);
+    }
+
+    @Override
+    public ${name}Entity findById(String id) {
+        return ${lowerFirstName}Dao.find(id, true);
+    }
+
+    @Override
+    public void deleteById(AuthContext context, String id) {
+        ${lowerFirstName}Dao.delete(id, context.getId());
+    }
+
+    @Override
+    public void edit(AuthContext context, ${name}Entity entity) {
+        entity.edit(context);
+        ${lowerFirstName}Dao.createOrUpdate(entity);
+    }
+
+    @Override
+    public void enable(AuthContext context, String id, boolean enable) {
+        ${lowerFirstName}Dao.enable(id, enable, context.getId());
+    }
+
+    @Override
+    public void deleteInternalById(AuthContext context, String id) {
+        ${lowerFirstName}Dao.delete(id);
+    }
+
+    @Override
+    public ${name}Entity create(AuthContext context, ${name}Entity entity) {
+        entity.init(context);
+        return ${lowerFirstName}Dao.createOrUpdate(entity);
+    }
+
+    @Override
+    public PageResult<${name}Entity> find(${name}Query query, Page page) {
+        return ${lowerFirstName}Dao.find(query, page);
+    }
+}
