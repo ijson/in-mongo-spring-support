@@ -76,5 +76,6 @@ public class ${name}Entity extends BaseEntity{
         String enable = "enable";
         String deleted = "deleted";
         String lastModifiedBy ="lastModifiedBy";
+        String lastModifiedTime ="lastModifiedTime";
     }
 }

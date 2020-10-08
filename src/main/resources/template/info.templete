@@ -1,0 +1,44 @@
+package ${packager}.service.model.query.info;
+
+import com.google.common.collect.Lists;
+import ${packager}.dao.entity.${name}Entity;
+import lombok.Data;
+import org.apache.commons.collections.CollectionUtils;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+
+@Data
+public class ${name}Info {
+
+     <%
+        for(col in columns){
+           print("\tprivate "+col.simpleType+" "+col.name+";\n\n");
+        }
+     %>
+
+
+     public static ${name}Info create(${name}Entity entity) {
+         if (Objects.isNull(entity)) {
+             return null;
+         }
+         ${name}Info info = new ${name}Info();
+
+         <%
+             for(col in columns){
+                 print("\t\tinfo.set"+col.toSimpleName+"(entity.get"+col.toSimpleName+"());\n");
+             }
+         %>
+         return info;
+     }
+
+
+     public static List<${name}Info> createList(List<${name}Entity> dataList) {
+         if (CollectionUtils.isEmpty(dataList)) {
+             return Lists.newArrayList();
+         }
+         return dataList.stream().map(${name}Info::create).collect(Collectors.toList());
+     }
+}
