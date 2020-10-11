@@ -1,6 +1,7 @@
 package com.ijson.mongo.generator;
 
 import com.google.common.collect.Lists;
+import com.ijson.mongo.support.test.bean.PictureCategory;
 import com.ijson.mongo.support.test.bean.User;
 import org.junit.Test;
 
@@ -14,9 +15,9 @@ public class GeneratorTest {
     @Test
     public void gen() {
         Bootstrap.generator(
-                "com.ijson.mongo",
+                "com.ijson.pipic",
                 "/Users/cuiyongxu/Desktop",
                 "in-demo",
-                Lists.newArrayList(User.class));
+                Lists.newArrayList(PictureCategory.class));
     }
 }
