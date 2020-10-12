@@ -11,7 +11,7 @@ public interface ${name}Dao {
 
     ${name}Entity find(String id);
 
-    ${name}Entity find(String id, Boolean enable)
+    ${name}Entity find(String id, Boolean enable);
 
     ${name}Entity enable(String id, boolean enable, String userId);
 
