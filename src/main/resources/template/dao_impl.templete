@@ -40,7 +40,9 @@ public class ${name}DaoImpl extends AbstractDao<${name}Entity> implements ${name
 
         <%
             for(col in columns){
-                print("\t\toperations.set("+name+"Entity.Fields."+col.name+", entity.get"+col.toSimpleName+"());\n");
+                print("\t\tif(!Strings.isNullOrEmpty(entity.get"+col.toSimpleName+"())){\n");
+                print("\t\t\toperations.set("+name+"Entity.Fields."+col.name+", entity.get"+col.toSimpleName+"());\n");
+                print("\t\t}\n");
             }
         %>
 

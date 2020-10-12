@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 public class Picture extends BaseEntity {
 
-    private String name;
+    private String cname;
     private String small;
     private String middle;
     private String source;

@@ -19,6 +19,6 @@ public class GeneratorTest {
                 "com.ijson.pipic",
                 "/Users/cuiyongxu/Desktop",
                 "in-demo",
-                Lists.newArrayList(Picture.class));
+                Lists.newArrayList(Picture.class,PictureCategory.class));
     }
 }
