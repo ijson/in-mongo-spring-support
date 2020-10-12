@@ -18,7 +18,7 @@ public class ${name}Info {
            print("\tprivate "+col.simpleType+" "+col.name+";\n\n");
         }
      %>
-     print("\tprivate boolean enable;\n\n")
+     private boolean enable;
 
 
      public static ${name}Info create(${name}Entity entity) {
@@ -32,7 +32,7 @@ public class ${name}Info {
                  print("\t\tinfo.set"+col.toSimpleName+"(entity.get"+col.toSimpleName+"());\n");
              }
          %>
-         print("\t\tinfo.setEnable(entity.isEnable());\n")
+         info.setEnable(entity.isEnable());
          return info;
      }
 

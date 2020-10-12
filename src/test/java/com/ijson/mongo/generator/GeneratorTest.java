@@ -1,6 +1,7 @@
 package com.ijson.mongo.generator;
 
 import com.google.common.collect.Lists;
+import com.ijson.mongo.support.test.bean.Picture;
 import com.ijson.mongo.support.test.bean.PictureCategory;
 import com.ijson.mongo.support.test.bean.User;
 import org.junit.Test;
@@ -18,6 +19,6 @@ public class GeneratorTest {
                 "com.ijson.pipic",
                 "/Users/cuiyongxu/Desktop",
                 "in-demo",
-                Lists.newArrayList(PictureCategory.class));
+                Lists.newArrayList(Picture.class));
     }
 }
