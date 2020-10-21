@@ -65,7 +65,7 @@ public class ${name}Entity extends BaseEntity{
         <%
             for(col in columns){
                 if("id"!=col.name){
-                    print(" \t\t"+col.simpleType+" "+col.name+"=\""+col.name+"\";\n\n");
+                    print(" \t\tString "+col.name+"=\""+col.name+"\";\n\n");
                 }
             }
             %>
