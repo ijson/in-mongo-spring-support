@@ -64,14 +64,11 @@ public class ${name}Entity extends BaseEntity{
         String id = "_id";
         <%
             for(col in columns){
-                if("id"==col.name){
-                    print("\t\tString id = \"_id\";\n");
-                }else{
-                    print("\t\tString "+col.name+"=\""+col.name+"\";\n");
+                if("id"!=col.name){
+                    print("private "+col.simpleType+" "+col.name+";\n\n");
                 }
             }
-
-        %>
+            %>
         String createdBy = "createdBy";
         String createTime = "createTime";
         String enable = "enable";
