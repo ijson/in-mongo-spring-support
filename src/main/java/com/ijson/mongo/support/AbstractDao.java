@@ -1,10 +1,14 @@
 package com.ijson.mongo.support;
 
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.MongoClient;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.BSON;
 import org.mongodb.morphia.query.Query;
+import org.mongodb.morphia.query.QueryFactory;
 import org.mongodb.morphia.query.UpdateOperations;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,6 +21,12 @@ import java.util.Objects;
 @Getter
 @Slf4j
 public class AbstractDao<T> {
+
+    @Autowired
+    protected DatastoreExt datastore;
+    private Class<?> clazz;
+
+
     static {
         BSON.addEncodingHook(BigDecimal.class, (objectToTransform -> {
             if (Objects.nonNull(objectToTransform)) {
@@ -25,10 +35,6 @@ public class AbstractDao<T> {
             return null;
         }));
     }
-
-    @Autowired
-    protected DatastoreExt datastore;
-    private Class<?> clazz;
 
     @PostConstruct
     public void init() {
@@ -48,5 +54,21 @@ public class AbstractDao<T> {
 
     public UpdateOperations createUpdateOperations() {
         return datastore.createUpdateOperations(clazz);
+    }
+
+    public DB getDB() {
+        return datastore.getDB();
+    }
+
+    public DBCollection getCollection() {
+        return datastore.getCollection(clazz);
+    }
+
+    public MongoClient getMongo() {
+        return datastore.getMongo();
+    }
+
+    public QueryFactory getQueryFactory() {
+        return datastore.getQueryFactory();
     }
 }
