@@ -18,6 +18,6 @@ public class GeneratorTest {
                 "com.ijson.pipic",
                 "/Users/cuiyongxu/Desktop",
                 "in-demo",
-                Lists.newArrayList( OrderTemp.class, Order.class));
+                Lists.newArrayList( ShortUrl.class));
     }
 }
