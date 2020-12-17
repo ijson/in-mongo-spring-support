@@ -1,7 +1,9 @@
 package com.ijson.mongo.support.test;
 
 import com.google.common.collect.Lists;
+import com.ijson.mongo.generator.util.ObjectId;
 import com.ijson.mongo.support.DatastoreExt;
+import com.ijson.mongo.support.test.bean.IndexEntity;
 import com.ijson.mongo.support.test.bean.Pojo;
 import com.ijson.mongo.support.test.bean.User;
 import org.junit.Test;
@@ -12,6 +14,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,6 +46,20 @@ public class MongoDBTest {
         UpdateOperations<User> updateOperations = datastore.createUpdateOperations(User.class);
         updateOperations.set("pojoList", "");
         datastore.update(query, updateOperations);
+    }
+
+
+    @Test
+    public void addIndex() {
+        IndexEntity entity = new IndexEntity();
+        entity.setId(ObjectId.getId());
+        entity.setCname("崔永旭");
+        entity.setTime(new Date());
+        /**
+         * 如果是Timestamp 需要将时间转一下
+         */
+//        entity.setTime(new Timestamp(System.currentTimeMillis()));
+        datastore.save(entity);
     }
 
 
