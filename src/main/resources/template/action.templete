@@ -29,7 +29,7 @@ import java.util.Objects;
  */
 @Slf4j
 @RestController
-@RequestMapping("/${name}")
+@RequestMapping("/${lowerFirstName}")
 public class ${name}Controller extends BaseAction {
 
     @Autowired
@@ -39,9 +39,13 @@ public class ${name}Controller extends BaseAction {
     public Result addOrUpdate(HttpServletRequest request, @RequestBody ${name}Entity myEntity) {
         AuthContext context = regularCheck(request, Boolean.FALSE, Boolean.FALSE);
 
-        //if (Strings.isNullOrEmpty(myEntity.getCname())) {
-        //    throw new ParamsValidateException("描述不能为空");
-        //}
+        <%
+            for(col in columns){
+                print("\t\tif(!Strings.isNullOrEmpty(myEntity.get"+col.toSimpleName+"())){\n");
+                print("\t\t throw new ParamsValidateException(\"异常信息\");\n");
+                print("\t\t}\n");
+            }
+        %>
 
         if (Strings.isNullOrEmpty(myEntity.getId())) {
             return create(request, myEntity);
@@ -49,9 +53,13 @@ public class ${name}Controller extends BaseAction {
 
         ${name}Entity entity = ${lowerFirstName}Service.findInternalById(myEntity.getId());
 
-        entity.setCname(myEntity.getCname());
-        entity.setImgLink(myEntity.getImgLink());
-        entity.setLink(myEntity.getLink());
+
+        <%
+            for(col in columns){
+                print("\t\tentity.set"+col.toSimpleName+"(myEntity.get"+col.toSimpleName+"());\n");
+            }
+        %>
+
 
         ${lowerFirstName}Service.edit(context, entity);
         return Result.ok("更新成功!");
@@ -71,8 +79,7 @@ public class ${name}Controller extends BaseAction {
         if (Objects.isNull(entity)) {
             throw new ParamsValidateException("数据不存在或已删除");
         }
-
-        ${lowerFirstName}Service.enable(id, !entity.isEnable(), context);
+        ${lowerFirstName}Service.enable(context,id, !entity.isEnable());
         return Result.ok(entity.isEnable() ? "禁用成功!" : "启用成功!");
     }
 
@@ -90,7 +97,7 @@ public class ${name}Controller extends BaseAction {
             throw new ParamsValidateException("启用状态无法删除");
         }
 
-        ${lowerFirstName}Service.delete(id);
+        ${lowerFirstName}Service.deleteById(context,id);
         return Result.ok("删除成功!");
     }
 
@@ -117,7 +124,7 @@ public class ${name}Controller extends BaseAction {
 
         ${name}Query query = new ${name}Query();
         if (!Strings.isNullOrEmpty(keyWord)) {
-            query.setCname(keyWord);
+            ////query.setCname(keyWord);
         }
 
         PageResult<${name}Entity> result = ${lowerFirstName}Service.find(query, pageEntity);
@@ -127,15 +134,15 @@ public class ${name}Controller extends BaseAction {
         }
 
         List<${name}Entity> dataList = result.getDataList();
-        List<${name}Info> ${name}Infos = Lists.newArrayList();
+        List<${name}Info> ${lowerFirstName}Infos = Lists.newArrayList();
         if (CollectionUtils.isNotEmpty(dataList)) {
-            ${name}Infos = ${name}Info.createList(dataList);
+            ${lowerFirstName}Infos = ${name}Info.createList(dataList);
         }
 
         V2Result v2Result = new V2Result();
         v2Result.setCode(0);
         v2Result.setCount(result.getTotal());
-        v2Result.setData(${name}Infos);
+        v2Result.setData(${lowerFirstName}Infos);
         v2Result.setMsg("");
         return v2Result;
     }

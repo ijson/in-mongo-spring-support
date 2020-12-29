@@ -41,7 +41,7 @@ public class TemplateActionBuilder implements TemplateHanlder {
                 maps.put("columns", objectInfo.getFileds());
                 maps.put("lowerFirstName", objectInfo.getLowerFirstName());
                 FileOperate.getInstance().newCreateFile(
-                        daoPath + objectInfo.getSimpleName() + "Action.java",
+                        daoPath + objectInfo.getSimpleName() + "Controller.java",
                         TemplateUtil.getTemplate("action.templete",maps)
 
                 );
