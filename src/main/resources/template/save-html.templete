@@ -1,7 +1,13 @@
 <html>
 <head>
+
+<!--
+替换 -% 为 %
+替换 $- 为 $
+-->
+
     <title>新建/编辑 ${name}</title>
-    <% include("base/meta.html"){} %>
+    <-% include("base/meta.html"){} -%>
 
 </head>
 <body>
@@ -16,15 +22,15 @@
                 </div>
                 <div class="layui-card-body ">
                     <form class="layui-form layui-form-pane" action="" id="editForm">
-                        <input type="hidden" name="id" id="id" value="${editData.id!}">
+                        <input type="hidden" name="id" id="id" value="{editData.id!}">
 
                         <%
                             for(col in columns){
-                                print("\t<div class=\"layui-form-item\">");
-                                print("\t<input type=\"text\" name=\"cname\" id=\"cname\" lay-verify=\"cname\" autocomplete=\"off\"");
-                                print("\t\t\tplaceholder=\"请输入中文描述\"");
-                                print("\tclass=\"layui-input\" value=\"&#36{editData.cname!}\">");
-                                print("\t</div>");
+                                print("\t\t\t\t\t\t\t<div class=\"layui-form-item\">\n");
+                                print("\t\t\t\t\t\t\t\t<input type=\"text\" name=\""+col.name+"\" id=\""+col.name+"\" lay-verify=\""+col.name+"\" autocomplete=\"off\"\n");
+                                print("\t\t\t\t\t\t\t\t\t\tplaceholder=\"请输入"+col.name+"\"\n");
+                                print("\t\t\t\t\t\t\t\tclass=\"layui-input\" value=\"$-{editData."+col.name+"!}\">\n");
+                                print("\t\t\t\t\t\t\t</div>\n\n");
                             }
                          %>
 
