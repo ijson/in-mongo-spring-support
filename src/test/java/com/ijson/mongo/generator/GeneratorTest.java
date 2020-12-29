@@ -2,6 +2,7 @@ package com.ijson.mongo.generator;
 
 import com.google.common.collect.Lists;
 import com.ijson.mongo.support.test.PictureLevelDownload;
+import com.ijson.mongo.support.test.Upload;
 import com.ijson.mongo.support.test.bean.*;
 import org.junit.Test;
 
@@ -15,9 +16,9 @@ public class GeneratorTest {
     @Test
     public void gen() {
         Bootstrap.generator(
-                "com.ijson.pipic",
+                "com.ijson.blog",
                 "/Users/cuiyongxu/Desktop",
                 "in-demo",
-                Lists.newArrayList( ShortUrl.class));
+                Lists.newArrayList( Article.class,Tag.class, Upload.class));
     }
 }

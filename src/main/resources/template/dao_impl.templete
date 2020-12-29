@@ -53,8 +53,7 @@ public class ${name}DaoImpl extends AbstractDao<${name}Entity> implements ${name
     public ${name}Entity find(String id) {
         Query<${name}Entity> query = datastore.createQuery(${name}Entity.class);
         query.field(${name}Entity.Fields.id).equal(id);
-        ${name}Entity entity = query.get();
-        return entity;
+        return query.get();
     }
 
 
@@ -65,8 +64,7 @@ public class ${name}DaoImpl extends AbstractDao<${name}Entity> implements ${name
         if(Objects.nonNull(enable)){
             query.field(${name}Entity.Fields.enable).equal(enable);
         }
-        ${name}Entity entity = query.get();
-        return entity;
+        return query.get();
     }
 
     @Override
