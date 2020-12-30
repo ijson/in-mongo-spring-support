@@ -44,6 +44,7 @@ public class LoadManagerFactory {
             hanlders.add(new TemplateActionBuilder());//action
             hanlders.add(new TemplateListHtmlBuilder());//list.html
             hanlders.add(new TemplateSaveHtmlBuilder());//save.html
+            hanlders.add(new TemplateServiceTestBuilder());//service test
             codegener.setHanlders(hanlders);
             codeGeneratorManager = codegener;
         }

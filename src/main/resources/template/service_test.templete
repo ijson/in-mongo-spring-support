@@ -1,0 +1,183 @@
+package ${packager}.service;
+
+import com.google.common.base.Strings;
+import com.ijson.BaseTest;
+import ${packager}.dao.entity.${name}Entity;
+import ${packager}.query.${name}Query;
+import com.ijson.framework.dao.entity.AuthEntity;
+import com.ijson.framework.dao.entity.RoleEntity;
+import com.ijson.framework.exception.FrameworkBusinessExceptionCode;
+import com.ijson.framework.exception.ParamsValidateException;
+import com.ijson.framework.model.AuthContext;
+import com.ijson.framework.model.Constant;
+import com.ijson.framework.result.Result;
+import com.ijson.framework.service.AuthService;
+import com.ijson.framework.service.RoleService;
+import com.ijson.mongo.support.model.Page;
+import com.ijson.rest.proxy.util.JsonUtil;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.util.Lists;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+@Slf4j
+public class ${name}ServiceTest extends BaseTest {
+
+    @Autowired
+    private AuthService authService;
+
+    @Autowired
+    private RoleService roleService;
+
+    @Autowired
+    private ${name}Service ${lowerFirstName}Service;
+
+
+    @Test
+    public void findInternalById() {
+        String id = "";
+        ${name}Entity internalById = ${lowerFirstName}Service.findInternalById(id);
+        log.info(JsonUtil.toJson(internalById));
+    }
+
+    @Test
+    public void findById() {
+        String id = "";
+        ${name}Entity internalById = ${lowerFirstName}Service.findById(id);
+        log.info(JsonUtil.toJson(internalById));
+    }
+
+    @Test
+    public void deleteById() {
+        AuthContext context = AuthContext.id("5d596de34737fb1c7ad99d3f");
+        String id = "";
+        ${lowerFirstName}Service.deleteById(context, id);
+    }
+
+    @Test
+    public void edit() {
+        AuthContext context = AuthContext.id("5d596de34737fb1c7ad99d3f");
+        ${name}Entity entity = new ${name}Entity();
+        entity.setId("");
+        //****** set begin
+
+
+        //****** set end
+        ${lowerFirstName}Service.edit(context, entity);
+    }
+
+    @Test
+    public void enable() {
+        AuthContext context = AuthContext.id("5d596de34737fb1c7ad99d3f");
+        String id = "";
+        ${lowerFirstName}Service.enable(context, id, false);
+    }
+
+    @Test
+    public void deleteInternalById() {
+        AuthContext context = AuthContext.id("5d596de34737fb1c7ad99d3f");
+        String id = "";
+        ${lowerFirstName}Service.deleteInternalById(context, id);
+    }
+
+    @Test
+    public void create() {
+        AuthContext context = AuthContext.id("5d596de34737fb1c7ad99d3f");
+        ${name}Entity entity = new ${name}Entity();
+        //****** set begin
+
+
+        //****** set end
+        ${lowerFirstName}Service.create(context, entity);
+    }
+
+    @Test
+    public void find() {
+        ${name}Query query = new ${name}Query();
+        Page page = new Page();
+        ${lowerFirstName}Service.find(query, page);
+    }
+
+    /**
+     * 生成权限脚本
+     */
+    @Test
+    public void createAuthMongoShell() {
+        AuthContext context = AuthContext.id("5d596de34737fb1c7ad99d3f");
+        String fatherId = "0";
+
+
+        String name = "文章";
+        int order = getOrder(fatherId, "");
+
+        AuthEntity baseEntity = AuthEntity.create(context, name + " 管理", "#", true, Constant.MenuType.menu, "0");
+        baseEntity.setOrder(order);
+
+        if (Objects.nonNull(authService.findByEname(baseEntity.getEname()))) {
+            throw new ParamsValidateException(FrameworkBusinessExceptionCode.AUTH_ENAME_ALREADY_EXIST);
+        }
+
+        AuthEntity newAuth = authService.create(context, baseEntity);
+        RoleEntity systemRole = roleService.findByEname(Constant.SYSTEM);
+        systemRole.getAuthIds().add(newAuth.getId());
+        systemRole.setVerifyCmt(false);
+        systemRole.setVerify(false);
+        roleService.edit(context, systemRole);
+
+        List<AuthEntity> menePath = Lists.newArrayList(
+                AuthEntity.create(context, name + " 列表", "admin/list/${lowerFirstName}", true, Constant.MenuType.menu, newAuth.getId()),
+                AuthEntity.create(context, "添加 " + name, "admin/save/${lowerFirstName}", false, Constant.MenuType.menu, newAuth.getId()),
+                AuthEntity.create(context, "编辑 " + name, "admin/edit/${lowerFirstName}/*", false, Constant.MenuType.menu, newAuth.getId()),
+                AuthEntity.create(context, "新增/编辑 " + name, "${lowerFirstName}/addup", false, Constant.MenuType.action, newAuth.getId()),
+                AuthEntity.create(context, "启用/停用 " + name, "${lowerFirstName}/enable/*", false, Constant.MenuType.action, newAuth.getId()),
+                AuthEntity.create(context, "删除 " + name, "${lowerFirstName}/delete/*", false, Constant.MenuType.action, newAuth.getId()),
+                AuthEntity.create(context, name + " 列表", "${lowerFirstName}/list", false, Constant.MenuType.action, newAuth.getId())
+        );
+
+        for (AuthEntity entity : menePath) {
+            int orderItem = getOrder(entity.getFatherId(), "");
+            entity.setOrder(orderItem);
+            if (Objects.nonNull(authService.findByEname(entity.getEname()))) {
+                throw new ParamsValidateException(FrameworkBusinessExceptionCode.AUTH_ENAME_ALREADY_EXIST);
+            }
+            AuthEntity childAuth = authService.create(context, entity);
+            RoleEntity systemRoleChild = roleService.findByEname(Constant.SYSTEM);
+            systemRoleChild.getAuthIds().add(childAuth.getId());
+            systemRoleChild.setVerifyCmt(false);
+            systemRoleChild.setVerify(false);
+            roleService.edit(context, systemRoleChild);
+        }
+    }
+
+    public int getOrder(String id, String currentAuthId) {
+        List<AuthEntity> authEntities = authService.findChild(id);
+
+        if (Objects.isNull(authEntities)) {
+            return 0;
+        }
+
+        if (Strings.isNullOrEmpty(currentAuthId)) {
+            return authEntities.size();
+        } else {
+            Map<String, AuthEntity> authEntityMap = authEntities.stream().collect(Collectors.toMap(AuthEntity::getId, v -> v));
+            if (authEntityMap.containsKey(currentAuthId)) {
+                return authEntityMap.get(currentAuthId).getOrder();
+            } else {
+                return authEntities.size();
+            }
+        }
+    }
+}
+
+
