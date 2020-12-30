@@ -41,7 +41,7 @@ public class ${name}Controller extends BaseAction {
 
         <%
             for(col in columns){
-                print("\t\tif(!Strings.isNullOrEmpty(myEntity.get"+col.toSimpleName+"())){\n");
+                print("\t\tif(Strings.isNullOrEmpty(myEntity.get"+col.toSimpleName+"())){\n");
                 print("\t\t throw new ParamsValidateException(\"异常信息\");\n");
                 print("\t\t}\n");
             }
