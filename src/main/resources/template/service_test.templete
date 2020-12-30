@@ -117,7 +117,8 @@ public class ${name}ServiceTest extends BaseTest {
         }
         int order = getOrder(fatherId, "");
 
-        AuthEntity baseEntity = AuthEntity.create(context, name + " 管理", "#", true, Constant.MenuType.menu, "0");
+        AuthEntity baseEntity = AuthEntity.create(context, name + " 管理", "admin_${lowerFirstName}_settings","#", true, Constant.MenuType.menu, "0");
+
         baseEntity.setOrder(order);
 
         if (Objects.nonNull(authService.findByEname(baseEntity.getEname()))) {
@@ -132,13 +133,13 @@ public class ${name}ServiceTest extends BaseTest {
         roleService.edit(context, systemRole);
 
         List<AuthEntity> menePath = Lists.newArrayList(
-                AuthEntity.create(context, name + " 列表", "admin/list/${lowerFirstName}", true, Constant.MenuType.menu, newAuth.getId()),
-                AuthEntity.create(context, "添加 " + name, "admin/save/${lowerFirstName}", false, Constant.MenuType.menu, newAuth.getId()),
-                AuthEntity.create(context, "编辑 " + name, "admin/edit/${lowerFirstName}/*", false, Constant.MenuType.menu, newAuth.getId()),
-                AuthEntity.create(context, "新增/编辑 " + name, "${lowerFirstName}/addup", false, Constant.MenuType.action, newAuth.getId()),
-                AuthEntity.create(context, "启用/停用 " + name, "${lowerFirstName}/enable/*", false, Constant.MenuType.action, newAuth.getId()),
-                AuthEntity.create(context, "删除 " + name, "${lowerFirstName}/delete/*", false, Constant.MenuType.action, newAuth.getId()),
-                AuthEntity.create(context, name + " 列表", "${lowerFirstName}/list", false, Constant.MenuType.action, newAuth.getId())
+                AuthEntity.create(context, name + " 列表","", "admin/list/${lowerFirstName}", true, Constant.MenuType.menu, newAuth.getId()),
+                AuthEntity.create(context, "添加 " + name, "","admin/save/${lowerFirstName}", false, Constant.MenuType.menu, newAuth.getId()),
+                AuthEntity.create(context, "编辑 " + name,"", "admin/edit/${lowerFirstName}/*", false, Constant.MenuType.menu, newAuth.getId()),
+                AuthEntity.create(context, "新增/编辑 " + name,"", "${lowerFirstName}/addup", false, Constant.MenuType.action, newAuth.getId()),
+                AuthEntity.create(context, "启用/停用 " + name,"", "${lowerFirstName}/enable/*", false, Constant.MenuType.action, newAuth.getId()),
+                AuthEntity.create(context, "删除 " + name, "","${lowerFirstName}/delete/*", false, Constant.MenuType.action, newAuth.getId()),
+                AuthEntity.create(context, name + " 列表", "","${lowerFirstName}/list", false, Constant.MenuType.action, newAuth.getId())
         );
 
         for (AuthEntity entity : menePath) {
