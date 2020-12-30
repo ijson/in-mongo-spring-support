@@ -22,7 +22,7 @@
                 </div>
                 <div class="layui-card-body ">
                     <form class="layui-form layui-form-pane" action="" id="editForm">
-                        <input type="hidden" name="id" id="id" value="{editData.id!}">
+                        <input type="hidden" name="id" id="id" value="$-{editData.id!}">
 
                         <%
                             for(col in columns){
