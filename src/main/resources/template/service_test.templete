@@ -111,7 +111,10 @@ public class ${name}ServiceTest extends BaseTest {
         String fatherId = "0";
 
 
-        String name = "文章";
+        String name = "";
+        if(Strings.isNullOrEmpty(name)){
+            throw new ParamsValidateException("未设置中文名称");
+        }
         int order = getOrder(fatherId, "");
 
         AuthEntity baseEntity = AuthEntity.create(context, name + " 管理", "#", true, Constant.MenuType.menu, "0");
