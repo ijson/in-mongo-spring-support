@@ -102,6 +102,46 @@ public class ${name}ServiceTest extends BaseTest {
         ${lowerFirstName}Service.find(query, page);
     }
 
+    @RequestMapping("/list/${lowerFirstName}")
+    public ModelAndView ${lowerFirstName}List(HttpServletRequest request) {
+        ModelAndView view = new ModelAndView();
+        AuthContext context = EhcacheUtil.instance.get(AuthContext.cacheName, PassportHelper.getInstance().getCurrCookie(request));
+        if (Objects.isNull(context)) {
+            return new ModelAndView(new RedirectView(webCtx));
+        }
+        view.setViewName("admin/list-${lowerFirstName}.html");
+        addAdminModelAndView(view, request);
+        return view;
+    }
+
+
+    @RequestMapping("/save/${lowerFirstName}")
+    public ModelAndView skip${name}Add(HttpServletRequest request) {
+        ModelAndView view = new ModelAndView();
+        AuthContext context = EhcacheUtil.instance.get(AuthContext.cacheName, PassportHelper.getInstance().getCurrCookie(request));
+        if (Objects.isNull(context)) {
+            return new ModelAndView(new RedirectView(webCtx));
+        }
+        view.setViewName("admin/save-${lowerFirstName}.html");
+        addAdminModelAndView(view, request);
+        view.addObject("editData", null);
+        return view;
+    }
+
+    @RequestMapping("/edit/${lowerFirstName}/{id}")
+    public ModelAndView skip${name}Edit(@PathVariable("id") String id, HttpServletRequest request) {
+        ModelAndView view = new ModelAndView();
+        AuthContext context = EhcacheUtil.instance.get(AuthContext.cacheName, PassportHelper.getInstance().getCurrCookie(request));
+        if (Objects.isNull(context)) {
+            return new ModelAndView(new RedirectView(webCtx));
+        }
+        view.setViewName("admin/save-${lowerFirstName}.html");
+        addAdminModelAndView(view, request);
+        ${name}Entity internalById = ${lowerFirstName}Service.findInternalById(id);
+        view.addObject("editData", ${name}Info.create(internalById));
+        return view;
+    }
+
     /**
      * 生成权限脚本
      */
