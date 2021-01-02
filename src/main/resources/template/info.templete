@@ -19,6 +19,7 @@ public class ${name}Info {
         }
      %>
      private boolean enable;
+     private String shortUrl;
 
 
      public static ${name}Info create(${name}Entity entity) {
@@ -33,6 +34,7 @@ public class ${name}Info {
              }
          %>
          info.setEnable(entity.isEnable());
+         info.setShortUrl(entity.getShortUrl());
          return info;
      }
 
