@@ -88,6 +88,8 @@ public class ${name}DaoImpl extends AbstractDao<${name}Entity> implements ${name
         query.field(${name}Entity.Fields.deleted).equal(false);
         if (page.getOrderBy() != null) {
             query.order("-" + page.getOrderBy());//添加排序
+        } else {
+            query.order("-" + ${name}Entity.Fields.id);
         }
         if (page.getPageNumber() > 0) {
             query.offset((page.getPageNumber() - 1) * page.getPageSize()).limit(page.getPageSize());
