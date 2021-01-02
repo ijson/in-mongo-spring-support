@@ -4,11 +4,14 @@ import com.google.common.collect.Lists;
 import com.ijson.mongo.support.model.BaseEntity;
 import lombok.Data;
 import lombok.ToString;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.mongodb.morphia.annotations.*;
 import com.ijson.mongo.generator.util.ObjectId;
 import com.ijson.blog.model.AuthContext;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Entity(value = "${name}", noClassnameStored = true)
@@ -24,6 +27,9 @@ public class ${name}Entity extends BaseEntity{
         print("private "+col.simpleType+" "+col.name+";\n\n");
     }
     %>
+
+    @Property(Fields.shortUrl)
+    private String shortUrl;
 
     @Property(Fields.lastModifiedBy)
     private String lastModifiedBy;
@@ -44,6 +50,13 @@ public class ${name}Entity extends BaseEntity{
     private long createTime;
 
 
+    public static void shortUrl(List<${name}Entity> entities, Map<String, String> shortUrlByAliasIds) {
+        if (CollectionUtils.isNotEmpty(entities) && MapUtils.isNotEmpty(shortUrlByAliasIds)) {
+            for (${name}Entity entity : entities) {
+                entity.setShortUrl(shortUrlByAliasIds.get(entity.getId()));
+            }
+        }
+    }
 
     public void init(AuthContext context) {
         this.lastModifiedBy = context.getId();
@@ -69,6 +82,7 @@ public class ${name}Entity extends BaseEntity{
                 }
             }
             %>
+        String shortUrl = "shortUrl";
         String createdBy = "createdBy";
         String createTime = "createTime";
         String enable = "enable";

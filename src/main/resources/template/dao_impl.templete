@@ -4,21 +4,26 @@ import com.google.common.base.Strings;
 import ${packager}.dao.${name}Dao;
 import ${packager}.dao.entity.${name}Entity;
 import ${packager}.dao.query.${name}Query;
+import com.ijson.framework.dao.ShortUrlDao;
 import com.ijson.mongo.generator.util.ObjectId;
 import com.ijson.mongo.support.AbstractDao;
 import com.ijson.mongo.support.model.Page;
 import com.ijson.mongo.support.model.PageResult;
 import com.mongodb.WriteConcern;
+import org.apache.commons.collections.CollectionUtils;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 public class ${name}DaoImpl extends AbstractDao<${name}Entity> implements ${name}Dao {
 
+    @Autowired
+    private ShortUrlDao shortUrlDao;
 
     @Override
     public ${name}Entity createOrUpdate(${name}Entity entity) {
@@ -26,6 +31,7 @@ public class ${name}DaoImpl extends AbstractDao<${name}Entity> implements ${name
             entity = findAndModify(entity);
         } else {
             entity.setId(ObjectId.getId());
+            shortUrlDao.createOrUpdate(ShortUrlEntity.create(entity.getId()));
             datastore.save(entity);
             return entity;
         }
@@ -98,6 +104,10 @@ public class ${name}DaoImpl extends AbstractDao<${name}Entity> implements ${name
         long totalNum = query.countAll();
         List<${name}Entity> entities = query.asList();
 
+        if (CollectionUtils.isNotEmpty(entities)) {
+            ${name}Entity.shortUrl(entities, shortUrlDao.getShortUrlByAliasIds(entities.stream().map(${name}Entity::getId).collect(Collectors.toSet())));
+        }
+
         PageResult<${name}Entity> ret = new PageResult<>();
         ret.setDataList(entities);
         ret.setTotal(totalNum);
@@ -118,5 +128,6 @@ public class ${name}DaoImpl extends AbstractDao<${name}Entity> implements ${name
     @Override
     public void delete(String id) {
         datastore.delete(datastore.createQuery(${name}Entity.class).field(${name}Entity.Fields.id).equal(id), WriteConcern.UNACKNOWLEDGED);
+        shortUrlDao.deleteByAliasId(id);
     }
 }
