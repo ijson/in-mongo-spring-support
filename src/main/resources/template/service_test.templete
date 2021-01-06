@@ -212,23 +212,6 @@ public class ${name}ServiceTest extends BaseTest {
         if(Strings.isNullOrEmpty(name)){
             throw new ParamsValidateException("未设置中文名称");
         }
-        int order = getOrder(fatherId, "");
-
-        AuthEntity baseEntity = AuthEntity.create(context, name + " 管理", "admin_${lowerFirstName}_settings","#", true, Constant.MenuType.menu, fatherId);
-
-        baseEntity.setOrder(order);
-        baseEntity.setIcon("layui-icon-rate");
-
-        if (Objects.nonNull(authService.findByEname(baseEntity.getEname()))) {
-            throw new ParamsValidateException(FrameworkBusinessExceptionCode.AUTH_ENAME_ALREADY_EXIST);
-        }
-
-        AuthEntity newAuth = authService.create(context, baseEntity);
-        RoleEntity systemRole = roleService.findByEname(Constant.SYSTEM);
-        systemRole.getAuthIds().add(newAuth.getId());
-        systemRole.setVerifyCmt(false);
-        systemRole.setVerify(false);
-        roleService.edit(context, systemRole);
 
         List<AuthEntity> menePath = Lists.newArrayList(
                 AuthEntity.create(context, name + " 列表","", "admin/list/${lowerFirstName}", true, Constant.MenuType.menu,fatherId),
