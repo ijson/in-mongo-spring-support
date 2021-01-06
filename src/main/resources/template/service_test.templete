@@ -143,7 +143,7 @@ public class ${name}ServiceTest extends BaseTest {
     }
 
     /**
-     * 生成权限脚本
+     * 生成权限脚本,单独菜单
      */
     @Test
     public void createAuthMongoShell() {
@@ -157,7 +157,7 @@ public class ${name}ServiceTest extends BaseTest {
         }
         int order = getOrder(fatherId, "");
 
-        AuthEntity baseEntity = AuthEntity.create(context, name + " 管理", "admin_${lowerFirstName}_settings","#", true, Constant.MenuType.menu, "0");
+        AuthEntity baseEntity = AuthEntity.create(context, name + " 管理", "admin_${lowerFirstName}_settings","#", true, Constant.MenuType.menu, fatherId);
 
         baseEntity.setOrder(order);
         baseEntity.setIcon("layui-icon-rate");
@@ -197,6 +197,65 @@ public class ${name}ServiceTest extends BaseTest {
             roleService.edit(context, systemRoleChild);
         }
     }
+
+
+     /**
+     * 生成权限脚本,在管理员设置下
+     */
+    @Test
+    public void createAuthMongoShell() {
+        AuthContext context = AuthContext.id("5d596de34737fb1c7ad99d3f");
+        String fatherId = "5e2d3e781df8f4873b461ea2";//管理员设置
+
+
+        String name = "";
+        if(Strings.isNullOrEmpty(name)){
+            throw new ParamsValidateException("未设置中文名称");
+        }
+        int order = getOrder(fatherId, "");
+
+        AuthEntity baseEntity = AuthEntity.create(context, name + " 管理", "admin_${lowerFirstName}_settings","#", true, Constant.MenuType.menu, fatherId);
+
+        baseEntity.setOrder(order);
+        baseEntity.setIcon("layui-icon-rate");
+
+        if (Objects.nonNull(authService.findByEname(baseEntity.getEname()))) {
+            throw new ParamsValidateException(FrameworkBusinessExceptionCode.AUTH_ENAME_ALREADY_EXIST);
+        }
+
+        AuthEntity newAuth = authService.create(context, baseEntity);
+        RoleEntity systemRole = roleService.findByEname(Constant.SYSTEM);
+        systemRole.getAuthIds().add(newAuth.getId());
+        systemRole.setVerifyCmt(false);
+        systemRole.setVerify(false);
+        roleService.edit(context, systemRole);
+
+        List<AuthEntity> menePath = Lists.newArrayList(
+                AuthEntity.create(context, name + " 列表","", "admin/list/${lowerFirstName}", true, Constant.MenuType.menu,fatherId),
+                AuthEntity.create(context, "添加 " + name, "","admin/save/${lowerFirstName}", false, Constant.MenuType.menu,fatherId),
+                AuthEntity.create(context, "编辑 " + name,"", "admin/edit/${lowerFirstName}/*", false, Constant.MenuType.menu, fatherId),
+                AuthEntity.create(context, "新增/编辑 " + name,"", "${lowerFirstName}/addup", false, Constant.MenuType.action, fatherId),
+                AuthEntity.create(context, "启用/停用 " + name,"", "${lowerFirstName}/enable/*", false, Constant.MenuType.action, fatherId),
+                AuthEntity.create(context, "删除 " + name, "","${lowerFirstName}/delete/*", false, Constant.MenuType.action, fatherId),
+                AuthEntity.create(context, name + " 列表", "","${lowerFirstName}/list", false, Constant.MenuType.action, fatherId)
+        );
+
+        for (AuthEntity entity : menePath) {
+            int orderItem = getOrder(entity.getFatherId(), "");
+            entity.setOrder(orderItem);
+            if (Objects.nonNull(authService.findByEname(entity.getEname()))) {
+                throw new ParamsValidateException(FrameworkBusinessExceptionCode.AUTH_ENAME_ALREADY_EXIST);
+            }
+            AuthEntity childAuth = authService.create(context, entity);
+            RoleEntity systemRoleChild = roleService.findByEname(Constant.SYSTEM);
+            systemRoleChild.getAuthIds().add(childAuth.getId());
+            systemRoleChild.setVerifyCmt(false);
+            systemRoleChild.setVerify(false);
+            roleService.edit(context, systemRoleChild);
+        }
+    }
+
+
 
     public int getOrder(String id, String currentAuthId) {
         List<AuthEntity> authEntities = authService.findChild(id);

@@ -6,6 +6,8 @@ import com.ijson.mongo.support.DatastoreExt;
 import com.ijson.mongo.support.test.bean.IndexEntity;
 import com.ijson.mongo.support.test.bean.Pojo;
 import com.ijson.mongo.support.test.bean.User;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mongodb.morphia.query.Query;
@@ -16,6 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -60,6 +63,41 @@ public class MongoDBTest {
          */
 //        entity.setTime(new Timestamp(System.currentTimeMillis()));
         datastore.save(entity);
+    }
+
+
+    @Test
+    public void insert() {
+        for (int i = 0; i < 50; i++) {
+            User user = new User();
+            user.setUsername("a" + i);
+            datastore.save(user);
+        }
+    }
+
+    @Test
+    public void delete() {
+        datastore.find(User.class).getCollection().find().batchSize(10).forEachRemaining(k->{
+            Query<User> query = datastore.createQuery(User.class).disableValidation();
+            query.criteria("_id").equal(k.get("_id"));
+            //datastore.delete(query);
+        });
+//        iterator.forEachRemaining(k -> {
+//
+//        });
+    }
+
+    @Test
+    public void delete2() {
+
+        Iterator<DBObject> iterator = datastore.find(User.class).getCollection().find().iterator();
+        iterator.forEachRemaining(k -> {
+            Query<User> query = datastore.createQuery(User.class).disableValidation();
+            query.criteria("_id").equal(k.get("_id"));
+            datastore.delete(query);
+        });
+
+
     }
 
 
