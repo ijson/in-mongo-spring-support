@@ -15,7 +15,6 @@ import com.ijson.framework.service.RoleService;
 import com.ijson.mongo.support.model.Page;
 import com.ijson.rest.proxy.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -203,7 +202,7 @@ public class ${name}ServiceTest extends BaseTest {
      * 生成权限脚本,在管理员设置下
      */
     @Test
-    public void createAuthMongoShell() {
+    public void createAuthMongoAdminShell() {
         AuthContext context = AuthContext.id("5d596de34737fb1c7ad99d3f");
         String fatherId = "5e2d3e781df8f4873b461ea2";//管理员设置
 
