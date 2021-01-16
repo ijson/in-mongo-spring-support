@@ -5,13 +5,14 @@ import ${packager}.dao.entity.${name}Entity;
 import lombok.Data;
 import org.apache.commons.collections.CollectionUtils;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 
 @Data
-public class ${name}Info {
+public class ${name}Info implements Serializable{
 
      <%
         for(col in columns){
