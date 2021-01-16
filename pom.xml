@@ -33,10 +33,7 @@
     </scm>
 
     <properties>
-        <in-auto-config-zkclient.version>1.0.6</in-auto-config-zkclient.version>
-        <mongo-java-driver.version>3.12.7</mongo-java-driver.version>
-        <morphia.version>1.1.1</morphia.version>
-        <spring.data.mongodb.version>3.1.1</spring.data.mongodb.version>
+        <zk.version>1.0.7-SNAPSHOT</zk.version>
     </properties>
 
     <developers>
@@ -51,7 +48,7 @@
         <dependency>
             <groupId>com.ijson.common</groupId>
             <artifactId>in-auto-config-zkclient</artifactId>
-            <version>${in-auto-config-zkclient.version}</version>
+            <version>${zk.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
