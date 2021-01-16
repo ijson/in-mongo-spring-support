@@ -10,7 +10,7 @@
 
     <groupId>com.ijson</groupId>
     <artifactId>in-mongo-spring-support</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.7-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>in-mongo-spring-support</name>
@@ -29,7 +29,7 @@
         <url>https://github.com/ijson/in-mongo-spring-support</url>
         <connection>scm:git:https://github.com/ijson/in-mongo-spring-support.git</connection>
         <developerConnection>scm:git:https://github.com/ijson/in-mongo-spring-support.git</developerConnection>
-        <tag>in-mongo-spring-support-1.0.6</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <properties>
