@@ -16,8 +16,9 @@ public class FileOperate {
     }
 
     public synchronized static FileOperate getInstance() {
-        if (null == instance)
+        if (null == instance) {
             instance = new FileOperate();
+        }
         return instance;
     }
 

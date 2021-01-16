@@ -11,6 +11,7 @@ import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.QueryFactory;
 import org.mongodb.morphia.query.UpdateOperations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.annotation.PostConstruct;
 import java.lang.reflect.ParameterizedType;
@@ -23,7 +24,9 @@ import java.util.Objects;
 public class AbstractDao<T> {
 
     @Autowired
+    @Qualifier("datastore")
     protected DatastoreExt datastore;
+
     private Class<?> clazz;
 
 

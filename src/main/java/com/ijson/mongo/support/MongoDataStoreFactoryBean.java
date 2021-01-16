@@ -33,6 +33,8 @@ public class MongoDataStoreFactoryBean implements InitializingBean, DisposableBe
     private boolean ignoreInvalidClasses = false;
     private boolean storeEmpties = false;
     private boolean storeNulls = false;
+
+    private Pattern p = Pattern.compile("mongodb://((.+):(.*)@)");
     /**
      * 每个db对应一个proxy示例,避免多线程切换db问题
      */
@@ -73,7 +75,6 @@ public class MongoDataStoreFactoryBean implements InitializingBean, DisposableBe
 
 
         if (config.getBool("encrypt.pwd")) {
-            Pattern p = Pattern.compile("mongodb://((.+):(.*)@)");
             Matcher m = p.matcher(mongoServer);
             if (m.find()) {
                 try {
@@ -173,7 +174,7 @@ public class MongoDataStoreFactoryBean implements InitializingBean, DisposableBe
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             String methodName = method.getName();
-            if (methodName.equals("use")) {
+            if ("use".equals(methodName)) {
                 String name = (String) args[0];
                 return getOrCreate(name);
             } else {

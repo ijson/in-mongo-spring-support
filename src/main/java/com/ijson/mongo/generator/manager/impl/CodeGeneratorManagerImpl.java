@@ -19,6 +19,7 @@ public class CodeGeneratorManagerImpl implements CodeGeneratorManager {
      * @param vo     方法参数
      * @param config 配置文件
      */
+    @Override
     public void execute(ParamsVo vo, GenConfig config) {
 
         List<Class<? extends BaseEntity>> entities = vo.getEntities();

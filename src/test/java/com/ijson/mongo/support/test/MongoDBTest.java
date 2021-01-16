@@ -28,7 +28,7 @@ import java.util.List;
 @ContextConfiguration(locations = "classpath:spring-mongo-datastore.xml")
 public class MongoDBTest {
 
-    @Resource(name = "mongoDatastore")
+    @Resource()
     private DatastoreExt datastore;
 
     @Test
