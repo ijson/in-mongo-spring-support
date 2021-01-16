@@ -9,7 +9,7 @@ import java.util.List;
 
 public abstract class IDaoImpl<T extends BaseEntity> implements IDao<T> {
 
-    @Autowired
+    //@Autowired
     public MongoTemplate mongoTemplate;
 
     /**
