@@ -1,6 +1,7 @@
 package com.ijson.mongo.generator.util;
 
 import com.google.common.collect.Lists;
+import com.ijson.mongo.generator.model.DocDescribe;
 import com.ijson.mongo.generator.model.ObjectFiled;
 import com.ijson.mongo.generator.model.ObjectInfo;
 import com.ijson.mongo.support.model.BaseEntity;
@@ -28,14 +29,20 @@ public class ReflectionUtil {
 
             for (Field field : declaredFields) {
 
-                fields.add(ObjectFiled.builder()
+                ObjectFiled build = ObjectFiled.builder()
                         .name(field.getName())
                         .type(field.getType().getName())
                         .simpleType(field.getType().getSimpleName())
                         .typeClazz(getTypeClazz(field.getType().getName()))
                         .simpleName(getSimpleName(field.getName()))
                         .toSimpleName(TemplateUtil.toUpperCaseFirstOne(getSimpleName(field.getName())))
-                        .build());
+                        .build();
+                DocDescribe annotation = field.getAnnotation(DocDescribe.class);
+                if (annotation != null) {
+                    build.setDescribe(annotation.value());
+                }
+
+                fields.add(build);
 
             }
             objectInfo.setFileds(fields);

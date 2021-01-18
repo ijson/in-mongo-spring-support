@@ -2,7 +2,7 @@ package ${packager}.service.impl;
 
 import ${packager}.dao.${name}Dao;
 import ${packager}.dao.entity.${name}Entity;
-import ${packager}.model.AuthContext;
+import com.ijson.framework.model.AuthContext;
 import ${packager}.query.${name}Query;
 import ${packager}.service.${name}Service;
 import com.ijson.mongo.support.model.Page;

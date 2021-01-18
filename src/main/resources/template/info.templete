@@ -12,10 +12,13 @@ import java.util.stream.Collectors;
 
 
 @Data
-public class ${name}Info implements Serializable{
+public class ${name}Info implements Serializable {
 
      <%
         for(col in columns){
+           print("\t/**\n");
+           print("\t *\t" +col.describe+"\n");
+           print("\t */\n");
            print("\tprivate "+col.simpleType+" "+col.name+";\n\n");
         }
      %>

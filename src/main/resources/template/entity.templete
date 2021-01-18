@@ -8,7 +8,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.mongodb.morphia.annotations.*;
 import com.ijson.mongo.generator.util.ObjectId;
-import com.ijson.blog.model.AuthContext;
+import com.ijson.framework.model.AuthContext;
 
 import java.util.List;
 import java.util.Map;
@@ -23,6 +23,9 @@ public class ${name}Entity extends BaseEntity{
 
     <%
     for(col in columns){
+        print("\t/**\n");
+        print("\t *\t" +col.describe+"\n");
+        print("\t */\n");
         print("\t@Property(Fields."+col.name+")\n    ");
         print("private "+col.simpleType+" "+col.name+";\n\n");
     }

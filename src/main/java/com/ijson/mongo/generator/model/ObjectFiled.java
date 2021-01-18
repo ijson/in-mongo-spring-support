@@ -30,4 +30,6 @@ public class ObjectFiled {
 
     private Class typeClazz;
 
+    private String describe ;
+
 }
