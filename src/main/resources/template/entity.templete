@@ -34,6 +34,12 @@ public class ${name}Entity extends BaseEntity{
     @Property(Fields.shortUrl)
     private String shortUrl;
 
+    @Property(Fields.createdBy)
+    private String createdBy;
+
+    @Property(Fields.createTime)
+    private long createTime;
+
     @Property(Fields.lastModifiedBy)
     private String lastModifiedBy;
 
@@ -45,13 +51,6 @@ public class ${name}Entity extends BaseEntity{
 
     @Property(Fields.enable)
     private boolean enable;
-
-    @Property(Fields.createdBy)
-    private String createdBy;
-
-    @Property(Fields.createTime)
-    private long createTime;
-
 
     public static void shortUrl(List<${name}Entity> entities, Map<String, String> shortUrlByAliasIds) {
         if (CollectionUtils.isNotEmpty(entities) && MapUtils.isNotEmpty(shortUrlByAliasIds)) {
