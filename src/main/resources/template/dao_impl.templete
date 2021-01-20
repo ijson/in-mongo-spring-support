@@ -3,8 +3,9 @@ package ${packager}.dao.impl;
 import com.google.common.base.Strings;
 import ${packager}.dao.${name}Dao;
 import ${packager}.dao.entity.${name}Entity;
-import ${packager}.dao.query.${name}Query;
+import ${packager}.query.${name}Query;
 import com.ijson.framework.dao.ShortUrlDao;
+import com.ijson.framework.dao.entity.ShortUrlEntity;
 import com.ijson.mongo.generator.util.ObjectId;
 import com.ijson.mongo.support.AbstractDao;
 import com.ijson.mongo.support.model.Page;
@@ -15,6 +16,7 @@ import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 import org.springframework.stereotype.Component;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;

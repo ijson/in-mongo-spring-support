@@ -28,5 +28,7 @@ public class Question extends BaseEntity {
     private Long reward;
     @DocDescribe("标签")
     private List<String> tagIds;
+    @DocDescribe("状态,已采纳")
+    private String state;
 
 }
