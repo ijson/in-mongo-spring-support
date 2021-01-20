@@ -104,7 +104,7 @@ public class ${name}ServiceTest extends BaseTest {
     @RequestMapping("/list/${lowerFirstName}")
     public ModelAndView ${lowerFirstName}List(HttpServletRequest request) {
         ModelAndView view = new ModelAndView();
-        AuthContext context = EhcacheUtil.instance.get(AuthContext.cacheName, PassportHelper.getInstance().getCurrCookie(request));
+        AuthContext context = EhcacheUtil.instance.get(CacheKeys.login_user, PassportHelper.getInstance().getCurrCookie(request));
         if (Objects.isNull(context)) {
             return new ModelAndView(new RedirectView(webCtx));
         }
@@ -117,7 +117,7 @@ public class ${name}ServiceTest extends BaseTest {
     @RequestMapping("/save/${lowerFirstName}")
     public ModelAndView skip${name}Add(HttpServletRequest request) {
         ModelAndView view = new ModelAndView();
-        AuthContext context = EhcacheUtil.instance.get(AuthContext.cacheName, PassportHelper.getInstance().getCurrCookie(request));
+        AuthContext context = EhcacheUtil.instance.get(CacheKeys.login_user, PassportHelper.getInstance().getCurrCookie(request));
         if (Objects.isNull(context)) {
             return new ModelAndView(new RedirectView(webCtx));
         }
@@ -130,7 +130,7 @@ public class ${name}ServiceTest extends BaseTest {
     @RequestMapping("/edit/${lowerFirstName}/{id}")
     public ModelAndView skip${name}Edit(@PathVariable("id") String id, HttpServletRequest request) {
         ModelAndView view = new ModelAndView();
-        AuthContext context = EhcacheUtil.instance.get(AuthContext.cacheName, PassportHelper.getInstance().getCurrCookie(request));
+        AuthContext context = EhcacheUtil.instance.get(CacheKeys.login_user, PassportHelper.getInstance().getCurrCookie(request));
         if (Objects.isNull(context)) {
             return new ModelAndView(new RedirectView(webCtx));
         }
