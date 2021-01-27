@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.Set;
 
 @Component
 public class ${name}DaoImpl extends AbstractDao<${name}Entity> implements ${name}Dao {
@@ -131,5 +132,12 @@ public class ${name}DaoImpl extends AbstractDao<${name}Entity> implements ${name
     public void delete(String id) {
         datastore.delete(datastore.createQuery(${name}Entity.class).field(${name}Entity.Fields.id).equal(id), WriteConcern.UNACKNOWLEDGED);
         shortUrlDao.deleteByAliasId(id);
+    }
+
+    @Override
+    public List<${name}Entity> findByIds(AuthContext context, Set<String> ids) {
+        Query<${name}Entity> query = createQuery();
+        query.field(${name}Entity.Fields.id).hasAnyOf(ids);
+        return query.asList();
     }
 }

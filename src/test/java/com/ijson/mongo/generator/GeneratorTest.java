@@ -19,6 +19,6 @@ public class GeneratorTest {
                 "com.ijson.blog",
                 "/Users/cuiyongxu/Desktop",
                 "in-demo",
-                Lists.newArrayList( Question.class));
+                Lists.newArrayList( Category.class));
     }
 }

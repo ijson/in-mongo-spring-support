@@ -5,6 +5,9 @@ import ${packager}.query.${name}Query;
 import com.ijson.mongo.support.model.Page;
 import com.ijson.mongo.support.model.PageResult;
 
+import java.util.List;
+import java.util.Set;
+
 public interface ${name}Dao {
 
     ${name}Entity createOrUpdate(${name}Entity entity);
@@ -20,4 +23,6 @@ public interface ${name}Dao {
     ${name}Entity delete(String id, String userId);
 
     void delete(String id);
+
+    List<${name}Entity> findByIds(AuthContext context, Set<String> ids);
 }
