@@ -15,6 +15,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 import org.springframework.stereotype.Component;
+import com.ijson.framework.model.AuthContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;

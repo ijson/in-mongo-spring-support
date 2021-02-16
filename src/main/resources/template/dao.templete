@@ -4,6 +4,8 @@ import ${packager}.dao.entity.${name}Entity;
 import ${packager}.query.${name}Query;
 import com.ijson.mongo.support.model.Page;
 import com.ijson.mongo.support.model.PageResult;
+import com.ijson.framework.model.AuthContext;
+
 
 import java.util.List;
 import java.util.Set;
