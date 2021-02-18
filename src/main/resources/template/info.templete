@@ -39,6 +39,7 @@ public class ${name}Info implements Serializable {
              }
          %>
          info.setEnable(entity.isEnable());
+         info.setId(entity.getId());
          info.setShortUrl(entity.getShortUrl());
          return info;
      }
