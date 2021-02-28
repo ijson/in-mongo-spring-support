@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Data
-@Entity(value = "${name}", noClassnameStored = true)
+@Entity(value = ${name}Entity.Fields.db_collection, noClassnameStored = true)
 @ToString(callSuper = true)
 public class ${name}Entity extends BaseEntity{
 
@@ -91,5 +91,6 @@ public class ${name}Entity extends BaseEntity{
         String deleted = "deleted";
         String lastModifiedBy ="lastModifiedBy";
         String lastModifiedTime ="lastModifiedTime";
+        String db_collection ="${name}";
     }
 }

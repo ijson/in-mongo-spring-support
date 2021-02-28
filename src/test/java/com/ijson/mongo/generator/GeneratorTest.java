@@ -16,9 +16,9 @@ public class GeneratorTest {
     @Test
     public void gen() {
         Bootstrap.generator(
-                "com.ijson.blog",
+                "com.ijson.framework",
                 "/Users/cuiyongxu/Desktop",
                 "in-demo",
-                Lists.newArrayList( QuartzTask.class));
+                Lists.newArrayList(Opinion.class));
     }
 }

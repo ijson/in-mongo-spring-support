@@ -35,7 +35,7 @@ public class ${name}DaoImpl extends AbstractDao<${name}Entity> implements ${name
             entity = findAndModify(entity);
         } else {
             entity.setId(ObjectId.getId());
-            shortUrlDao.createOrUpdate(ShortUrlEntity.create(entity.getId()));
+            shortUrlDao.createOrUpdate(ShortUrlEntity.create(entity.getId(),${name}Entity.Fields.db_collection));
             datastore.save(entity);
             return entity;
         }
