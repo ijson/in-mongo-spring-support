@@ -23,7 +23,7 @@ import java.util.List;
  * Created by cuiyongxu on 17/8/1.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:src/test/resources/spring-mongo-datastore.xml")
+@ContextConfiguration(locations = "classpath:spring-mongo-datastore.xml")
 public class MongoDBTest {
 
     @Resource()
