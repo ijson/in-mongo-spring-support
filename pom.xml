@@ -17,6 +17,7 @@
     <url>http://www.ijson.com</url>
     <modules>
         <module>in-mongo-spring-support</module>
+        <module>in-mongo-spring-data</module>
     </modules>
 
 </project>
