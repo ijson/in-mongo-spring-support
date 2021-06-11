@@ -19,6 +19,6 @@ public class GeneratorTest {
                 "com.ijson.framework",
                 "/Users/cuiyongxu/Desktop",
                 "in-demo",
-                Lists.newArrayList(Opinion.class));
+                Lists.newArrayList());
     }
 }
