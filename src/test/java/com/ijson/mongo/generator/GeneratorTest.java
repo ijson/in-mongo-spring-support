@@ -1,8 +1,6 @@
 package com.ijson.mongo.generator;
 
 import com.google.common.collect.Lists;
-import com.ijson.mongo.support.test.PictureLevelDownload;
-import com.ijson.mongo.support.test.Upload;
 import com.ijson.mongo.support.test.bean.*;
 import org.junit.Test;
 
@@ -19,6 +17,6 @@ public class GeneratorTest {
                 "com.ijson.framework",
                 "/Users/cuiyongxu/Desktop",
                 "in-demo",
-                Lists.newArrayList());
+                Lists.newArrayList(OperateLog.class));
     }
 }
