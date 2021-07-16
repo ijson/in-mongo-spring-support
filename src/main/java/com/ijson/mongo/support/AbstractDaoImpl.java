@@ -55,11 +55,11 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
         }
     }
 
-    public Query query() {
+    public Query createQuery() {
         return datastore.createQuery(clazz);
     }
 
-    public UpdateOperations update() {
+    public UpdateOperations createUpdate() {
         return datastore.createUpdateOperations(clazz);
     }
 
@@ -89,9 +89,9 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
      */
     @Override
     public T enable(String id, boolean enable, String userId) {
-        Query<T> query = query();
+        Query<T> query = createQuery();
         query.field(BaseEntity.Fields._id).equal(id);
-        UpdateOperations<T> updateOperations = update();
+        UpdateOperations<T> updateOperations = createUpdate();
         updateOperations.set(BaseEntity.Fields.enable, enable);
         updateOperations.set(BaseEntity.Fields.lastModifiedBy, userId);
         updateOperations.set(BaseEntity.Fields.lastModifiedTime, System.currentTimeMillis());
@@ -105,7 +105,7 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
      */
     @Override
     public void delete(String id) {
-        datastore.delete(query().field(BaseEntity.Fields._id).equal(id), WriteConcern.UNACKNOWLEDGED);
+        datastore.delete(createQuery().field(BaseEntity.Fields._id).equal(id), WriteConcern.UNACKNOWLEDGED);
     }
 
 
@@ -118,9 +118,9 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
      */
     @Override
     public T delete(String id, String userId) {
-        Query<T> query = query();
+        Query<T> query = createQuery();
         query.field(BaseEntity.Fields._id).equal(id);
-        UpdateOperations<T> updateOperations = update();
+        UpdateOperations<T> updateOperations = createUpdate();
 
         updateOperations.set(BaseEntity.Fields.deleted, true);
         updateOperations.set(BaseEntity.Fields.enable, false);
@@ -139,7 +139,7 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
      */
     @Override
     public T findInternalById(String id) {
-        Query<T> query = query();
+        Query<T> query = createQuery();
         query.field(BaseEntity.Fields._id).equal(id);
         return query.get();
     }
@@ -152,7 +152,7 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
      */
     @Override
     public T findById(String id) {
-        Query<T> query = query();
+        Query<T> query = createQuery();
         query.field(BaseEntity.Fields._id).equal(id);
         query.field(BaseEntity.Fields.enable).equal(true);
         query.field(BaseEntity.Fields.deleted).equal(false);
@@ -167,7 +167,7 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
      */
     @Override
     public List<T> findByIds(List<String> ids) {
-        Query<T> query = query();
+        Query<T> query = createQuery();
         query.field(BaseEntity.Fields.enable).equal(true);
         query.field(BaseEntity.Fields.deleted).equal(false);
         query.field(BaseEntity.Fields._id).hasAnyOf(new HashSet<>(ids));
@@ -195,7 +195,7 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
      */
     @Override
     public T findOne(String field, Object data) {
-        Query<T> query = query();
+        Query<T> query = createQuery();
         query.field(field).equal(data);
         return query.get();
     }
@@ -207,7 +207,7 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
      */
     @Override
     public List<T> findAll() {
-        Query<T> query = query();
+        Query<T> query = createQuery();
         query.order("-" + BaseEntity.Fields._id);
         query.field(BaseEntity.Fields.enable).equal(true);
         query.field(BaseEntity.Fields.deleted).equal(false);
@@ -223,7 +223,7 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
      */
     @Override
     public List<T> findMany(String field, Object data) {
-        Query<T> query = query();
+        Query<T> query = createQuery();
         query.field(field).equal(data);
         return query.asList();
     }
@@ -236,9 +236,9 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
      */
     @Override
     public void inc(String id, String field) {
-        Query<T> query = query();
+        Query<T> query = createQuery();
         query.field(BaseEntity.Fields._id).equal(id);
-        UpdateOperations<T> operations = update();
+        UpdateOperations<T> operations = createUpdate();
         operations.inc(field);
         datastore.findAndModify(query, operations);
     }
@@ -250,7 +250,7 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
      */
     @Override
     public long count() {
-        Query<T> query = query();
+        Query<T> query = createQuery();
         query.field(BaseEntity.Fields.enable).equal(true);
         query.field(BaseEntity.Fields.deleted).equal(false);
         return query.countAll();
@@ -266,7 +266,7 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
      */
     @Override
     public long count(String field, Object data) {
-        Query<T> query = query();
+        Query<T> query = createQuery();
         query.field(field).equal(data);
         query.field(BaseEntity.Fields.enable).equal(true);
         query.field(BaseEntity.Fields.deleted).equal(false);
@@ -283,7 +283,7 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
      */
     @Override
     public List<T> lessThan(String field, long beforTime) {
-        Query<T> query = query();
+        Query<T> query = createQuery();
         query.field(field).lessThan(beforTime);
         query.field(BaseEntity.Fields.enable).equal(true);
         query.field(BaseEntity.Fields.deleted).equal(false);
