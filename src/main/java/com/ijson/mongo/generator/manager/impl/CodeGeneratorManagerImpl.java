@@ -5,7 +5,7 @@ import com.ijson.mongo.generator.model.GenConfig;
 import com.ijson.mongo.generator.model.ParamsVo;
 import com.ijson.mongo.generator.template.TemplateHanlder;
 import com.ijson.mongo.generator.util.ReflectionUtil;
-import com.ijson.mongo.support.model.BaseEntity;
+import com.ijson.mongo.support.entity.BaseEntity;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;

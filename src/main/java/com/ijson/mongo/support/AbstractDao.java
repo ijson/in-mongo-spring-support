@@ -1,14 +1,14 @@
 package com.ijson.mongo.support;
 
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.MongoClient;
+import com.google.common.base.Strings;
+import com.ijson.mongo.generator.util.ObjectId;
+import com.ijson.mongo.support.entity.BaseEntity;
+import com.mongodb.WriteConcern;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.BSON;
 import org.mongodb.morphia.query.Query;
-import org.mongodb.morphia.query.QueryFactory;
 import org.mongodb.morphia.query.UpdateOperations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,12 +16,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import javax.annotation.PostConstruct;
 import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 
 @Setter
 @Getter
 @Slf4j
-public class AbstractDao<T> {
+public class AbstractDao<T extends BaseEntity> {
 
     @Autowired
     @Qualifier("datastore")
@@ -51,27 +53,224 @@ public class AbstractDao<T> {
         }
     }
 
-    public Query createQuery() {
+    public Query query() {
         return datastore.createQuery(clazz);
     }
 
-    public UpdateOperations createUpdateOperations() {
+    public UpdateOperations update() {
         return datastore.createUpdateOperations(clazz);
     }
 
-    public DB getDB() {
-        return datastore.getDB();
+
+    /**
+     * 数据创建
+     *
+     * @param entity
+     * @return
+     */
+    public T create(T entity) {
+        if (Strings.isNullOrEmpty(entity.getId())) {
+            entity.setId(ObjectId.getId());
+        }
+        datastore.save(entity);
+        return entity;
     }
 
-    public DBCollection getCollection() {
-        return datastore.getCollection(clazz);
+    /**
+     * 禁用/启用
+     *
+     * @param id
+     * @param enable
+     * @param userId
+     * @return
+     */
+    public T enable(String id, boolean enable, String userId) {
+        Query<T> query = query();
+        query.field(BaseEntity.Fields._id).equal(id);
+        UpdateOperations<T> updateOperations = update();
+        updateOperations.set(BaseEntity.Fields.enable, enable);
+        updateOperations.set(BaseEntity.Fields.lastModifiedBy, userId);
+        updateOperations.set(BaseEntity.Fields.lastModifiedTime, System.currentTimeMillis());
+        return datastore.findAndModify(query, updateOperations);
     }
 
-    public MongoClient getMongo() {
-        return datastore.getMongo();
+    /**
+     * 物理删除
+     *
+     * @param id
+     */
+    public void delete(String id) {
+        datastore.delete(query().field(BaseEntity.Fields._id).equal(id), WriteConcern.UNACKNOWLEDGED);
     }
 
-    public QueryFactory getQueryFactory() {
-        return datastore.getQueryFactory();
+
+    /**
+     * 逻辑删除
+     *
+     * @param id
+     * @param userId
+     * @return
+     */
+    public T delete(String id, String userId) {
+        Query<T> query = query();
+        query.field(BaseEntity.Fields._id).equal(id);
+        UpdateOperations<T> updateOperations = update();
+
+        updateOperations.set(BaseEntity.Fields.deleted, true);
+        updateOperations.set(BaseEntity.Fields.enable, false);
+
+        updateOperations.set(BaseEntity.Fields.lastModifiedBy, userId);
+        updateOperations.set(BaseEntity.Fields.lastModifiedTime, System.currentTimeMillis());
+
+        return datastore.findAndModify(query, updateOperations);
     }
+
+    /**
+     * 查询数据 不校验启用停用或删除
+     *
+     * @param id
+     * @return
+     */
+    public T findInternalById(String id) {
+        Query<T> query = query();
+        query.field(BaseEntity.Fields._id).equal(id);
+        return query.get();
+    }
+
+    /**
+     * 查询正常状态数据
+     *
+     * @param id
+     * @return
+     */
+    public T findById(String id) {
+        Query<T> query = query();
+        query.field(BaseEntity.Fields._id).equal(id);
+        query.field(BaseEntity.Fields.enable).equal(true);
+        query.field(BaseEntity.Fields.deleted).equal(false);
+        return query.get();
+    }
+
+    /**
+     * 通过id查询数据(校验启用停用)
+     *
+     * @param ids
+     * @return
+     */
+    public List<T> findByIds(List<String> ids) {
+        Query<T> query = query();
+        query.field(BaseEntity.Fields.enable).equal(true);
+        query.field(BaseEntity.Fields.deleted).equal(false);
+        query.field(BaseEntity.Fields._id).hasAnyOf(new HashSet<>(ids));
+        return query.asList();
+    }
+
+    /**
+     * 自行拼接条件 查询数据
+     *
+     * @param query
+     * @return
+     */
+    public T findOne(Query<T> query) {
+        return query.get();
+    }
+
+
+    /**
+     * 通过字段及值查询数据
+     *
+     * @param field
+     * @param data  不能为空
+     * @return
+     */
+    public T findOne(String field, Object data) {
+        Query<T> query = query();
+        query.field(field).equal(data);
+        return query.get();
+    }
+
+    /**
+     * 查询所有  慎用,会将所有数据加载至内存
+     *
+     * @return
+     */
+    public List<T> findAll() {
+        Query<T> query = query();
+        query.order("-" + BaseEntity.Fields._id);
+        query.field(BaseEntity.Fields.enable).equal(true);
+        query.field(BaseEntity.Fields.deleted).equal(false);
+        return query.asList();
+    }
+
+    /**
+     * 通过字段及值查询数据列表
+     *
+     * @param field
+     * @param data
+     * @return
+     */
+    public List<T> findMany(String field, Object data) {
+        Query<T> query = query();
+        query.field(field).equal(data);
+        return query.asList();
+    }
+
+    /**
+     * 常用与点赞 +1
+     *
+     * @param id
+     * @param field
+     */
+    public void inc(String id, String field) {
+        Query<T> query = query();
+        query.field(BaseEntity.Fields._id).equal(id);
+        UpdateOperations<T> operations = update();
+        operations.inc(field);
+        datastore.findAndModify(query, operations);
+    }
+
+    /**
+     * 查询总数
+     *
+     * @return
+     */
+    public long count() {
+        Query<T> query = query();
+        query.field(BaseEntity.Fields.enable).equal(true);
+        query.field(BaseEntity.Fields.deleted).equal(false);
+        return query.countAll();
+    }
+
+
+    /**
+     * 通过条件 查询总数
+     *
+     * @param field
+     * @param data
+     * @return
+     */
+    public long count(String field, Object data) {
+        Query<T> query = query();
+        query.field(field).equal(data);
+        query.field(BaseEntity.Fields.enable).equal(true);
+        query.field(BaseEntity.Fields.deleted).equal(false);
+        return query.countAll();
+    }
+
+
+    /**
+     * 查询小于某时间的数据列表
+     *
+     * @param field
+     * @param beforTime
+     * @return
+     */
+    public List<T> lessThan(String field, long beforTime) {
+        Query<T> query = query();
+        query.field(field).lessThan(beforTime);
+        query.field(BaseEntity.Fields.enable).equal(true);
+        query.field(BaseEntity.Fields.deleted).equal(false);
+        return query.asList();
+    }
+
 }

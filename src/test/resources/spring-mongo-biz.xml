@@ -5,7 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id="mongoDatastore" class="com.ijson.mongo.support.MongoDataStoreFactoryBean" p:configName="mongo-test"/>
+    <bean id="mongoDatastore" class="com.ijson.mongo.support.MongoDataStoreFactory" p:configName="mongo-test"/>
 
     <context:component-scan base-package="com.ijson.mongo"/>
 </beans>

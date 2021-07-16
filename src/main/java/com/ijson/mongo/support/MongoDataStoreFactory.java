@@ -24,7 +24,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Slf4j
-public class MongoDataStoreFactoryBean implements InitializingBean, DisposableBean, FactoryBean<DatastoreExt> {
+public class MongoDataStoreFactory implements InitializingBean, DisposableBean, FactoryBean<DatastoreExt> {
 
     private String configName;
     private String mapName;
@@ -34,11 +34,11 @@ public class MongoDataStoreFactoryBean implements InitializingBean, DisposableBe
     private boolean storeEmpties = false;
     private boolean storeNulls = false;
 
-    private Pattern p = Pattern.compile("mongodb://((.+):(.*)@)");
+    private final Pattern p = Pattern.compile("mongodb://((.+):(.*)@)");
     /**
      * 每个db对应一个proxy示例,避免多线程切换db问题
      */
-    private Map<String, MyHandler> stores = Maps.newConcurrentMap();
+    private final Map<String, MyHandler> stores = Maps.newConcurrentMap();
     private DatastoreExt current;
 
     public void setConfigName(String configName) {
@@ -66,10 +66,10 @@ public class MongoDataStoreFactoryBean implements InitializingBean, DisposableBe
         storeEmpties = config.getBool("mongo.storeEmpties");
         storeNulls = config.getBool("mongo.storeNulls");
         String readPreference = config.get("mongo.readPreference", "primary");
-        Integer maxWaitTime = config.getInt("mongo.maxWaitTime", 120000);
-        Integer maxConnectionsPerHost = config.getInt("mongo.maxConnectionsPerHost", 100);
-        Integer connectTimeout = config.getInt("mongo.connectTimeout", 5000);
-        Integer socketTimeout = config.getInt("mongo.socketTimeout", 60000);
+        int maxWaitTime = config.getInt("mongo.maxWaitTime", 120000);
+        int maxConnectionsPerHost = config.getInt("mongo.maxConnectionsPerHost", 100);
+        int connectTimeout = config.getInt("mongo.connectTimeout", 5000);
+        int socketTimeout = config.getInt("mongo.socketTimeout", 60000);
         String mongoServer = config.get("mongo.servers");
         Preconditions.checkNotNull(mongoServer, "The servers configuration is incorrect!");
 

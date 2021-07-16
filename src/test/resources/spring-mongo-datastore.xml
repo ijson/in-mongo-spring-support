@@ -5,6 +5,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="mongoDatastore" class="com.ijson.mongo.support.MongoDataStoreFactoryBean" p:configName="mongo-test"/>
+    <bean id="mongoDatastore" class="com.ijson.mongo.support.MongoDataStoreFactory" p:configName="mongo-test"/>
 
 </beans>

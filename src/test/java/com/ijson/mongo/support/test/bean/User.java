@@ -1,11 +1,7 @@
 package com.ijson.mongo.support.test.bean;
 
-import com.ijson.mongo.support.model.BaseEntity;
-import lombok.AllArgsConstructor;
+import com.ijson.mongo.support.entity.BaseEntity;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.bson.types.ObjectId;
-import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 
 import java.util.Date;

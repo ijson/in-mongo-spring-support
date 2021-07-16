@@ -1,7 +1,7 @@
 package com.ijson.mongo.support.test.bean;
 
 import com.ijson.mongo.generator.model.DocDescribe;
-import com.ijson.mongo.support.model.BaseEntity;
+import com.ijson.mongo.support.entity.BaseEntity;
 import lombok.Data;
 
 import java.util.List;

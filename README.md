@@ -26,7 +26,7 @@
 
 3. 在spring文件中,添加一下配置
    ```xml
-   <bean id="mongoDatastore" class="com.ijson.mongo.support.MongoDataStoreFactoryBean" p:configName="mongo-test"/>
+   <bean id="mongoDatastore" class="com.ijson.mongo.support.MongoDataStoreFactory" p:configName="mongo-test"/>
    ```
    p:configName 为resources/autoconf目录下的mongodb配置文件
 

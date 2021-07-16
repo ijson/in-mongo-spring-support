@@ -1,7 +1,7 @@
 package com.ijson.mongo.generator.model;
 
 import com.google.common.collect.Lists;
-import com.ijson.mongo.support.model.BaseEntity;
+import com.ijson.mongo.support.entity.BaseEntity;
 import lombok.Data;
 
 import java.util.List;
