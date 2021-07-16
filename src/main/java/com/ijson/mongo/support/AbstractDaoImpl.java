@@ -1,8 +1,10 @@
 package com.ijson.mongo.support;
 
 import com.google.common.base.Strings;
+import com.ijson.mongo.AbstractDao;
 import com.ijson.mongo.generator.util.ObjectId;
 import com.ijson.mongo.support.entity.BaseEntity;
+import com.ijson.mongo.support.entity.BaseQuery;
 import com.mongodb.WriteConcern;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +25,7 @@ import java.util.Objects;
 @Setter
 @Getter
 @Slf4j
-public class AbstractDao<T extends BaseEntity> {
+public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implements AbstractDao<T, Q> {
 
     @Autowired
     @Qualifier("datastore")
@@ -68,6 +70,7 @@ public class AbstractDao<T extends BaseEntity> {
      * @param entity
      * @return
      */
+    @Override
     public T create(T entity) {
         if (Strings.isNullOrEmpty(entity.getId())) {
             entity.setId(ObjectId.getId());
@@ -84,6 +87,7 @@ public class AbstractDao<T extends BaseEntity> {
      * @param userId
      * @return
      */
+    @Override
     public T enable(String id, boolean enable, String userId) {
         Query<T> query = query();
         query.field(BaseEntity.Fields._id).equal(id);
@@ -99,6 +103,7 @@ public class AbstractDao<T extends BaseEntity> {
      *
      * @param id
      */
+    @Override
     public void delete(String id) {
         datastore.delete(query().field(BaseEntity.Fields._id).equal(id), WriteConcern.UNACKNOWLEDGED);
     }
@@ -111,6 +116,7 @@ public class AbstractDao<T extends BaseEntity> {
      * @param userId
      * @return
      */
+    @Override
     public T delete(String id, String userId) {
         Query<T> query = query();
         query.field(BaseEntity.Fields._id).equal(id);
@@ -131,6 +137,7 @@ public class AbstractDao<T extends BaseEntity> {
      * @param id
      * @return
      */
+    @Override
     public T findInternalById(String id) {
         Query<T> query = query();
         query.field(BaseEntity.Fields._id).equal(id);
@@ -143,6 +150,7 @@ public class AbstractDao<T extends BaseEntity> {
      * @param id
      * @return
      */
+    @Override
     public T findById(String id) {
         Query<T> query = query();
         query.field(BaseEntity.Fields._id).equal(id);
@@ -157,6 +165,7 @@ public class AbstractDao<T extends BaseEntity> {
      * @param ids
      * @return
      */
+    @Override
     public List<T> findByIds(List<String> ids) {
         Query<T> query = query();
         query.field(BaseEntity.Fields.enable).equal(true);
@@ -171,6 +180,7 @@ public class AbstractDao<T extends BaseEntity> {
      * @param query
      * @return
      */
+    @Override
     public T findOne(Query<T> query) {
         return query.get();
     }
@@ -183,6 +193,7 @@ public class AbstractDao<T extends BaseEntity> {
      * @param data  不能为空
      * @return
      */
+    @Override
     public T findOne(String field, Object data) {
         Query<T> query = query();
         query.field(field).equal(data);
@@ -194,6 +205,7 @@ public class AbstractDao<T extends BaseEntity> {
      *
      * @return
      */
+    @Override
     public List<T> findAll() {
         Query<T> query = query();
         query.order("-" + BaseEntity.Fields._id);
@@ -209,6 +221,7 @@ public class AbstractDao<T extends BaseEntity> {
      * @param data
      * @return
      */
+    @Override
     public List<T> findMany(String field, Object data) {
         Query<T> query = query();
         query.field(field).equal(data);
@@ -221,6 +234,7 @@ public class AbstractDao<T extends BaseEntity> {
      * @param id
      * @param field
      */
+    @Override
     public void inc(String id, String field) {
         Query<T> query = query();
         query.field(BaseEntity.Fields._id).equal(id);
@@ -234,6 +248,7 @@ public class AbstractDao<T extends BaseEntity> {
      *
      * @return
      */
+    @Override
     public long count() {
         Query<T> query = query();
         query.field(BaseEntity.Fields.enable).equal(true);
@@ -249,6 +264,7 @@ public class AbstractDao<T extends BaseEntity> {
      * @param data
      * @return
      */
+    @Override
     public long count(String field, Object data) {
         Query<T> query = query();
         query.field(field).equal(data);
@@ -265,6 +281,7 @@ public class AbstractDao<T extends BaseEntity> {
      * @param beforTime
      * @return
      */
+    @Override
     public List<T> lessThan(String field, long beforTime) {
         Query<T> query = query();
         query.field(field).lessThan(beforTime);

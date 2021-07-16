@@ -7,7 +7,7 @@ import ${packager}.query.${name}Query;
 import com.ijson.framework.dao.ShortUrlDao;
 import com.ijson.framework.dao.entity.ShortUrlEntity;
 import com.ijson.mongo.generator.util.ObjectId;
-import com.ijson.mongo.support.AbstractDao;
+import com.ijson.mongo.support.AbstractDaoImpl;
 import com.ijson.mongo.support.model.Page;
 import com.ijson.mongo.support.model.PageResult;
 import com.mongodb.WriteConcern;
