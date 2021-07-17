@@ -2,6 +2,8 @@ package com.ijson.mongo;
 
 import com.ijson.mongo.support.entity.BaseEntity;
 import com.ijson.mongo.support.entity.BaseQuery;
+import com.ijson.mongo.support.entity.page.Page;
+import com.ijson.mongo.support.entity.page.PageResult;
 import org.mongodb.morphia.query.Query;
 
 import java.util.List;
@@ -34,6 +36,8 @@ public interface AbstractDao<T extends BaseEntity,Q extends BaseQuery> {
     List<T> findAll();
 
     List<T> findMany(String field, Object data);
+
+    PageResult<T> find(Q iquery, Page page);
 
     void inc(String id, String field);
 

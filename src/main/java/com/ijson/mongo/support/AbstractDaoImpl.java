@@ -5,6 +5,8 @@ import com.ijson.mongo.AbstractDao;
 import com.ijson.mongo.generator.util.ObjectId;
 import com.ijson.mongo.support.entity.BaseEntity;
 import com.ijson.mongo.support.entity.BaseQuery;
+import com.ijson.mongo.support.entity.page.Page;
+import com.ijson.mongo.support.entity.page.PageResult;
 import com.mongodb.WriteConcern;
 import lombok.Getter;
 import lombok.Setter;
@@ -228,6 +230,37 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
         return query.asList();
     }
 
+    @Override
+    public PageResult<T> find(Q iquery, Page page) {
+        Query<T> query = createQuery();
+
+        if (!Strings.isNullOrEmpty(iquery.getId())) {
+            query.field(BaseEntity.Fields._id).equal(iquery.getId());
+        }
+
+        if (page.getOrderBy() != null) {
+            query.order("-" + page.getOrderBy());//添加排序
+        } else {
+            query.order("-" + BaseEntity.Fields._id);
+        }
+        if (page.getPageNumber() > 0) {
+            query.offset((page.getPageNumber() - 1) * page.getPageSize()).limit(page.getPageSize());
+        }
+
+        query.field(BaseEntity.Fields.deleted).equal(Objects.nonNull(iquery.getDeleted()) ? iquery.getDeleted() : false);
+        query.field(BaseEntity.Fields.enable).equal(Objects.nonNull(iquery.getEnable()) ? iquery.getEnable() : true);
+
+        long totalNum = count();
+        List<T> entities = query.asList();
+
+
+        PageResult<T> ret = new PageResult<>();
+        ret.setDataList(entities);
+        ret.setTotal(totalNum);
+        return ret;
+    }
+
+
     /**
      * 常用与点赞 +1
      *
@@ -289,5 +322,8 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
         query.field(BaseEntity.Fields.deleted).equal(false);
         return query.asList();
     }
+
+
+
 
 }
