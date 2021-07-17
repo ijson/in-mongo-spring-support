@@ -188,6 +188,23 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
         return query.asList();
     }
 
+    /**
+     * 根据id查询并返回特定字段
+     *
+     * @param ids
+     * @param fields
+     * @return
+     */
+    @Override
+    public List<T> findIncludeByIds(List<String> ids, String... fields) {
+        Query<T> query = createQuery();
+        query.field(BaseEntity.Fields.enable).equal(true);
+        query.field(BaseEntity.Fields.deleted).equal(false);
+        query.retrievedFields(true, fields);
+        query.field(BaseEntity.Fields._id).hasAnyOf(new HashSet<>(ids));
+        return query.asList();
+    }
+
 
     /**
      * 通过id查询数据 不校验启用停用删除

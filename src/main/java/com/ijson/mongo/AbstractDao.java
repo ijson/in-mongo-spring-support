@@ -31,6 +31,8 @@ public interface AbstractDao<T extends BaseEntity,Q extends BaseQuery> {
 
     List<T> findByIds(List<String> ids);
 
+    List<T> findIncludeByIds(List<String> ids, String... fields);
+
     List<T> findInternalByIds(List<String> ids);
 
     T findOne(Query<T> query);
