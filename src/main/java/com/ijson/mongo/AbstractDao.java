@@ -5,6 +5,7 @@ import com.ijson.mongo.support.entity.BaseQuery;
 import com.ijson.mongo.support.entity.page.Page;
 import com.ijson.mongo.support.entity.page.PageResult;
 import org.mongodb.morphia.query.Query;
+import org.mongodb.morphia.query.UpdateOperations;
 
 import java.util.List;
 
@@ -18,6 +19,10 @@ public interface AbstractDao<T extends BaseEntity,Q extends BaseQuery> {
     T create(T entity);
 
     T enable(String id, boolean enable, String userId);
+
+    T findAndModify(Query<T> query, UpdateOperations<T> operations);
+
+    T findAndModify(Query<T> query, UpdateOperations<T> operations, boolean oldVersion, boolean createIfMissing);
 
     void delete(String id);
 

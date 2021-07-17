@@ -18,9 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.annotation.PostConstruct;
-import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -58,12 +58,63 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
         }
     }
 
+    /**
+     * 创建数据查询对象
+     *
+     * @return
+     */
     public Query createQuery() {
         return datastore.createQuery(clazz);
     }
 
+    /**
+     * 创建预制数据查询对象
+     *
+     * @param field
+     * @param value
+     * @return
+     */
+    public Query<T> createEqualQuery(String field, Object value) {
+        Query<T> query = createQuery();
+        query.field(field).equal(value);
+        return query;
+    }
+
+
+    public Query<T> createInQuery(String field, Collection value) {
+        Query<T> query = createQuery();
+        query.field(field).in(value);
+        return query;
+    }
+
+    /**
+     * 创建更新数据对象
+     *
+     * @return
+     */
     public UpdateOperations createUpdate() {
         return datastore.createUpdateOperations(clazz);
+    }
+
+    /**
+     * 设置字段更新数据值
+     *
+     * @param operations
+     * @param key
+     * @param value
+     * @return
+     */
+    public UpdateOperations set(UpdateOperations operations, String key, Object value) {
+        if (value == null) {
+            return operations;
+        }
+        if (value instanceof String && !Strings.isNullOrEmpty((String) value)) {
+            operations.set(key, value);
+            return operations;
+        }
+        operations.set(key, value);
+
+        return operations;
     }
 
 
@@ -99,6 +150,35 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
         updateOperations.set(BaseEntity.Fields.lastModifiedBy, userId);
         updateOperations.set(BaseEntity.Fields.lastModifiedTime, System.currentTimeMillis());
         return datastore.findAndModify(query, updateOperations);
+    }
+
+
+    /**
+     * 数据更新
+     *
+     * @param query
+     * @param operations
+     * @return
+     */
+    @Override
+    public T findAndModify(Query<T> query, UpdateOperations<T> operations) {
+        operations.set(BaseEntity.Fields.lastModifiedTime, System.currentTimeMillis());
+        return datastore.findAndModify(query, operations);
+    }
+
+    /**
+     * 数据更新 没有就创建
+     *
+     * @param query
+     * @param operations
+     * @param oldVersion
+     * @param createIfMissing
+     * @return
+     */
+    @Override
+    public T findAndModify(Query<T> query, UpdateOperations<T> operations, boolean oldVersion, boolean createIfMissing) {
+        operations.set(BaseEntity.Fields.lastModifiedTime, System.currentTimeMillis());
+        return datastore.findAndModify(query, operations, oldVersion, createIfMissing);
     }
 
     /**
