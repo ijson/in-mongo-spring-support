@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.annotation.PostConstruct;
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -342,6 +343,39 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
         long totalNum = count();
         List<T> entities = query.asList();
 
+
+        PageResult<T> ret = new PageResult<>();
+        ret.setDataList(entities);
+        ret.setTotal(totalNum);
+        return ret;
+    }
+
+
+    /**
+     * 数据查询 分页  自行控制数据
+     *
+     * @param query
+     * @param page
+     * @return
+     */
+    @Override
+    public PageResult<T> find(Query<T> query, Page page) {
+        if (query == null) {
+            query = createQuery();
+        }
+
+        if (page.getOrderBy() != null) {
+            query.order("-" + page.getOrderBy());//添加排序
+        } else {
+            query.order("-" + BaseEntity.Fields._id);
+        }
+        if (page.getPageNumber() > 0) {
+            query.offset((page.getPageNumber() - 1) * page.getPageSize()).limit(page.getPageSize());
+        }
+
+
+        long totalNum = count();
+        List<T> entities = query.asList();
 
         PageResult<T> ret = new PageResult<>();
         ret.setDataList(entities);

@@ -51,6 +51,8 @@ public interface AbstractDao<T extends BaseEntity,Q extends BaseQuery> {
 
     PageResult<T> find(Q iquery, Page page);
 
+    PageResult<T> find(Query<T> query, Page page);
+
     void inc(String id, String field);
 
     long count();
