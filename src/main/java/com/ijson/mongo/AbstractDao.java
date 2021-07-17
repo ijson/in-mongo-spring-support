@@ -31,13 +31,21 @@ public interface AbstractDao<T extends BaseEntity,Q extends BaseQuery> {
 
     List<T> findByIds(List<String> ids);
 
+    List<T> findInternalByIds(List<String> ids);
+
     T findOne(Query<T> query);
 
     T findOne(String field, Object data);
 
+    T findInternalOne(String field, Object data);
+
     List<T> findAll();
 
+    List<T> findInternalAll();
+
     List<T> findMany(String field, Object data);
+
+    List<T> findInternalMany(String field, Object data);
 
     PageResult<T> find(Q iquery, Page page);
 

@@ -107,7 +107,7 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
      */
     @Override
     public void delete(String id) {
-        datastore.delete(createQuery().field(BaseEntity.Fields._id).equal(id), WriteConcern.UNACKNOWLEDGED);
+        deleteByField(BaseEntity.Fields._id, id);
     }
 
 
@@ -188,6 +188,20 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
         return query.asList();
     }
 
+
+    /**
+     * 通过id查询数据 不校验启用停用删除
+     *
+     * @param ids
+     * @return
+     */
+    @Override
+    public List<T> findInternalByIds(List<String> ids) {
+        Query<T> query = createQuery();
+        query.field(BaseEntity.Fields._id).hasAnyOf(new HashSet<>(ids));
+        return query.asList();
+    }
+
     /**
      * 自行拼接条件 查询数据
      *
@@ -211,6 +225,23 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
     public T findOne(String field, Object data) {
         Query<T> query = createQuery();
         query.field(field).equal(data);
+        query.field(BaseEntity.Fields.enable).equal(true);
+        query.field(BaseEntity.Fields.deleted).equal(false);
+        return query.get();
+    }
+
+
+    /**
+     * 通过属性及值 查询数据 不验证启用/停用 或删除
+     *
+     * @param field
+     * @param data
+     * @return
+     */
+    @Override
+    public T findInternalOne(String field, Object data) {
+        Query<T> query = createQuery();
+        query.field(field).equal(data);
         return query.get();
     }
 
@@ -228,6 +259,19 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
         return query.asList();
     }
 
+
+    /**
+     * 查询所有  慎用,会将所有数据加载至内存  不验证启用/停用 或删除
+     *
+     * @return
+     */
+    @Override
+    public List<T> findInternalAll() {
+        Query<T> query = createQuery();
+        query.order("-" + BaseEntity.Fields._id);
+        return query.asList();
+    }
+
     /**
      * 通过字段及值查询数据列表
      *
@@ -237,6 +281,22 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
      */
     @Override
     public List<T> findMany(String field, Object data) {
+        Query<T> query = createQuery();
+        query.field(field).equal(data);
+        query.field(BaseEntity.Fields.enable).equal(true);
+        query.field(BaseEntity.Fields.deleted).equal(false);
+        return query.asList();
+    }
+
+    /**
+     * 通过字段及值查询数据列表 不验证启用/停用 或删除
+     *
+     * @param field
+     * @param data
+     * @return
+     */
+    @Override
+    public List<T> findInternalMany(String field, Object data) {
         Query<T> query = createQuery();
         query.field(field).equal(data);
         return query.asList();
@@ -283,6 +343,8 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
     public void inc(String id, String field) {
         Query<T> query = createQuery();
         query.field(BaseEntity.Fields._id).equal(id);
+        query.field(BaseEntity.Fields.enable).equal(true);
+        query.field(BaseEntity.Fields.deleted).equal(false);
         UpdateOperations<T> operations = createUpdate();
         operations.inc(field);
         datastore.findAndModify(query, operations);
