@@ -21,6 +21,8 @@ public interface AbstractDao<T extends BaseEntity,Q extends BaseQuery> {
 
     void delete(String id);
 
+    void delete(String field, Object data);
+
     T delete(String id, String userId);
 
     T findInternalById(String id);

@@ -112,6 +112,18 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
 
 
     /**
+     * 物理删除
+     *
+     * @param field
+     * @param data
+     */
+    @Override
+    public void delete(String field, Object data) {
+        datastore.delete(createQuery().field(field).equal(data), WriteConcern.UNACKNOWLEDGED);
+    }
+
+
+    /**
      * 逻辑删除
      *
      * @param id
@@ -322,8 +334,6 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
         query.field(BaseEntity.Fields.deleted).equal(false);
         return query.asList();
     }
-
-
 
 
 }
