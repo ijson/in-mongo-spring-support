@@ -35,4 +35,6 @@ public interface BaseService<T, Q> {
     List<T> findAll();
 
     List<T> findByIds(List<String> ids);
+
+    long count(String field, Object data);
 }
