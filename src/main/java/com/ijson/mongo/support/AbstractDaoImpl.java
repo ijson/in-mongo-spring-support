@@ -418,7 +418,7 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
             query.field(BaseEntity.Fields._id).equal(iquery.getId());
         }
 
-        if (page.getOrderBy() != null) {
+        if (!Strings.isNullOrEmpty(page.getOrderBy())) {
             query.order("-" + page.getOrderBy());//添加排序
         } else {
             query.order("-" + BaseEntity.Fields._id);
@@ -454,7 +454,7 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
             query = createQuery();
         }
 
-        if (page.getOrderBy() != null) {
+        if (!Strings.isNullOrEmpty(page.getOrderBy())) {
             query.order("-" + page.getOrderBy());//添加排序
         } else {
             query.order("-" + BaseEntity.Fields._id);
