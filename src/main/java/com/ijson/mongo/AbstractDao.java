@@ -52,6 +52,8 @@ public interface AbstractDao<T extends BaseEntity,Q extends BaseQuery> {
 
     List<T> findMany(String field, Object data);
 
+    List<T> findMany(Query query);
+
     List<T> findInternalMany(String field, Object data);
 
     PageResult<T> find(Q iquery, Page page);
@@ -59,6 +61,8 @@ public interface AbstractDao<T extends BaseEntity,Q extends BaseQuery> {
     PageResult<T> find(Query<T> query, Page page);
 
     void inc(String id, String field);
+
+    void dec(String id, String field);
 
     long count();
 

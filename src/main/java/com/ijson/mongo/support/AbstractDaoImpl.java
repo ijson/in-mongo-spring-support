@@ -386,6 +386,16 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
         return query.asList();
     }
 
+    @Override
+    public List<T> findMany(Query query) {
+        if (query == null) {
+            query = createQuery();
+        }
+        query.field(BaseEntity.Fields.enable).equal(true);
+        query.field(BaseEntity.Fields.deleted).equal(false);
+        return query.asList();
+    }
+
     /**
      * 通过字段及值查询数据列表 不验证启用/停用 或删除
      *
@@ -478,6 +488,18 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
         query.field(BaseEntity.Fields.deleted).equal(false);
         UpdateOperations<T> operations = createUpdate();
         operations.inc(field);
+        datastore.findAndModify(query, operations);
+    }
+
+
+    @Override
+    public void dec(String id, String field) {
+        Query<T> query = createQuery();
+        query.field(BaseEntity.Fields._id).equal(id);
+        query.field(BaseEntity.Fields.enable).equal(true);
+        query.field(BaseEntity.Fields.deleted).equal(false);
+        UpdateOperations<T> operations = createUpdate();
+        operations.dec(field);
         datastore.findAndModify(query, operations);
     }
 
