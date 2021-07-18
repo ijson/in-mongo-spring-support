@@ -16,6 +16,10 @@ public interface BaseService<T, Q> {
 
     T findById(String id);
 
+    T findOne(String field, Object value);
+
+    List<T> findMany(String field, Object value);
+
     T create(T entity, String userId);
 
     void enable(String id, boolean enable, String userId);

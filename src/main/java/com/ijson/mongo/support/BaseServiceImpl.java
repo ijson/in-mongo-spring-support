@@ -39,6 +39,18 @@ public abstract class BaseServiceImpl<T extends BaseEntity, Q extends BaseQuery>
     }
 
 
+    @Override
+    public T findOne(String field, Object value) {
+        return abstractDao.findOne(field, value);
+    }
+
+
+    @Override
+    public List<T> findMany(String field, Object value) {
+        return abstractDao.findMany(field, value);
+    }
+
+
     //TODO 缓存 @RefreshCache(cache = "headers")
     @Override
     public T create(T entity, String userId) {
