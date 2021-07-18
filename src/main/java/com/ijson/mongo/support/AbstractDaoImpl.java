@@ -7,7 +7,7 @@ import com.ijson.mongo.support.entity.BaseEntity;
 import com.ijson.mongo.support.entity.BaseQuery;
 import com.ijson.mongo.support.entity.page.Page;
 import com.ijson.mongo.support.entity.page.PageResult;
-import com.mongodb.WriteConcern;
+import com.mongodb.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -481,7 +481,7 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
      * @param field
      */
     @Override
-    public void inc(String id, String field) {
+    public void inc(String field, String id) {
         Query<T> query = createQuery();
         query.field(BaseEntity.Fields._id).equal(id);
         query.field(BaseEntity.Fields.enable).equal(true);
@@ -493,7 +493,7 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
 
 
     @Override
-    public void dec(String id, String field) {
+    public void dec(String field, String id) {
         Query<T> query = createQuery();
         query.field(BaseEntity.Fields._id).equal(id);
         query.field(BaseEntity.Fields.enable).equal(true);
@@ -550,5 +550,11 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
         return query.asList();
     }
 
+    @Override
+    public DBCursor cursor() {
+        DBCollection collection = datastore.getCollection(clazz);
+        DBObject filter = new BasicDBObject();
+        return collection.find(filter).batchSize(10);
+    }
 
 }

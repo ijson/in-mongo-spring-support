@@ -4,6 +4,7 @@ import com.ijson.mongo.support.entity.BaseEntity;
 import com.ijson.mongo.support.entity.BaseQuery;
 import com.ijson.mongo.support.entity.page.Page;
 import com.ijson.mongo.support.entity.page.PageResult;
+import com.mongodb.DBCursor;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 
@@ -14,7 +15,7 @@ import java.util.List;
  * author: cuiyongxu
  * create_time: 2021/7/17-2:51 上午
  **/
-public interface AbstractDao<T extends BaseEntity,Q extends BaseQuery> {
+public interface AbstractDao<T extends BaseEntity, Q extends BaseQuery> {
 
     T create(T entity);
 
@@ -60,13 +61,15 @@ public interface AbstractDao<T extends BaseEntity,Q extends BaseQuery> {
 
     PageResult<T> find(Query<T> query, Page page);
 
-    void inc(String id, String field);
+    void inc(String field, String id);
 
-    void dec(String id, String field);
+    void dec(String field, String id);
 
     long count();
 
     long count(String field, Object data);
 
     List<T> lessThan(String field, long beforTime);
+
+    DBCursor cursor();
 }
