@@ -110,8 +110,8 @@ public abstract class BaseServiceImpl<T extends BaseEntity, Q extends BaseQuery>
     }
 
     @Override
-    public long count(String field, Object data){
-        return abstractDao.count(field,data);
+    public long count(String field, Object data) {
+        return abstractDao.count(field, data);
     }
 
 }
