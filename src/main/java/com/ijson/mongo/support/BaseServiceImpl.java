@@ -85,6 +85,11 @@ public abstract class BaseServiceImpl<T extends BaseEntity, Q extends BaseQuery>
         abstractDao.inc(commentId, field);
     }
 
+    @Override
+    public void dec(String field, String commentId) {
+        abstractDao.dec(commentId, field);
+    }
+
 
     @Override
     public PageResult<T> find(Q query, Page pageEntity) {

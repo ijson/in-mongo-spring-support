@@ -30,6 +30,8 @@ public interface BaseService<T, Q> {
 
     void deleteById(String id, String userId);
 
+    void dec(String field, String commentId);
+
     PageResult<T> find(Q query, Page pageEntity);
 
     List<T> findAll();
