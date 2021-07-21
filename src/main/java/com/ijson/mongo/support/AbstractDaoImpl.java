@@ -76,14 +76,19 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
      */
     public Query<T> createEqualQuery(String field, Object value) {
         Query<T> query = createQuery();
-        query.field(field).equal(value);
+        if (!Strings.isNullOrEmpty(field) && Objects.nonNull(value)) {
+            query.field(field).equal(value);
+        }
         return query;
     }
 
 
     public Query<T> createInQuery(String field, Collection value) {
         Query<T> query = createQuery();
-        query.field(field).in(value);
+        if (!Strings.isNullOrEmpty(field) && Objects.nonNull(value) && !value.isEmpty()) {
+            query.field(field).in(value);
+        }
+
         return query;
     }
 
