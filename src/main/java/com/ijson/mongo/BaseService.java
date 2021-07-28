@@ -2,6 +2,7 @@ package com.ijson.mongo;
 
 import com.ijson.mongo.support.entity.page.Page;
 import com.ijson.mongo.support.entity.page.PageResult;
+import org.mongodb.morphia.query.Query;
 
 import java.util.List;
 
@@ -33,6 +34,8 @@ public interface BaseService<T, Q> {
     void dec(String field, String commentId);
 
     PageResult<T> find(Q query, Page pageEntity);
+
+    PageResult<T> find(Query<T> query, Page pageEntity);
 
     List<T> findAll();
 

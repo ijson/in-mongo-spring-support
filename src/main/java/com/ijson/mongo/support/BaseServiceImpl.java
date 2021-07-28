@@ -9,6 +9,7 @@ import com.ijson.mongo.support.entity.page.Page;
 import com.ijson.mongo.support.entity.page.PageResult;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.mongodb.morphia.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
@@ -93,6 +94,11 @@ public abstract class BaseServiceImpl<T extends BaseEntity, Q extends BaseQuery>
 
     @Override
     public PageResult<T> find(Q query, Page pageEntity) {
+        return abstractDao.find(query, pageEntity);
+    }
+
+    @Override
+    public PageResult<T> find(Query<T> query, Page pageEntity) {
         return abstractDao.find(query, pageEntity);
     }
 
