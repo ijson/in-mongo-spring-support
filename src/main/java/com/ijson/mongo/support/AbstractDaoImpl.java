@@ -205,7 +205,7 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
      */
     @Override
     public void deleteByField(String field, Object data) {
-        datastore.delete(createQuery().field(field).equal(data), WriteConcern.UNACKNOWLEDGED);
+        datastore.delete(createEqualQuery(field,data), WriteConcern.UNACKNOWLEDGED);
     }
 
 
