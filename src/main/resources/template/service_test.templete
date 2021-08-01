@@ -158,6 +158,11 @@ public class ${name}ServiceTest extends BaseTest {
 
         AuthEntity authEntity = AuthEntity.create(context, cname, ename, "#", true, Constant.MenuType.menu, "0");
         authService.create(context, authEntity);
+
+        RoleEntity systemRole = roleService.findOne(RoleEntity.Fields.ename,Constant.SYSTEM);
+        systemRole.getAuthIds().add(authEntity.getId());
+        roleService.edit(context, systemRole);
+
         log.info("id:{}",authEntity.getId());
     }
 
@@ -212,8 +217,6 @@ public class ${name}ServiceTest extends BaseTest {
             AuthEntity childAuth = authService.create(context, entity);
             RoleEntity systemRoleChild = roleService.findOne(RoleEntity.Fields.ename,Constant.SYSTEM);
             systemRoleChild.getAuthIds().add(childAuth.getId());
-            systemRoleChild.setVerifyCmt(false);
-            systemRoleChild.setVerify(false);
             roleService.edit(context, systemRoleChild);
         }
     }
@@ -252,8 +255,6 @@ public class ${name}ServiceTest extends BaseTest {
             AuthEntity childAuth = authService.create(context, entity);
             RoleEntity systemRoleChild = roleService.findOne(RoleEntity.Fields.ename,Constant.SYSTEM);
             systemRoleChild.getAuthIds().add(childAuth.getId());
-            systemRoleChild.setVerifyCmt(false);
-            systemRoleChild.setVerify(false);
             roleService.edit(context, systemRoleChild);
         }
     }
