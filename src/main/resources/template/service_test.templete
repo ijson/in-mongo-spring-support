@@ -158,6 +158,7 @@ public class ${name}ServiceTest extends BaseTest {
 
         AuthEntity authEntity = AuthEntity.create(context, cname, ename, "#", true, Constant.MenuType.menu, "0");
         authService.create(context, authEntity);
+        log.info("id:{}",authEntity.getId());
     }
 
 
