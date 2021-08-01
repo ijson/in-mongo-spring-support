@@ -194,8 +194,6 @@ public class ${name}ServiceTest extends BaseTest {
         AuthEntity newAuth = authService.create(context, baseEntity);
         RoleEntity systemRole = roleService.findOne(RoleEntity.Fields.ename,Constant.SYSTEM);
         systemRole.getAuthIds().add(newAuth.getId());
-        systemRole.setVerifyCmt(false);
-        systemRole.setVerify(false);
         roleService.edit(context, systemRole);
 
         List<AuthEntity> menePath = Lists.newArrayList(
