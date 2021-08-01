@@ -14,9 +14,9 @@ public class GeneratorTest {
     @Test
     public void gen() {
         Bootstrap.generator(
-                "com.ijson.framework",
+                "com.ijson.blog",
                 "/Users/cuiyongxu/Desktop",
                 "in-demo",
-                Lists.newArrayList(OperateLog.class));
+                Lists.newArrayList(Contact.class));
     }
 }

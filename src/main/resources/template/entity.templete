@@ -18,8 +18,6 @@ import java.util.Map;
 @ToString(callSuper = true)
 public class ${name}Entity extends BaseEntity{
 
-    @Id
-    private String id;
 
     <%
     for(col in columns){
@@ -31,26 +29,6 @@ public class ${name}Entity extends BaseEntity{
     }
     %>
 
-    @Property(Fields.shortUrl)
-    private String shortUrl;
-
-    @Property(Fields.createdBy)
-    private String createdBy;
-
-    @Property(Fields.createTime)
-    private long createTime;
-
-    @Property(Fields.lastModifiedBy)
-    private String lastModifiedBy;
-
-    @Property(Fields.lastModifiedTime)
-    private long lastModifiedTime;
-
-    @Property(Fields.deleted)
-    private Boolean deleted;
-
-    @Property(Fields.enable)
-    private boolean enable;
 
     public static void shortUrl(List<${name}Entity> entities, Map<String, String> shortUrlByAliasIds) {
         if (CollectionUtils.isNotEmpty(entities) && MapUtils.isNotEmpty(shortUrlByAliasIds)) {
@@ -60,23 +38,8 @@ public class ${name}Entity extends BaseEntity{
         }
     }
 
-    public void init(AuthContext context) {
-        this.lastModifiedBy = context.getId();
-        this.enable = true;
-        this.deleted = false;
-        this.createdBy = context.getId();
-        this.createTime = System.currentTimeMillis();
-        this.lastModifiedTime = System.currentTimeMillis();
-    }
 
-
-    public void edit(AuthContext context) {
-        this.lastModifiedBy = context.getId();
-        this.lastModifiedTime = System.currentTimeMillis();
-    }
-
-    public interface Fields {
-        String id = "_id";
+    public interface Fields  extends BaseEntity.Fields {
         <%
             for(col in columns){
                 if("id"!=col.name){
@@ -84,13 +47,6 @@ public class ${name}Entity extends BaseEntity{
                 }
             }
             %>
-        String shortUrl = "shortUrl";
-        String createdBy = "createdBy";
-        String createTime = "createTime";
-        String enable = "enable";
-        String deleted = "deleted";
-        String lastModifiedBy ="lastModifiedBy";
-        String lastModifiedTime ="lastModifiedTime";
         String db_collection ="${name}";
     }
 }

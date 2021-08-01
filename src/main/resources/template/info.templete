@@ -1,4 +1,4 @@
-package ${packager}.service.model.query.info;
+package ${packager}.service.model.info;
 
 import com.google.common.collect.Lists;
 import ${packager}.dao.entity.${name}Entity;
@@ -38,7 +38,7 @@ public class ${name}Info implements Serializable {
                  print("\t\tinfo.set"+col.toSimpleName+"(entity.get"+col.toSimpleName+"());\n");
              }
          %>
-         info.setEnable(entity.isEnable());
+         info.setEnable(entity.getEnable());
          info.setId(entity.getId());
          info.setShortUrl(entity.getShortUrl());
          return info;

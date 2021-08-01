@@ -1,12 +1,12 @@
 package ${packager}.dao.query;
 
+import com.ijson.mongo.support.entity.BaseQuery;
 import lombok.Data;
 import java.util.List;
 
 @Data
-public class ${name}Query {
+public class ${name}Query extends BaseQuery{
 
-    private String id;
      <%
         for(col in columns){
            print("\tprivate "+col.simpleType+" "+col.name+";\n\n");
