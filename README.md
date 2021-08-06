@@ -8,7 +8,7 @@
    <dependency>
        <groupId>com.ijson</groupId>
        <artifactId>in-mongo-spring-support</artifactId>
-       <version>1.0.0</version>
+       <version>1.0.9</version>
    </dependency>
    ```
 
@@ -18,15 +18,11 @@
    mongo.servers = mongodb://localhost
    mongo.dbName = test
    mongo.mapPackage = com.ijson.mongo.support.test.bean
-   mongo.connectTimeout = 5000
-   mongo.socketTimeout = 10000
-   encrypt.pwd=false
-   process.server.id=1
    ```
 
 3. 在spring文件中,添加一下配置
    ```xml
-   <bean id="mongoDatastore" class="com.ijson.mongo.support.MongoDataStoreFactory" p:configName="mongo-test"/>
+   <bean id="datastore" class="com.ijson.mongo.support.MongoDataStoreFactory" p:configName="mongo-test"/>
    ```
    p:configName 为resources/autoconf目录下的mongodb配置文件
 
