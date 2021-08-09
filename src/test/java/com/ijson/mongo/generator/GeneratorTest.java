@@ -17,6 +17,6 @@ public class GeneratorTest {
                 "com.ijson.blog",
                 "/Users/cuiyongxu/Desktop",
                 "in-demo",
-                Lists.newArrayList(Contact.class));
+                Lists.newArrayList(DataItem.class,DataCate.class));
     }
 }
