@@ -54,7 +54,9 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
             datastore.ensureIndexes(clazz, true);
             log.info("ensureIndex {}", clazz.getName());
         } catch (ClassNotFoundException e) {
-            log.error("ensureIndex", e);
+            log.error("init index class not found", e);
+        } catch (Exception e) {
+            log.error("init index error", e);
         }
     }
 
@@ -205,7 +207,7 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
      */
     @Override
     public void deleteByField(String field, Object data) {
-        datastore.delete(createEqualQuery(field,data), WriteConcern.UNACKNOWLEDGED);
+        datastore.delete(createEqualQuery(field, data), WriteConcern.UNACKNOWLEDGED);
     }
 
 
