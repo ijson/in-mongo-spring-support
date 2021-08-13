@@ -83,12 +83,12 @@ public abstract class BaseServiceImpl<T extends BaseEntity, Q extends BaseQuery>
 
     @Override
     public void inc(String field, String commentId) {
-        abstractDao.inc(commentId, field);
+        abstractDao.inc(field, commentId);
     }
 
     @Override
     public void dec(String field, String commentId) {
-        abstractDao.dec(commentId, field);
+        abstractDao.dec(field, commentId);
     }
 
 
