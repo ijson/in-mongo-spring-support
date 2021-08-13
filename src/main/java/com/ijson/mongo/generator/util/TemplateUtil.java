@@ -1,5 +1,6 @@
 package com.ijson.mongo.generator.util;
 
+import com.google.common.base.Strings;
 import org.apache.commons.io.IOUtils;
 import org.beetl.core.Configuration;
 import org.beetl.core.GroupTemplate;
@@ -7,6 +8,7 @@ import org.beetl.core.Template;
 import org.beetl.core.resource.StringTemplateResourceLoader;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -60,4 +62,28 @@ public class TemplateUtil {
             return (new StringBuilder()).append(Character.toUpperCase(s.charAt(0))).append(s.substring(1)).toString();
         }
     }
+
+
+    /**
+     * 转大写,如果存在大写字母,则前加_
+     *
+     * @param str
+     * @return
+     */
+    public static String toUpperCase(String str) {
+        if (Strings.isNullOrEmpty(str)) {
+            return str;
+        }
+        StringBuilder sb = new StringBuilder();
+        for (char c : str.toCharArray()) {
+            if (Character.isUpperCase(c) && sb.length() != 0) {
+                sb.append("_").append(c);
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.toString().toUpperCase(Locale.ROOT);
+    }
+
+
 }

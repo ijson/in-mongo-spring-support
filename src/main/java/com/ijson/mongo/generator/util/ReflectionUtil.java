@@ -8,6 +8,8 @@ import com.ijson.mongo.support.entity.BaseEntity;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * desc:
@@ -36,6 +38,7 @@ public class ReflectionUtil {
                         .typeClazz(getTypeClazz(field.getType().getName()))
                         .simpleName(getSimpleName(field.getName()))
                         .toSimpleName(TemplateUtil.toUpperCaseFirstOne(getSimpleName(field.getName())))
+                        .toUpperName(TemplateUtil.toUpperCase(field.getName()))
                         .build();
                 DocDescribe annotation = field.getAnnotation(DocDescribe.class);
                 if (annotation != null) {
@@ -87,6 +90,15 @@ public class ReflectionUtil {
                 break;
             case "String":
                 type = String.class.getName();
+                break;
+            case "Map":
+                type = Map.class.getName();
+                break;
+            case "List":
+                type = List.class.getName();
+                break;
+            case "Set":
+                type = Set.class.getName();
                 break;
             default:
                 type = name;

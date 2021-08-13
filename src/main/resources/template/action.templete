@@ -124,7 +124,7 @@ public class ${name}Controller extends BaseAction {
 
         ${name}Query query = new ${name}Query();
         if (!Strings.isNullOrEmpty(keyWord)) {
-            ////query.setCname(keyWord);
+            //query.setCname(keyWord);
         }
 
         PageResult<${name}Entity> result = ${lowerFirstName}Service.find(query, pageEntity);

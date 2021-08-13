@@ -23,8 +23,8 @@ public class ${name}Info implements Serializable {
            print("\tprivate "+col.simpleType+" "+col.name+";\n\n");
         }
      %>
-     private boolean enable;
-     private String shortUrl;
+    private boolean enable;
+    private String shortUrl;
 
 
      public static ${name}Info create(${name}Entity entity) {

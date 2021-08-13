@@ -36,7 +36,7 @@ public class ${name}DaoImpl extends AbstractDaoImpl<${name}Entity,${name}Query> 
 
         <%
             for(col in columns){
-                print("\t\tset(operations, "+name+"Entity.Fields."+col.name+", entity.get"+col.toSimpleName+"());\n");
+                print("\t\tset(operations, "+name+"Entity.Fields."+col.toUpperName+", entity.get"+col.toSimpleName+"());\n");
             }
         %>
 
@@ -80,7 +80,7 @@ public class ${name}DaoImpl extends AbstractDaoImpl<${name}Entity,${name}Query> 
     @Override
     public void delete(String id) {
         super.delete(${name}Entity.Fields._id);
-        shortUrlDao.deleteByField(ShortUrlEntity.Fields.rvId,id);
+        shortUrlDao.deleteByField(ShortUrlEntity.Fields.RVID,id);
     }
 
 
