@@ -56,7 +56,7 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
         } catch (ClassNotFoundException e) {
             log.error("init index class not found", e);
         } catch (Exception e) {
-            log.error("init index error", e);
+            log.warn("init index error", e);
         }
     }
 
