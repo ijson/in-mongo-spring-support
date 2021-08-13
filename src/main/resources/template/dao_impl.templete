@@ -80,7 +80,7 @@ public class ${name}DaoImpl extends AbstractDaoImpl<${name}Entity,${name}Query> 
     @Override
     public void delete(String id) {
         super.delete(${name}Entity.Fields._id);
-        shortUrlDao.deleteByField(ShortUrlEntity.Fields.RVID,id);
+        shortUrlDao.deleteByField(ShortUrlEntity.Fields.RV_ID,id);
     }
 
 
