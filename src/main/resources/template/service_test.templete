@@ -159,7 +159,7 @@ public class ${name}ServiceTest extends BaseTest {
         AuthEntity authEntity = AuthEntity.create(context, cname, ename, "#", true, Constant.MenuType.menu, "0");
         authService.create(context, authEntity);
 
-        RoleEntity systemRole = roleService.findOne(RoleEntity.Fields.ename,Constant.SYSTEM);
+        RoleEntity systemRole = roleService.findOne(RoleEntity.Fields.ENAME,Constant.SYSTEM);
         systemRole.getAuthIds().add(authEntity.getId());
         roleService.edit(context, systemRole);
 
@@ -187,12 +187,12 @@ public class ${name}ServiceTest extends BaseTest {
         baseEntity.setOrder(order);
         baseEntity.setIcon("layui-icon-rate");
 
-        if (Objects.nonNull(authService.findOne(AuthEntity.Fields.ename,baseEntity.getEname()))) {
+        if (Objects.nonNull(authService.findOne(AuthEntity.Fields.ENAME,baseEntity.getEname()))) {
             throw new ParamsValidateException(FrameworkBusinessExceptionCode.AUTH_ENAME_ALREADY_EXIST);
         }
 
         AuthEntity newAuth = authService.create(context, baseEntity);
-        RoleEntity systemRole = roleService.findOne(RoleEntity.Fields.ename,Constant.SYSTEM);
+        RoleEntity systemRole = roleService.findOne(RoleEntity.Fields.ENAME,Constant.SYSTEM);
         systemRole.getAuthIds().add(newAuth.getId());
         roleService.edit(context, systemRole);
 
@@ -209,11 +209,11 @@ public class ${name}ServiceTest extends BaseTest {
         for (AuthEntity entity : menePath) {
             int orderItem = getOrder(entity.getFatherId(), "");
             entity.setOrder(orderItem);
-            if (Objects.nonNull(authService.findOne(AuthEntity.Fields.ename,entity.getEname()))) {
+            if (Objects.nonNull(authService.findOne(AuthEntity.Fields.ENAME,entity.getEname()))) {
                 throw new ParamsValidateException(FrameworkBusinessExceptionCode.AUTH_ENAME_ALREADY_EXIST);
             }
             AuthEntity childAuth = authService.create(context, entity);
-            RoleEntity systemRoleChild = roleService.findOne(RoleEntity.Fields.ename,Constant.SYSTEM);
+            RoleEntity systemRoleChild = roleService.findOne(RoleEntity.Fields.ENAME,Constant.SYSTEM);
             systemRoleChild.getAuthIds().add(childAuth.getId());
             roleService.edit(context, systemRoleChild);
         }
@@ -247,11 +247,11 @@ public class ${name}ServiceTest extends BaseTest {
         for (AuthEntity entity : menePath) {
             int orderItem = getOrder(entity.getFatherId(), "");
             entity.setOrder(orderItem);
-            if (Objects.nonNull(authService.findOne(AuthEntity.Fields.ename,entity.getEname()))) {
+            if (Objects.nonNull(authService.findOne(AuthEntity.Fields.ENAME,entity.getEname()))) {
                 throw new ParamsValidateException(FrameworkBusinessExceptionCode.AUTH_ENAME_ALREADY_EXIST);
             }
             AuthEntity childAuth = authService.create(context, entity);
-            RoleEntity systemRoleChild = roleService.findOne(RoleEntity.Fields.ename,Constant.SYSTEM);
+            RoleEntity systemRoleChild = roleService.findOne(RoleEntity.Fields.ENAME,Constant.SYSTEM);
             systemRoleChild.getAuthIds().add(childAuth.getId());
             roleService.edit(context, systemRoleChild);
         }
@@ -260,7 +260,7 @@ public class ${name}ServiceTest extends BaseTest {
 
 
     public int getOrder(String id, String currentAuthId) {
-        List<AuthEntity> authEntities = authService.findMany(AuthEntity.Fields.fatherId, id);
+        List<AuthEntity> authEntities = authService.findMany(AuthEntity.Fields.FATHER_ID, id);
 
         if (Objects.isNull(authEntities)) {
             return 0;
