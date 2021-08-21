@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.ijson.common</groupId>
         <artifactId>ijson-parent-pom</artifactId>
-        <version>1.0.9-SNAPSHOT</version>
+        <version>1.0.9</version>
     </parent>
 
     <groupId>com.ijson</groupId>
@@ -26,14 +26,14 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/ijson/in-mongo-spring-support</url>
-        <connection>scm:git:https://github.com/ijson/in-mongo-spring-support.git</connection>
-        <developerConnection>scm:git:https://github.com/ijson/in-mongo-spring-support.git</developerConnection>
+        <url>https://gitee.com/ijson/in-mongo-spring-support</url>
+        <connection>scm:git:https://gitee.com/ijson/in-mongo-spring-support.git</connection>
+        <developerConnection>scm:git:https://gitee.com/ijson/in-mongo-spring-support.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
     <properties>
-        <zk.version>1.0.8-SNAPSHOT</zk.version>
+        <zk.version>1.0.8</zk.version>
     </properties>
 
     <developers>
@@ -168,7 +168,7 @@
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.7</version>
+                <version>1.6.8</version>
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
@@ -208,7 +208,7 @@
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.5.3</version>
                 <configuration>
-                    <tagBase>https://github.com/ijson/in-mongo-spring-support/tags/</tagBase>
+                    <tagBase>https://gitee.com/ijson/in-mongo-spring-support/tags</tagBase>
                 </configuration>
             </plugin>
             <plugin>
@@ -262,7 +262,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.9.1</version>
+                        <version>2.10.4</version>
                         <executions>
                             <execution>
                                 <phase>package</phase>
@@ -289,7 +289,7 @@
                     <plugin>
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6</version>
+                        <version>1.6.8</version>
                         <extensions>true</extensions>
                         <configuration>
                             <serverId>sonatype-nexus-staging</serverId>
