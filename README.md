@@ -1,3 +1,5 @@
+# 因github国内无法正常使用 本项目废弃,该项目被迁移至:https://gitee.com/ijson/in-mongo-spring-support, 感谢各位支持
+
 ## 本组件基于mongodb 的封装
 > 本组件依赖spring,且mongodb为非关系型数据库,请悉知,在使用本组件前,请优先安装mongodb
 
