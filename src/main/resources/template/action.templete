@@ -127,7 +127,7 @@ public class ${name}Controller extends BaseAction {
             //query.setCname(keyWord);
         }
 
-        PageResult<${name}Entity> result = ${lowerFirstName}Service.find(query, pageEntity);
+        PageResult<${name}Entity> result = ${lowerFirstName}Service.findInternal(query, pageEntity);
 
         if (Objects.isNull(result) || CollectionUtils.isEmpty(result.getDataList())) {
             return new V2Result<>();
