@@ -447,6 +447,34 @@ public class AbstractDaoImpl<T extends BaseEntity, Q extends BaseQuery> implemen
         return ret;
     }
 
+    @Override
+    public PageResult<T> findInternal(Q iquery, Page page) {
+        Query<T> query = createQuery();
+
+        if (!Strings.isNullOrEmpty(iquery.getId())) {
+            query.field(BaseEntity.Fields._id).equal(iquery.getId());
+        }
+
+        if (!Strings.isNullOrEmpty(page.getOrderBy())) {
+            query.order("-" + page.getOrderBy());//添加排序
+        } else {
+            query.order("-" + BaseEntity.Fields._id);
+        }
+        if (page.getPageNumber() > 0) {
+            query.offset((page.getPageNumber() - 1) * page.getPageSize()).limit(page.getPageSize());
+        }
+
+        long totalNum = count();
+        List<T> entities = query.asList();
+
+
+        PageResult<T> ret = new PageResult<>();
+        ret.setDataList(entities);
+        ret.setTotal(totalNum);
+        return ret;
+    }
+
+    ;
 
     /**
      * 数据查询 分页  自行控制数据

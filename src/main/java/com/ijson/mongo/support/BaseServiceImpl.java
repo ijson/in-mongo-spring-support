@@ -98,6 +98,12 @@ public abstract class BaseServiceImpl<T extends BaseEntity, Q extends BaseQuery>
     }
 
     @Override
+    public PageResult<T> findInternal(Q query, Page pageEntity) {
+        return abstractDao.findInternal(query, pageEntity);
+    }
+
+
+    @Override
     public PageResult<T> find(Query<T> query, Page pageEntity) {
         return abstractDao.find(query, pageEntity);
     }

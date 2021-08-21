@@ -59,6 +59,8 @@ public interface AbstractDao<T extends BaseEntity, Q extends BaseQuery> {
 
     PageResult<T> find(Q iquery, Page page);
 
+    PageResult<T> findInternal(Q query, Page pageEntity);
+
     PageResult<T> find(Query<T> query, Page page);
 
     void inc(String field, String id);
@@ -72,4 +74,6 @@ public interface AbstractDao<T extends BaseEntity, Q extends BaseQuery> {
     List<T> lessThan(String field, long beforTime);
 
     DBCursor cursor();
+
+
 }

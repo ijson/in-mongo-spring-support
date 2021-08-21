@@ -35,6 +35,14 @@ public interface BaseService<T, Q> {
 
     PageResult<T> find(Q query, Page pageEntity);
 
+    /**
+     * 不做停用删除校验
+     * @param query
+     * @param pageEntity
+     * @return
+     */
+    PageResult<T> findInternal(Q query, Page pageEntity);
+
     PageResult<T> find(Query<T> query, Page pageEntity);
 
     List<T> findAll();
