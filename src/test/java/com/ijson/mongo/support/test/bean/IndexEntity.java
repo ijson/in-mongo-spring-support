@@ -1,12 +1,11 @@
 package com.ijson.mongo.support.test.bean;
 
-import com.ijson.mongo.support.model.BaseEntity;
+import com.ijson.mongo.support.entity.BaseEntity;
 import lombok.Data;
 import lombok.ToString;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Data

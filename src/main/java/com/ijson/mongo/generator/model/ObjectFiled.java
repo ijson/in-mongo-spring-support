@@ -1,6 +1,5 @@
 package com.ijson.mongo.generator.model;
 
-import com.ijson.mongo.generator.util.TemplateUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +22,8 @@ public class ObjectFiled {
     private String simpleName;
     //首字母大写
     private String toSimpleName;
+    //转大写 如果原字符串存在大写  在在前添加_
+    private String toUpperName;
 
     private String type;
 

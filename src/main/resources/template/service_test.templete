@@ -13,7 +13,7 @@ import com.ijson.framework.model.AuthContext;
 import com.ijson.framework.model.Constant;
 import com.ijson.framework.service.AuthService;
 import com.ijson.framework.service.RoleService;
-import com.ijson.mongo.support.model.Page;
+import com.ijson.mongo.support.entity.page.Page;
 import com.ijson.rest.proxy.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -55,7 +55,7 @@ public class ${name}ServiceTest extends BaseTest {
     public void deleteById() {
         AuthContext context = AuthContext.id("5d596de34737fb1c7ad99d3f");
         String id = "";
-        ${lowerFirstName}Service.deleteById(context, id);
+        ${lowerFirstName}Service.deleteById(id, context.getId());
     }
 
     @Test
@@ -74,14 +74,14 @@ public class ${name}ServiceTest extends BaseTest {
     public void enable() {
         AuthContext context = AuthContext.id("5d596de34737fb1c7ad99d3f");
         String id = "";
-        ${lowerFirstName}Service.enable(context, id, false);
+        ${lowerFirstName}Service.enable(id, false, context.getId());
     }
 
     @Test
     public void deleteInternalById() {
         AuthContext context = AuthContext.id("5d596de34737fb1c7ad99d3f");
         String id = "";
-        ${lowerFirstName}Service.deleteInternalById(context, id);
+        ${lowerFirstName}Service.delete(id);
     }
 
     @Test
@@ -98,14 +98,14 @@ public class ${name}ServiceTest extends BaseTest {
     @Test
     public void find() {
         ${name}Query query = new ${name}Query();
-        Page page = new Page();
+        Page page = Page.of();
         ${lowerFirstName}Service.find(query, page);
     }
 
     @RequestMapping("/list/${lowerFirstName}")
     public ModelAndView ${lowerFirstName}List(HttpServletRequest request) {
         ModelAndView view = new ModelAndView();
-        AuthContext context = EhcacheUtil.instance.get(CacheKeys.login_user, PassportHelper.getInstance().getCurrCookie(request));
+        AuthContext context = getContext(request);
         if (Objects.isNull(context)) {
             return new ModelAndView(new RedirectView(webCtx));
         }
@@ -118,7 +118,7 @@ public class ${name}ServiceTest extends BaseTest {
     @RequestMapping("/save/${lowerFirstName}")
     public ModelAndView skip${name}Add(HttpServletRequest request) {
         ModelAndView view = new ModelAndView();
-        AuthContext context = EhcacheUtil.instance.get(CacheKeys.login_user, PassportHelper.getInstance().getCurrCookie(request));
+        AuthContext context = getContext(request);
         if (Objects.isNull(context)) {
             return new ModelAndView(new RedirectView(webCtx));
         }
@@ -131,7 +131,7 @@ public class ${name}ServiceTest extends BaseTest {
     @RequestMapping("/edit/${lowerFirstName}/{id}")
     public ModelAndView skip${name}Edit(@PathVariable("id") String id, HttpServletRequest request) {
         ModelAndView view = new ModelAndView();
-        AuthContext context = EhcacheUtil.instance.get(CacheKeys.login_user, PassportHelper.getInstance().getCurrCookie(request));
+        AuthContext context = getContext(request);
         if (Objects.isNull(context)) {
             return new ModelAndView(new RedirectView(webCtx));
         }
@@ -141,6 +141,31 @@ public class ${name}ServiceTest extends BaseTest {
         view.addObject("editData", ${name}Info.create(internalById));
         return view;
     }
+
+
+    @Test
+    public void createBizMenu(){
+        AuthContext context = AuthContext.id("5d596de34737fb1c7ad99d3f");
+        String cname = "";
+        String ename = "";
+        if(Strings.isNullOrEmpty(cname)){
+            throw new ParamsValidateException("未设置中文名称");
+        }
+
+        if(Strings.isNullOrEmpty(ename)){
+            throw new ParamsValidateException("未设置英文名称");
+        }
+
+        AuthEntity authEntity = AuthEntity.create(context, cname, ename, "#", true, Constant.MenuType.menu, "0");
+        authService.create(context, authEntity);
+
+        RoleEntity systemRole = roleService.findOne(RoleEntity.Fields.ENAME,Constant.SYSTEM);
+        systemRole.getAuthIds().add(authEntity.getId());
+        roleService.edit(context, systemRole);
+
+        log.info("id:{}",authEntity.getId());
+    }
+
 
     /**
      * 生成权限脚本,单独菜单
@@ -162,15 +187,13 @@ public class ${name}ServiceTest extends BaseTest {
         baseEntity.setOrder(order);
         baseEntity.setIcon("layui-icon-rate");
 
-        if (Objects.nonNull(authService.findByEname(baseEntity.getEname()))) {
+        if (Objects.nonNull(authService.findOne(AuthEntity.Fields.ENAME,baseEntity.getEname()))) {
             throw new ParamsValidateException(FrameworkBusinessExceptionCode.AUTH_ENAME_ALREADY_EXIST);
         }
 
         AuthEntity newAuth = authService.create(context, baseEntity);
-        RoleEntity systemRole = roleService.findByEname(Constant.SYSTEM);
+        RoleEntity systemRole = roleService.findOne(RoleEntity.Fields.ENAME,Constant.SYSTEM);
         systemRole.getAuthIds().add(newAuth.getId());
-        systemRole.setVerifyCmt(false);
-        systemRole.setVerify(false);
         roleService.edit(context, systemRole);
 
         List<AuthEntity> menePath = Lists.newArrayList(
@@ -186,14 +209,12 @@ public class ${name}ServiceTest extends BaseTest {
         for (AuthEntity entity : menePath) {
             int orderItem = getOrder(entity.getFatherId(), "");
             entity.setOrder(orderItem);
-            if (Objects.nonNull(authService.findByEname(entity.getEname()))) {
+            if (Objects.nonNull(authService.findOne(AuthEntity.Fields.ENAME,entity.getEname()))) {
                 throw new ParamsValidateException(FrameworkBusinessExceptionCode.AUTH_ENAME_ALREADY_EXIST);
             }
             AuthEntity childAuth = authService.create(context, entity);
-            RoleEntity systemRoleChild = roleService.findByEname(Constant.SYSTEM);
+            RoleEntity systemRoleChild = roleService.findOne(RoleEntity.Fields.ENAME,Constant.SYSTEM);
             systemRoleChild.getAuthIds().add(childAuth.getId());
-            systemRoleChild.setVerifyCmt(false);
-            systemRoleChild.setVerify(false);
             roleService.edit(context, systemRoleChild);
         }
     }
@@ -226,14 +247,12 @@ public class ${name}ServiceTest extends BaseTest {
         for (AuthEntity entity : menePath) {
             int orderItem = getOrder(entity.getFatherId(), "");
             entity.setOrder(orderItem);
-            if (Objects.nonNull(authService.findByEname(entity.getEname()))) {
+            if (Objects.nonNull(authService.findOne(AuthEntity.Fields.ENAME,entity.getEname()))) {
                 throw new ParamsValidateException(FrameworkBusinessExceptionCode.AUTH_ENAME_ALREADY_EXIST);
             }
             AuthEntity childAuth = authService.create(context, entity);
-            RoleEntity systemRoleChild = roleService.findByEname(Constant.SYSTEM);
+            RoleEntity systemRoleChild = roleService.findOne(RoleEntity.Fields.ENAME,Constant.SYSTEM);
             systemRoleChild.getAuthIds().add(childAuth.getId());
-            systemRoleChild.setVerifyCmt(false);
-            systemRoleChild.setVerify(false);
             roleService.edit(context, systemRoleChild);
         }
     }
@@ -241,7 +260,7 @@ public class ${name}ServiceTest extends BaseTest {
 
 
     public int getOrder(String id, String currentAuthId) {
-        List<AuthEntity> authEntities = authService.findChild(id);
+        List<AuthEntity> authEntities = authService.findMany(AuthEntity.Fields.FATHER_ID, id);
 
         if (Objects.isNull(authEntities)) {
             return 0;

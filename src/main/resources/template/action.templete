@@ -11,8 +11,8 @@ import com.ijson.framework.exception.ParamsValidateException;
 import com.ijson.framework.model.AuthContext;
 import com.ijson.framework.result.Result;
 import com.ijson.framework.result.V2Result;
-import com.ijson.mongo.support.model.Page;
-import com.ijson.mongo.support.model.PageResult;
+import com.ijson.mongo.support.entity.page.Page;
+import com.ijson.mongo.support.entity.page.PageResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,8 +79,8 @@ public class ${name}Controller extends BaseAction {
         if (Objects.isNull(entity)) {
             throw new ParamsValidateException("数据不存在或已删除");
         }
-        ${lowerFirstName}Service.enable(context,id, !entity.isEnable());
-        return Result.ok(entity.isEnable() ? "禁用成功!" : "启用成功!");
+        ${lowerFirstName}Service.enable(id, !entity.getEnable(),context.getId());
+        return Result.ok(entity.getEnable() ? "禁用成功!" : "启用成功!");
     }
 
     @PostMapping(value = "/delete/{id}")
@@ -92,12 +92,12 @@ public class ${name}Controller extends BaseAction {
             throw new ParamsValidateException("数据不存在或已删除");
         }
 
-        if (entity.isEnable()) {
+        if (entity.getEnable()) {
             log.info("启用状态无法删除");
             throw new ParamsValidateException("启用状态无法删除");
         }
 
-        ${lowerFirstName}Service.deleteById(context,id);
+        ${lowerFirstName}Service.delete(id);
         return Result.ok("删除成功!");
     }
 
@@ -113,7 +113,7 @@ public class ${name}Controller extends BaseAction {
 
         String keyWord = request.getParameter("title");
 
-        Page pageEntity = new Page();
+        Page pageEntity = Page.of();
         if (Objects.nonNull(page)) {
             pageEntity.setPageNumber(page);
         }
@@ -124,10 +124,10 @@ public class ${name}Controller extends BaseAction {
 
         ${name}Query query = new ${name}Query();
         if (!Strings.isNullOrEmpty(keyWord)) {
-            ////query.setCname(keyWord);
+            //query.setCname(keyWord);
         }
 
-        PageResult<${name}Entity> result = ${lowerFirstName}Service.find(query, pageEntity);
+        PageResult<${name}Entity> result = ${lowerFirstName}Service.findInternal(query, pageEntity);
 
         if (Objects.isNull(result) || CollectionUtils.isEmpty(result.getDataList())) {
             return new V2Result<>();

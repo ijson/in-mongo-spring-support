@@ -1,8 +1,7 @@
 package com.ijson.mongo.generator;
 
 import com.google.common.collect.Lists;
-import com.ijson.mongo.support.test.PictureLevelDownload;
-import com.ijson.mongo.support.test.Upload;
+import com.ijson.mongo.generator.util.TemplateUtil;
 import com.ijson.mongo.support.test.bean.*;
 import org.junit.Test;
 
@@ -16,9 +15,14 @@ public class GeneratorTest {
     @Test
     public void gen() {
         Bootstrap.generator(
-                "com.ijson.framework",
+                "com.ijson.blog",
                 "/Users/cuiyongxu/Desktop",
                 "in-demo",
-                Lists.newArrayList());
+                Lists.newArrayList(DataItem.class,DataCate.class));
+    }
+
+    @Test
+    public void print(){
+        System.out.println(TemplateUtil.toUpperCase("MyData"));
     }
 }

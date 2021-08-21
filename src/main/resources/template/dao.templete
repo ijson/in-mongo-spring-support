@@ -2,29 +2,16 @@ package ${packager}.dao;
 
 import ${packager}.dao.entity.${name}Entity;
 import ${packager}.query.${name}Query;
-import com.ijson.mongo.support.model.Page;
-import com.ijson.mongo.support.model.PageResult;
-import com.ijson.framework.model.AuthContext;
+import com.ijson.mongo.support.entity.page.Page;
+import com.ijson.mongo.support.entity.page.PageResult;
+import com.ijson.mongo.AbstractDao;
 
 
-import java.util.List;
-import java.util.Set;
+public interface ${name}Dao extends AbstractDao<${name}Entity, ${name}Query>{
 
-public interface ${name}Dao {
+    ${name}Entity update(${name}Entity entity);
 
-    ${name}Entity createOrUpdate(${name}Entity entity);
-
-    ${name}Entity find(String id);
-
-    ${name}Entity find(String id, Boolean enable);
-
-    ${name}Entity enable(String id, boolean enable, String userId);
-
+    @Override
     PageResult<${name}Entity> find(${name}Query query, Page page);
 
-    ${name}Entity delete(String id, String userId);
-
-    void delete(String id);
-
-    List<${name}Entity> findByIds(AuthContext context, Set<String> ids);
 }

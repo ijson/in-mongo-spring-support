@@ -4,7 +4,7 @@ import com.ijson.mongo.generator.manager.CodeGeneratorManager;
 import com.ijson.mongo.generator.manager.LoadManagerFactory;
 import com.ijson.mongo.generator.model.GenConfig;
 import com.ijson.mongo.generator.model.ParamsVo;
-import com.ijson.mongo.support.model.BaseEntity;
+import com.ijson.mongo.support.entity.BaseEntity;
 
 import java.util.List;
 
