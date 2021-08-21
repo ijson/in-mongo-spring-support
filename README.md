@@ -8,7 +8,7 @@
    <dependency>
        <groupId>com.ijson</groupId>
        <artifactId>in-mongo-spring-support</artifactId>
-       <version>1.0.9</version>
+       <version>1.0.7</version>
    </dependency>
    ```
 
